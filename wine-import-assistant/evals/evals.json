@@ -1,0 +1,42 @@
+{
+  "skill_name": "wine-import-assistant",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Add Thai Orchid restaurant in Orlando as a prospect, contact is Nuch, phone 407-555-9876, they're interested in 8 cases per month. Then show me the pipeline.",
+      "expected_output": "Prospect P001 created with status 'lead', pipeline shows 1 restaurant under LEAD with 8 cases/mo commitment",
+      "files": [],
+      "expectations": [
+        "Prospect ID is generated automatically",
+        "Status defaults to 'lead'",
+        "Pipeline shows the new prospect with correct commitment"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Calculate the landed cost for importing 200 cases of wine using LCL shipping with an exchange rate of 36.5 THB/USD",
+      "expected_output": "Detailed cost breakdown showing FOB, freight, insurance, duties, taxes, fees, and total landed cost per case and per bottle, plus margin analysis at 30/35/40%",
+      "files": [],
+      "expectations": [
+        "All cost components are itemized",
+        "Per-case and per-bottle costs are shown",
+        "Margin analysis shows at least 3 scenarios",
+        "Exchange rate warning is displayed",
+        "FL license warning is displayed"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Generate a wholesale quote for Siam Garden restaurant for 10 cases of Spring Chenin Blanc and 5 cases of Heritage Syrah at 35% margin",
+      "expected_output": "Professional quote with quote ID, line items, pricing per bottle and per case, subtotal, suggested retail range, and draft warning",
+      "files": [],
+      "expectations": [
+        "Quote has a unique ID",
+        "Two line items with correct SKUs",
+        "Prices reflect 35% margin over estimated landed cost",
+        "Suggested retail range is shown",
+        "Draft warning is displayed"
+      ]
+    }
+  ]
+}
