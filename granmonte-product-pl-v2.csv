@@ -1,0 +1,13 @@
+wine_name,tier,type,ex_cellar_thb,ex_cellar_usd,shipping,ttb_duty,fl_excise,landed_cost,wholesale,gross_profit,margin_pct
+Spring Chenin Blanc,Entry,White,250,7.14,2.5,0.21,0.89,10.74,16.0,5.26,32.9
+Sakuna Rosé,Entry,Rosé,300,8.57,2.5,0.21,0.89,12.17,18.0,5.83,32.4
+Spring Syrah Cab,Entry,Red,300,8.57,2.5,0.21,0.89,12.17,18.0,5.83,32.4
+Verdelho,Premium,White,350,10.0,2.5,0.21,0.89,13.6,20.0,6.4,32.0
+Viognier,Premium,White,350,10.0,2.5,0.21,0.89,13.6,20.0,6.4,32.0
+Heritage Syrah,Premium,Red,390,11.14,2.5,0.21,0.89,14.74,22.0,7.26,33.0
+Gradient Syrah,Premium,Red,390,11.14,2.5,0.21,0.89,14.74,22.0,7.26,33.0
+Durif,Premium,Red,390,11.14,2.5,0.21,0.89,14.74,22.0,7.26,33.0
+Orient Syrah,Super-Premium,Red,490,14.0,2.5,0.21,0.89,17.6,27.0,9.4,34.8
+Orient Viognier,Super-Premium,White,520,14.86,2.5,0.21,0.89,18.46,28.0,9.54,34.1
+Asoke,Super-Premium,Red,550,15.71,2.5,0.21,0.89,19.31,30.0,10.69,35.6
+Crémant,Super-Premium,Sparkling,600,17.14,2.5,0.21,0.89,20.74,32.0,11.26,35.2

@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GranMonte Thai Wine — US Import Financial Analysis</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --wine: #722F37;
+    --wine-light: #8B3A42;
+    --gold: #C9A84C;
+    --gold-light: #E8D48B;
+    --bg: #0F0F0F;
+    --card: #1A1A1A;
+    --card-border: #2A2A2A;
+    --text: #E8E8E8;
+    --muted: #888;
+    --green: #4CAF50;
+    --red: #EF5350;
+    --blue: #42A5F5;
+    --orange: #FFA726;
+    --purple: #AB47BC;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 0;
+  }
+  .hero {
+    background: linear-gradient(135deg, var(--wine) 0%, #1a0a0c 50%, var(--bg) 100%);
+    padding: 60px 40px;
+    text-align: center;
+    border-bottom: 2px solid var(--gold);
+  }
+  .hero h1 { font-size: 2.4rem; color: var(--gold); margin-bottom: 8px; letter-spacing: 1px; }
+  .hero .subtitle { font-size: 1.1rem; color: var(--muted); }
+  .hero .date { font-size: 0.85rem; color: var(--wine-light); margin-top: 12px; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+  .kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 40px; }
+  .kpi-card {
+    background: var(--card); border: 1px solid var(--card-border); border-radius: 12px;
+    padding: 20px; text-align: center; position: relative; overflow: hidden;
+  }
+  .kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gold); }
+  .kpi-card .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .kpi-card .value { font-size: 1.8rem; font-weight: 700; color: var(--gold); margin: 8px 0 4px; }
+  .kpi-card .detail { font-size: 0.8rem; color: var(--muted); }
+  .section { margin-bottom: 48px; }
+  .section h2 {
+    font-size: 1.5rem; color: var(--gold); border-bottom: 1px solid var(--card-border);
+    padding-bottom: 12px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px;
+  }
+  .section h2 .num {
+    background: var(--wine); color: var(--gold); width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex-shrink: 0;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.85rem; }
+  thead th {
+    background: var(--wine); color: var(--gold-light); padding: 12px 10px; text-align: left;
+    font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; position: sticky; top: 0;
+  }
+  tbody td { padding: 10px; border-bottom: 1px solid var(--card-border); }
+  tbody tr:hover { background: rgba(114, 47, 55, 0.15); }
+  .right { text-align: right; }
+  .bold { font-weight: 700; }
+  .green { color: var(--green); }
+  .red { color: var(--red); }
+  .gold { color: var(--gold); }
+  .blue { color: var(--blue); }
+  .tier { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; }
+  .tier-entry { background: #1B5E20; color: #A5D6A7; }
+  .tier-premium { background: #1A237E; color: #9FA8DA; }
+  .tier-super { background: #4A148C; color: #CE93D8; }
+  .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 24px 0; }
+  .chart-card { background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; padding: 20px; }
+  .chart-card h3 { font-size: 0.9rem; color: var(--text); margin-bottom: 16px; }
+  .chart-card canvas { max-height: 300px; }
+  .chart-full { grid-column: 1 / -1; }
+  .callout { background: rgba(114, 47, 55, 0.15); border-left: 4px solid var(--gold); padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+  .callout.warning { background: rgba(255, 167, 38, 0.1); border-left-color: var(--orange); }
+  .callout.success { background: rgba(76, 175, 80, 0.1); border-left-color: var(--green); }
+  .callout h4 { color: var(--gold); margin-bottom: 4px; font-size: 0.9rem; }
+  .callout p { font-size: 0.85rem; color: var(--muted); }
+  .assumptions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+  .assumption-item { display: flex; justify-content: space-between; padding: 8px 12px; background: var(--card); border-radius: 6px; font-size: 0.8rem; }
+  .assumption-item .key { color: var(--muted); }
+  .assumption-item .val { color: var(--gold); font-weight: 600; }
+  .starter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 16px 0; }
+  .starter-card { background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; padding: 20px; position: relative; }
+  .starter-card .wine-name { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .starter-card .wine-reason { font-size: 0.8rem; color: var(--muted); margin-bottom: 12px; font-style: italic; }
+  .starter-card .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .starter-card .metric-item .label { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; }
+  .starter-card .metric-item .val { font-size: 1rem; font-weight: 700; }
+  .appeal-badge {
+    position: absolute; top: 12px; right: 12px; background: var(--wine); color: var(--gold);
+    width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;
+  }
+  .footer { text-align: center; padding: 40px 20px; border-top: 1px solid var(--card-border); color: var(--muted); font-size: 0.75rem; }
+  @media (max-width: 768px) {
+    .chart-grid { grid-template-columns: 1fr; }
+    .assumptions { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 1.6rem; }
+    .kpi-strip { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>GranMonte Thai Wine</h1>
+  <div class="subtitle">US Import Financial Analysis &mdash; Florida Phase 1</div>
+  <div class="date">Prepared April 3, 2026 &middot; Confidential</div>
+</div>
+
+<div class="container">
+
+  <div class="kpi-strip">
+    <div class="kpi-card">
+      <div class="label">12 SKUs Analyzed</div>
+      <div class="value">3 Tiers</div>
+      <div class="detail">Entry &middot; Premium &middot; Super-Premium</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Avg Gross Margin</div>
+      <div class="value">23.2%</div>
+      <div class="detail">Consistent across scenarios</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Base Case Year 1</div>
+      <div class="value" style="color:var(--green)">$44,783</div>
+      <div class="detail">Net profit &middot; 20 restaurants</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Break-Even (Base)</div>
+      <div class="value">Month 4</div>
+      <div class="detail">April &middot; cumulative positive</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Initial Investment</div>
+      <div class="value">$11,457</div>
+      <div class="detail">6 starter SKUs &middot; 70 cases</div>
+    </div>
+  </div>
+
+  <!-- SECTION 0: ASSUMPTIONS -->
+  <div class="section">
+    <h2><span class="num">0</span>Key Assumptions</h2>
+    <div class="assumptions">
+      <div class="assumption-item"><span class="key">THB/USD Rate</span><span class="val">35.00</span></div>
+      <div class="assumption-item"><span class="key">Shipping / bottle</span><span class="val">$2.50</span></div>
+      <div class="assumption-item"><span class="key">TTB Federal Duty</span><span class="val">$0.21/bottle</span></div>
+      <div class="assumption-item"><span class="key">FL State Excise</span><span class="val">$0.89/bottle</span></div>
+      <div class="assumption-item"><span class="key">MOQ (GranMonte)</span><span class="val">600 bottles (50 cases)</span></div>
+      <div class="assumption-item"><span class="key">Phase 1 Target</span><span class="val">20 FL Thai restaurants</span></div>
+      <div class="assumption-item"><span class="key">Avg. wholesale price</span><span class="val">$22/bottle (blended)</span></div>
+      <div class="assumption-item"><span class="key">Restaurant markup</span><span class="val">~2.5x wholesale (BTG)</span></div>
+    </div>
+    <div class="callout">
+      <h4>Cost Stack per Bottle</h4>
+      <p>Ex-cellar (THB &divide; 35) + $2.50 shipping + $0.21 TTB duty + $0.89 FL excise = Landed cost. TTB duty is the still wine rate ($1.07/gallon &asymp; $0.21/750ml). FL excise is $2.25/gallon &asymp; $0.89/bottle for table wine.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 1: PRODUCT P&L -->
+  <div class="section">
+    <h2><span class="num">1</span>Product-Level Margin Analysis</h2>
+    
+    <h3 style="color:var(--text); margin-bottom: 12px; font-size: 0.95rem;">Margin by Tier (Averages)</h3>
+    <table>
+      <thead>
+        <tr><th>Tier</th><th>SKUs</th><th class="right">Avg Ex-Cellar</th><th class="right">Avg Landed</th><th class="right">Avg Wholesale</th><th class="right">Gross Profit/Btl</th><th class="right">Margin %</th><th class="right">Restaurant Price</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tier tier-entry">Entry</span></td><td>3</td>
+          <td class="right">&#3647;283</td><td class="right">$11.69</td><td class="right">$17.33</td>
+          <td class="right green bold">$5.64</td><td class="right">32.6%</td><td class="right">$43.33</td>
+        </tr>
+        <tr>
+          <td><span class="tier tier-premium">Premium</span></td><td>5</td>
+          <td class="right">&#3647;374</td><td class="right">$14.28</td><td class="right">$21.20</td>
+          <td class="right green bold">$6.92</td><td class="right">32.6%</td><td class="right">$53.00</td>
+        </tr>
+        <tr>
+          <td><span class="tier tier-super">Super-Premium</span></td><td>4</td>
+          <td class="right">&#3647;540</td><td class="right">$19.03</td><td class="right">$29.25</td>
+          <td class="right green bold">$10.22</td><td class="right">34.9%</td><td class="right">$73.25</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="color:var(--text); margin: 24px 0 12px; font-size: 0.95rem;">Full Product P&amp;L (per bottle)</h3>
+    <div style="overflow-x: auto;">
+    <table>
+      <thead>
+        <tr><th>Wine</th><th>Tier</th><th>Type</th><th class="right">Ex-Cellar &#3647;</th><th class="right">Ex-Cellar $</th><th class="right">Ship</th><th class="right">TTB</th><th class="right">FL Exc</th><th class="right">Landed $</th><th class="right">Wholesale $</th><th class="right">Gross Profit $</th><th class="right">Margin %</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Spring Chenin Blanc</td><td><span class="tier tier-entry">Entry</span></td><td>White</td><td class="right">250</td><td class="right">7.14</td><td class="right">2.50</td><td class="right">0.21</td><td class="right">0.89</td><td class="right">10.74</td><td class="right">16.00</td><td class="right green">5.26</td><td class="right">32.9%</td></tr>
+        <tr><td>Sakuna Ros&eacute;</td><td><span class="tier tier-entry">Entry</span></td><td>Ros&eacute;</td><td class="right">300</td><td class="right">8.57</td><td class="right">2.50</td><td class="right">0.21</td><td class="right">0.89</td><td class="right">12.17</td><td class="right">18.00</td><td class="right green">5.83</td><td class="right">32.4%</td></tr>
+        <tr><td>Spring Syrah Cab</td><td><span class="tier tier-entry">Entry</span></td><td>Red</td><td class="right">300</td><td class="right">8.57</td><td class="right">2.50</td><td class="right">0.21</td><td class="right">0.89</td><td class="right">12.17</td><td class="right">18.00</td><td class="right green">5.83</td><td class="right">32.4%</td></tr>
+        <tr style="border-top: 2px solid var(--card-border)"><td>Verdelho</td><td><span class="tier tier-premium">Premium</span></td><td>White</td><td class="right">350</td><td class="right">10.00</td><td class="right">2.50</td><td class="right">0.21</td><td class="right">0.89</td><td class="right">13.60</td><td class="right">20.00</td><td class="right green">6.40</td><td class="right">32.0%</td></tr>
+        <tr><td>Viognier</td><td><span class="tier tier-premium">Premium</span></td><td>White</td><td class="right">350</td><td class="right">10.00</td><td class="right">2.50</td><td class="right">0.21</td><td class="right">0.89</td><td class="right">13.60</td><td class="right">20.00</td><td class="right green">6.40</td><td class="right">32.0%</td></tr>
+        <tr><td>Heritage Syrah</td><td><span class="tier tier-premium">Premium</span></td><td>Red</td><td class="right">390</td><td class="right">11.14</td><td class="right">2.50</td><td class="right">0.21</td><td class="right">0.89</td><td class="right">14.74</td><td class="right">22.00</td><td class="right green">7.26</td><td class="right">33.0%</td></tr>
+        <tr><td>Gradient Syrah</td><td><span class="tier tier-premium">Premium</span></td><td>Red</td><td class="right">390</td><td class="right">11.14</td><td class="right">2.50</td><td class="right">0.21</td><td class="right">0.89</td><td class="right">14.74</td><td class="right">22.00</td><td class="right green">7.26</td><td class="right">33.0%</td></tr>
+        <tr><td>Durif</td><td><span class="tier tier-premium">Premium</span></td><td>Red</td><td class="right">390</td><td class="right">11.14</td><td class="right">2.50</td><td class="right">0.21</td><td class="right">0.89</td><td class="right">14.74</td><td class="right">22.00</td><td class="right green">7.26</td><td class="right">33.0%</td></tr>
+        <tr style="border-top: 2px solid var(--card-border)"><td>Orient Syrah</td><td><span class="tier tier-super">Super-Prem</span></td><td>Red</td><td class="right">490</td><td class="right">14.00</td><td class="right">2.50</td><td class="right">0.21</td><td class="right">0.89</td><td class="right">17.60</td><td class="right">27.00</td><td class="right green">9.40</td><td class="right">34.8%</td></tr>
+        <tr><td>Orient Viognier</td><td><span class="tier tier-super">Super-Prem</span></td><td>White</td><td class="right">520</td><td class="right">14.86</td><td class="right">2.50</td><td class="right">0.21</td><td class="right">0.89</td><td class="right">18.46</td><td class="right">28.00</td><td class="right green">9.54</td><td class="right">34.1%</td></tr>
+        <tr><td>Asoke</td><td><span class="tier tier-super">Super-Prem</span></td><td>Red</td><td class="right">550</td><td class="right">15.71</td><td class="right">2.50</td><td class="right">0.21</td><td class="right">0.89</td><td class="right">19.31</td><td class="right">30.00</td><td class="right green">10.69</td><td class="right">35.6%</td></tr>
+        <tr><td>Cr&eacute;mant</td><td><span class="tier tier-super">Super-Prem</span></td><td>Sparkling</td><td class="right">600</td><td class="right">17.14</td><td class="right">2.50</td><td class="right">0.21</td><td class="right">0.89</td><td class="right">20.74</td><td class="right">32.00</td><td class="right green">11.26</td><td class="right">35.2%</td></tr>
+      </tbody>
+    </table>
+    </div>
+    
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3>Cost Breakdown per Bottle by SKU</h3>
+        <canvas id="costChart"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>Gross Margin % by SKU</h3>
+        <canvas id="marginChart"></canvas>
+      </div>
+    </div>
+    
+    <div class="callout success">
+      <h4>Key Insight: Super-Premium Delivers Best Absolute Dollars</h4>
+      <p>While margin percentages are similar (~32-35%), Super-Premium generates <strong>$10.22 gross profit per bottle</strong> vs $5.64 for Entry &mdash; nearly 2x the dollar contribution. The Cr&eacute;mant at $11.26/bottle is the highest-margin SKU in the portfolio.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 2: REVENUE SCENARIOS -->
+  <div class="section">
+    <h2><span class="num">2</span>Three Revenue Scenarios &mdash; Year 1</h2>
+    
+    <table>
+      <thead>
+        <tr><th>Metric</th><th class="right">Conservative</th><th class="right">Base Case</th><th class="right">Aggressive</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Peak Restaurants</td><td class="right">12</td><td class="right bold">20</td><td class="right">30</td></tr>
+        <tr><td>Total Cases Sold</td><td class="right">425</td><td class="right bold">874</td><td class="right">1,308</td></tr>
+        <tr><td>Total Bottles Sold</td><td class="right">5,100</td><td class="right bold">10,488</td><td class="right">15,696</td></tr>
+        <tr style="border-top: 2px solid var(--card-border)"><td class="bold">Total Revenue</td><td class="right bold">$112,200</td><td class="right bold gold">$230,736</td><td class="right bold">$345,312</td></tr>
+        <tr><td>COGS (Wine Cost)</td><td class="right red">($68,510)</td><td class="right red">($140,882)</td><td class="right red">($210,838)</td></tr>
+        <tr><td>Shipping &amp; Logistics</td><td class="right red">($10,625)</td><td class="right red">($21,850)</td><td class="right red">($32,700)</td></tr>
+        <tr><td>TTB + FL Duties</td><td class="right red">($7,016)</td><td class="right red">($14,421)</td><td class="right red">($21,583)</td></tr>
+        <tr><td class="bold">Gross Profit</td><td class="right green bold">$26,049</td><td class="right green bold">$53,583</td><td class="right green bold">$80,191</td></tr>
+        <tr><td>Gross Margin %</td><td class="right">23.2%</td><td class="right bold">23.2%</td><td class="right">23.2%</td></tr>
+        <tr style="border-top: 1px solid var(--card-border)"><td>Marketing</td><td class="right">($6,000)</td><td class="right">($6,000)</td><td class="right">($9,600)</td></tr>
+        <tr><td>Travel (FL trips)</td><td class="right">($1,600)</td><td class="right">($1,600)</td><td class="right">($2,400)</td></tr>
+        <tr><td>Insurance &amp; Licensing</td><td class="right">($1,200)</td><td class="right">($1,200)</td><td class="right">($1,200)</td></tr>
+        <tr style="border-top: 2px solid var(--gold)"><td class="bold" style="font-size:1rem;">Net Profit Year 1</td><td class="right green bold" style="font-size:1.1rem;">$17,249</td><td class="right green bold" style="font-size:1.1rem;">$44,783</td><td class="right green bold" style="font-size:1.1rem;">$66,991</td></tr>
+      </tbody>
+    </table>
+
+    <div class="chart-grid">
+      <div class="chart-card chart-full">
+        <h3>Revenue vs Profit by Scenario</h3>
+        <canvas id="scenarioChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: BREAK-EVEN -->
+  <div class="section">
+    <h2><span class="num">3</span>Break-Even Analysis</h2>
+    
+    <table>
+      <thead>
+        <tr><th>Scenario</th><th class="right">Break-Even Month</th><th class="right">First Positive Balance</th><th class="right">Year-End Cumulative</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Aggressive</td><td class="right green bold">Month 4 (April)</td><td class="right">$1,756</td><td class="right green bold">$66,991</td></tr>
+        <tr><td>Base Case</td><td class="right green bold">Month 4 (April)</td><td class="right">$781</td><td class="right green bold">$44,783</td></tr>
+        <tr><td>Conservative</td><td class="right bold">Month 6 (June)</td><td class="right">$1,128</td><td class="right green bold">$17,249</td></tr>
+      </tbody>
+    </table>
+    
+    <div class="chart-grid">
+      <div class="chart-card chart-full">
+        <h3>Cumulative Cash Flow &mdash; All Scenarios</h3>
+        <canvas id="cashflowChart"></canvas>
+      </div>
+    </div>
+    
+    <div class="callout success">
+      <h4>Fast Payback</h4>
+      <p>Even the conservative scenario breaks even by <strong>Month 6</strong>. Base case recovers the ~$3,000 startup costs (licensing + initial marketing + travel) by <strong>Month 4</strong>. Remarkably fast payback for an import business &mdash; driven by the low initial investment required.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 4: MONTHLY CASH FLOW -->
+  <div class="section">
+    <h2><span class="num">4</span>Year 1 Monthly Cash Flow &mdash; Base Case</h2>
+    
+    <table>
+      <thead>
+        <tr><th>Month</th><th class="right">Restaurants</th><th class="right">Cases</th><th class="right">Revenue</th><th class="right">Total Costs</th><th class="right">Net Cash</th><th class="right">Cumulative</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Jan</td><td class="right">0</td><td class="right">0</td><td class="right">$0</td><td class="right red">$1,700</td><td class="right red">($1,700)</td><td class="right red">($1,700)</td></tr>
+        <tr><td>Feb</td><td class="right">0</td><td class="right">0</td><td class="right">$0</td><td class="right red">$1,300</td><td class="right red">($1,300)</td><td class="right red">($3,000)</td></tr>
+        <tr><td>Mar</td><td class="right">5</td><td class="right">30</td><td class="right">$7,920</td><td class="right">$6,581</td><td class="right green">$1,339</td><td class="right red">($1,661)</td></tr>
+        <tr style="background: rgba(76,175,80,0.08)"><td class="bold">Apr &#9733;</td><td class="right">8</td><td class="right">48</td><td class="right">$12,672</td><td class="right">$10,230</td><td class="right green bold">$2,442</td><td class="right green bold">$781</td></tr>
+        <tr><td>May</td><td class="right">10</td><td class="right">60</td><td class="right">$15,840</td><td class="right">$12,662</td><td class="right green">$3,178</td><td class="right green">$3,959</td></tr>
+        <tr><td>Jun</td><td class="right">12</td><td class="right">72</td><td class="right">$19,008</td><td class="right">$15,094</td><td class="right green">$3,914</td><td class="right green">$7,873</td></tr>
+        <tr><td>Jul</td><td class="right">14</td><td class="right">84</td><td class="right">$22,176</td><td class="right">$17,527</td><td class="right green">$4,649</td><td class="right green">$12,522</td></tr>
+        <tr><td>Aug</td><td class="right">15</td><td class="right">90</td><td class="right">$23,760</td><td class="right">$18,743</td><td class="right green">$5,017</td><td class="right green">$17,539</td></tr>
+        <tr><td>Sep</td><td class="right">17</td><td class="right">102</td><td class="right">$26,928</td><td class="right">$21,172</td><td class="right green">$5,756</td><td class="right green">$23,295</td></tr>
+        <tr><td>Oct</td><td class="right">18</td><td class="right">108</td><td class="right">$28,512</td><td class="right">$23,188</td><td class="right green">$5,324</td><td class="right green">$28,619</td></tr>
+        <tr><td>Nov</td><td class="right">20</td><td class="right">130</td><td class="right">$34,320</td><td class="right">$26,851</td><td class="right green">$7,469</td><td class="right green">$36,088</td></tr>
+        <tr><td>Dec</td><td class="right">20</td><td class="right">150</td><td class="right">$39,600</td><td class="right">$30,905</td><td class="right green">$8,695</td><td class="right green">$44,783</td></tr>
+        <tr style="background: var(--card); font-weight: 700; border-top: 2px solid var(--gold)">
+          <td>TOTAL</td><td class="right">&mdash;</td><td class="right">874</td><td class="right gold">$230,736</td><td class="right">$185,953</td><td class="right green">$44,783</td><td class="right green">$44,783</td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div class="chart-grid">
+      <div class="chart-card chart-full">
+        <h3>Monthly Net Cash Flow vs Cumulative (Base Case)</h3>
+        <canvas id="monthlyChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: STARTER SKUs -->
+  <div class="section">
+    <h2><span class="num">5</span>Recommended Starter SKUs (Phase 1)</h2>
+    
+    <p style="color:var(--muted); margin-bottom: 16px; font-size: 0.9rem;">6 wines selected from 12 &mdash; optimized for breadth (white/red/ros&eacute;/sparkling), margin, and story appeal. Start with 70 cases total.</p>
+    
+    <div class="starter-grid">
+      <div class="starter-card">
+        <div class="appeal-badge">9</div>
+        <span class="tier tier-entry">Entry</span>
+        <div class="wine-name" style="margin-top:8px">Sakuna Ros&eacute;</div>
+        <div class="wine-reason">"Ros&eacute; trending &mdash; approachable gateway wine"</div>
+        <div class="metrics">
+          <div class="metric-item"><div class="label">Cases</div><div class="val">15</div></div>
+          <div class="metric-item"><div class="label">Investment</div><div class="val gold">$2,190</div></div>
+          <div class="metric-item"><div class="label">Monthly Rev</div><div class="val green">$1,620</div></div>
+          <div class="metric-item"><div class="label">Margin/Btl</div><div class="val">$5.83</div></div>
+        </div>
+      </div>
+      <div class="starter-card">
+        <div class="appeal-badge">9</div>
+        <span class="tier tier-super">Super-Premium</span>
+        <div class="wine-name" style="margin-top:8px">Cr&eacute;mant</div>
+        <div class="wine-reason">"Only Thai sparkling &mdash; unique conversation piece"</div>
+        <div class="metrics">
+          <div class="metric-item"><div class="label">Cases</div><div class="val">5</div></div>
+          <div class="metric-item"><div class="label">Investment</div><div class="val gold">$1,244</div></div>
+          <div class="metric-item"><div class="label">Monthly Rev</div><div class="val green">$960</div></div>
+          <div class="metric-item"><div class="label">Margin/Btl</div><div class="val">$11.26</div></div>
+        </div>
+      </div>
+      <div class="starter-card">
+        <div class="appeal-badge">9</div>
+        <span class="tier tier-premium">Premium</span>
+        <div class="wine-name" style="margin-top:8px">Heritage Syrah</div>
+        <div class="wine-reason">"Flagship varietal &mdash; Thailand terroir story"</div>
+        <div class="metrics">
+          <div class="metric-item"><div class="label">Cases</div><div class="val">15</div></div>
+          <div class="metric-item"><div class="label">Investment</div><div class="val gold">$2,653</div></div>
+          <div class="metric-item"><div class="label">Monthly Rev</div><div class="val green">$1,980</div></div>
+          <div class="metric-item"><div class="label">Margin/Btl</div><div class="val">$7.26</div></div>
+        </div>
+      </div>
+      <div class="starter-card">
+        <div class="appeal-badge">8</div>
+        <span class="tier tier-entry">Entry</span>
+        <div class="wine-name" style="margin-top:8px">Spring Chenin Blanc</div>
+        <div class="wine-reason">"Low price point &mdash; versatile food pairing"</div>
+        <div class="metrics">
+          <div class="metric-item"><div class="label">Cases</div><div class="val">20</div></div>
+          <div class="metric-item"><div class="label">Investment</div><div class="val gold">$2,579</div></div>
+          <div class="metric-item"><div class="label">Monthly Rev</div><div class="val green">$1,920</div></div>
+          <div class="metric-item"><div class="label">Margin/Btl</div><div class="val">$5.26</div></div>
+        </div>
+      </div>
+      <div class="starter-card">
+        <div class="appeal-badge">8</div>
+        <span class="tier tier-premium">Premium</span>
+        <div class="wine-name" style="margin-top:8px">Viognier</div>
+        <div class="wine-reason">"Aromatic white stands out on wine lists"</div>
+        <div class="metrics">
+          <div class="metric-item"><div class="label">Cases</div><div class="val">10</div></div>
+          <div class="metric-item"><div class="label">Investment</div><div class="val gold">$1,632</div></div>
+          <div class="metric-item"><div class="label">Monthly Rev</div><div class="val green">$1,200</div></div>
+          <div class="metric-item"><div class="label">Margin/Btl</div><div class="val">$6.40</div></div>
+        </div>
+      </div>
+      <div class="starter-card">
+        <div class="appeal-badge">8</div>
+        <span class="tier tier-super">Super-Premium</span>
+        <div class="wine-name" style="margin-top:8px">Asoke</div>
+        <div class="wine-reason">"Trophy wine &mdash; validates brand prestige"</div>
+        <div class="metrics">
+          <div class="metric-item"><div class="label">Cases</div><div class="val">5</div></div>
+          <div class="metric-item"><div class="label">Investment</div><div class="val gold">$1,159</div></div>
+          <div class="metric-item"><div class="label">Monthly Rev</div><div class="val green">$900</div></div>
+          <div class="metric-item"><div class="label">Margin/Btl</div><div class="val">$10.69</div></div>
+        </div>
+      </div>
+    </div>
+    
+    <table style="margin-top: 20px;">
+      <thead>
+        <tr><th>Starter Portfolio Summary</th><th class="right">Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Total SKUs</td><td class="right bold">6 of 12</td></tr>
+        <tr><td>Total Cases</td><td class="right bold">70 cases (840 bottles)</td></tr>
+        <tr><td>Total Initial Investment</td><td class="right gold bold">$11,457</td></tr>
+        <tr><td>Projected Monthly Revenue (at full placement)</td><td class="right green bold">$8,580</td></tr>
+        <tr><td>Coverage</td><td class="right">2 whites &middot; 1 ros&eacute; &middot; 2 reds &middot; 1 sparkling</td></tr>
+      </tbody>
+    </table>
+    
+    <div class="callout warning">
+      <h4>Phase 2 Additions (After 3+ months with reorder data)</h4>
+      <p><strong>Add when demand proven:</strong> Gradient Syrah (if Heritage moves), Orient Syrah (for accounts wanting premium reds), Spring Syrah Cab (volume play). <strong>Hold for later:</strong> Verdelho (low recognition), Durif (niche), Orient Viognier (too many whites early).</p>
+    </div>
+  </div>
+
+  <!-- SECTION 6: RISK FACTORS -->
+  <div class="section">
+    <h2><span class="num">6</span>Risk Factors &amp; Sensitivity</h2>
+    
+    <table>
+      <thead>
+        <tr><th>Risk</th><th>Impact</th><th>Mitigation</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>THB strengthens to 32/USD</td><td class="red">Landed cost up ~9%, margin drops to ~26%</td><td>Lock rate on orders; raise wholesale $1-2</td></tr>
+        <tr><td>FL JDBW license delayed</td><td class="red">Cannot self-distribute &mdash; must use 3rd party</td><td>LibDib as interim; adds ~15% commission</td></tr>
+        <tr><td>Slow restaurant adoption</td><td class="red">Conservative scenario &mdash; still profitable at 12 accounts</td><td>Free tastings; consignment first case</td></tr>
+        <tr><td>Shipping cost spike to $3.50/btl</td><td class="red">Margin compressed to ~19%</td><td>Consolidate shipments; larger orders = lower per-unit</td></tr>
+        <tr><td>Breakage / spoilage</td><td class="red">~2-3% loss typical for wine imports</td><td>Already factored into 23% gross margin buffer</td></tr>
+        <tr><td>Restaurant payment terms Net-30</td><td class="red">Cash flow delayed by 30 days</td><td>COD for first 3 orders; Net-15 max thereafter</td></tr>
+        <tr><td>GranMonte supply constraints</td><td class="red">Limited production could cap growth</td><td>Pre-order 2 shipments ahead; diversify Phase 3</td></tr>
+      </tbody>
+    </table>
+    
+    <div class="callout">
+      <h4>Bottom Line for Up</h4>
+      <p>This is a <strong>low-risk, moderate-reward</strong> play. Total startup cash needed is under $15K (initial inventory + licenses + marketing). Even worst-case conservative scenario generates $17K profit Year 1. The real upside is building the distribution infrastructure &mdash; once 20 accounts are proven, scaling to other states is incremental. The FL JDBW license is the only gating item &mdash; resolve it or use LibDib to start selling immediately.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>GranMonte Thai Wine &mdash; US Import Financial Analysis &middot; Prepared by mhoooo for Up (Khetpapol Limphoka)</p>
+  <p>All figures based on ex-cellar prices provided by GranMonte Vineyard &amp; Winery, Khao Yai, Thailand</p>
+  <p>Rate: 35 THB/USD &middot; TTB $1.07/gal still wine &middot; FL excise $2.25/gal &middot; April 2026</p>
+</div>
+
+<script>
+Chart.defaults.color = '#888';
+Chart.defaults.borderColor = '#2A2A2A';
+Chart.defaults.font.family = "'Segoe UI', system-ui, sans-serif";
+
+const wines = ['Chenin Bl.','Sakuna','Syrah Cab','Heritage','Gradient','Verdelho','Viognier','Durif','Ori.Syr','Ori.Vio','Asoke','Cremant'];
+const exCellar = [7.14,8.57,8.57,11.14,11.14,10.00,10.00,11.14,14.00,14.86,15.71,17.14];
+const shippingArr = [2.50,2.50,2.50,2.50,2.50,2.50,2.50,2.50,2.50,2.50,2.50,2.50];
+const dutiesArr = [1.10,1.10,1.10,1.10,1.10,1.10,1.10,1.10,1.10,1.10,1.10,1.10];
+const wholesaleArr = [16,18,18,22,22,20,20,22,27,28,30,32];
+const marginsArr = [32.9,32.4,32.4,33.0,33.0,32.0,32.0,33.0,34.8,34.1,35.6,35.2];
+const tierColors = ['#4CAF50','#4CAF50','#4CAF50','#42A5F5','#42A5F5','#42A5F5','#42A5F5','#42A5F5','#AB47BC','#AB47BC','#AB47BC','#AB47BC'];
+
+new Chart(document.getElementById('costChart'), {
+  type: 'bar',
+  data: {
+    labels: wines,
+    datasets: [
+      { label: 'Ex-Cellar', data: exCellar, backgroundColor: '#722F37', stack: 'stack' },
+      { label: 'Shipping', data: shippingArr, backgroundColor: '#C9A84C', stack: 'stack' },
+      { label: 'Duties', data: dutiesArr, backgroundColor: '#666', stack: 'stack' },
+      { label: 'Wholesale', data: wholesaleArr, backgroundColor: 'transparent', borderColor: '#4CAF50', borderWidth: 2, type: 'line', stack: undefined, pointStyle: 'circle', pointRadius: 4 }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 10, font: { size: 11 } } } },
+    scales: { x: { ticks: { maxRotation: 45, font: { size: 10 } } }, y: { title: { display: true, text: 'USD / bottle' } } }
+  }
+});
+
+new Chart(document.getElementById('marginChart'), {
+  type: 'bar',
+  data: {
+    labels: wines,
+    datasets: [{ label: 'Gross Margin %', data: marginsArr, backgroundColor: tierColors.map(c => c + '88'), borderColor: tierColors, borderWidth: 1 }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: { x: { ticks: { maxRotation: 45, font: { size: 10 } } }, y: { min: 28, max: 38, title: { display: true, text: 'Margin %' } } }
+  }
+});
+
+new Chart(document.getElementById('scenarioChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Conservative (12 restaurants)', 'Base Case (20 restaurants)', 'Aggressive (30 restaurants)'],
+    datasets: [
+      { label: 'Revenue', data: [112200, 230736, 345312], backgroundColor: '#C9A84C88', borderColor: '#C9A84C', borderWidth: 1 },
+      { label: 'Gross Profit', data: [26049, 53583, 80191], backgroundColor: '#4CAF5088', borderColor: '#4CAF50', borderWidth: 1 },
+      { label: 'Net Profit', data: [17249, 44783, 66991], backgroundColor: '#42A5F588', borderColor: '#42A5F5', borderWidth: 1 }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'bottom' } },
+    scales: { y: { title: { display: true, text: 'USD' } } }
+  }
+});
+
+const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const cumCons = [-1700,-3000,-2581,-1549,-517,1128,3080,5032,7597,9668,13152,17249];
+const cumBase = [-1700,-3000,-1661,781,3959,7873,12522,17539,23295,28619,36088,44783];
+const cumAggr = [-2000,-4000,-1858,1756,6473,12297,18857,26153,34548,42846,53999,66991];
+
+new Chart(document.getElementById('cashflowChart'), {
+  type: 'line',
+  data: {
+    labels: months,
+    datasets: [
+      { label: 'Conservative', data: cumCons, borderColor: '#FFA726', backgroundColor: '#FFA72615', fill: true, tension: 0.3, borderWidth: 2 },
+      { label: 'Base Case', data: cumBase, borderColor: '#42A5F5', backgroundColor: '#42A5F515', fill: true, tension: 0.3, borderWidth: 3 },
+      { label: 'Aggressive', data: cumAggr, borderColor: '#4CAF50', backgroundColor: '#4CAF5015', fill: true, tension: 0.3, borderWidth: 2 }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'bottom' } },
+    scales: { y: { title: { display: true, text: 'Cumulative USD' }, grid: { color: '#2A2A2A' } } }
+  }
+});
+
+const monthlyNet = [-1700,-1300,1339,2442,3178,3914,4649,5017,5756,5324,7469,8695];
+new Chart(document.getElementById('monthlyChart'), {
+  type: 'bar',
+  data: {
+    labels: months,
+    datasets: [
+      { label: 'Monthly Net', data: monthlyNet, backgroundColor: monthlyNet.map(v => v >= 0 ? '#4CAF5066' : '#EF535066'), borderColor: monthlyNet.map(v => v >= 0 ? '#4CAF50' : '#EF5350'), borderWidth: 1 },
+      { label: 'Cumulative', data: cumBase, type: 'line', borderColor: '#C9A84C', backgroundColor: 'transparent', borderWidth: 2, tension: 0.3, yAxisID: 'y1', pointRadius: 3 }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'bottom' } },
+    scales: {
+      y: { title: { display: true, text: 'Monthly Net (USD)' } },
+      y1: { position: 'right', title: { display: true, text: 'Cumulative (USD)' }, grid: { display: false } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>

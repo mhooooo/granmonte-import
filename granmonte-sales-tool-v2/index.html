@@ -1,0 +1,2095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GranMonte Thai Wine — Sales Partner Kit</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════
+   CSS VARIABLES & RESET
+   ═══════════════════════════════════════════════════════ */
+:root {
+  --burgundy: #6B1D2A;
+  --burgundy-dark: #4A1019;
+  --burgundy-light: #8B2D3A;
+  --gold: #C9A84C;
+  --gold-light: #E0C972;
+  --gold-muted: rgba(201,168,76,0.15);
+  --cream: #FAF6F0;
+  --cream-dark: #F0EBE3;
+  --ink: #1A1210;
+  --ink-light: #4A3F3A;
+  --ink-muted: #8A7F7A;
+  --white: #FFFFFF;
+  --success: #2D7A4F;
+  --success-light: #E8F5E9;
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+
+  --shadow-sm: 0 1px 3px rgba(26,18,16,0.08);
+  --shadow-md: 0 4px 16px rgba(26,18,16,0.1);
+  --shadow-lg: 0 8px 32px rgba(26,18,16,0.14);
+  --shadow-xl: 0 16px 48px rgba(26,18,16,0.18);
+  --shadow-gold: 0 4px 24px rgba(201,168,76,0.25);
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════════════════════════════ */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--cream-dark); }
+::-webkit-scrollbar-thumb { background: var(--burgundy); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--burgundy-light); }
+
+/* ═══════════════════════════════════════════════════════
+   UTILITY & TYPOGRAPHY
+   ═══════════════════════════════════════════════════════ */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+h1, h2, h3, h4, h5 { font-family: var(--font-display); font-weight: 600; line-height: 1.2; }
+
+.section-label {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  color: var(--burgundy);
+  margin-bottom: 12px;
+}
+
+.section-subtitle {
+  font-size: 1.05rem;
+  color: var(--ink-muted);
+  max-width: 600px;
+  font-weight: 300;
+}
+
+.gold-line {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  margin: 20px 0;
+}
+
+/* ═══════════════════════════════════════════════════════
+   NAVIGATION
+   ═══════════════════════════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(250,246,240,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(107,29,42,0.08);
+  transition: all 0.4s ease;
+}
+
+nav.scrolled {
+  background: rgba(250,246,240,0.95);
+  box-shadow: var(--shadow-sm);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.nav-logo {
+  width: 36px;
+  height: 36px;
+  background: var(--burgundy);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.nav-brand-text {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--burgundy);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  list-style: none;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--ink-light);
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  letter-spacing: 0.01em;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--burgundy);
+  background: rgba(107,29,42,0.06);
+}
+
+.nav-cta {
+  background: var(--burgundy) !important;
+  color: var(--cream) !important;
+  font-weight: 600 !important;
+  padding: 8px 20px !important;
+}
+
+.nav-cta:hover {
+  background: var(--burgundy-dark) !important;
+  color: var(--gold) !important;
+}
+
+.nav-mobile-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.nav-mobile-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--burgundy);
+  margin: 5px 0;
+  transition: all 0.3s ease;
+}
+
+/* ═══════════════════════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--burgundy-dark) 0%, var(--burgundy) 40%, #7A2535 100%);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 70% 60%, rgba(201,168,76,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 20% 30%, rgba(201,168,76,0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C9A84C' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  padding: 120px 24px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.hero-content { animation: fadeInUp 0.8s ease both; }
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.25);
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+}
+
+.hero-badge svg { width: 14px; height: 14px; }
+
+.hero h1 {
+  font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+  color: var(--cream);
+  line-height: 1.08;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+.hero-desc {
+  font-size: 1.08rem;
+  color: rgba(250,246,240,0.7);
+  line-height: 1.7;
+  max-width: 480px;
+  margin-bottom: 32px;
+  font-weight: 300;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 36px;
+}
+
+.hero-stat {
+  text-align: left;
+}
+
+.hero-stat-value {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.hero-stat-label {
+  font-size: 0.72rem;
+  color: rgba(250,246,240,0.5);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 14px 28px;
+  border-radius: 50px;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  letter-spacing: 0.02em;
+}
+
+.btn svg { width: 16px; height: 16px; }
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--burgundy-dark);
+  box-shadow: var(--shadow-gold);
+}
+
+.btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 32px rgba(201,168,76,0.35);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--cream);
+  border: 1.5px solid rgba(250,246,240,0.3);
+}
+
+.btn-outline:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(201,168,76,0.06);
+}
+
+.btn-burgundy {
+  background: var(--burgundy);
+  color: var(--cream);
+}
+
+.btn-burgundy:hover {
+  background: var(--burgundy-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Hero visual */
+.hero-visual {
+  position: relative;
+  animation: fadeInUp 0.8s 0.2s ease both;
+}
+
+.hero-vineyard-card {
+  background: rgba(250,246,240,0.06);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: var(--radius-xl);
+  padding: 36px;
+  backdrop-filter: blur(20px);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-vineyard-card::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.vineyard-art {
+  width: 100%;
+  height: 220px;
+  background: linear-gradient(180deg,
+    rgba(201,168,76,0.08) 0%,
+    rgba(107,29,42,0.12) 50%,
+    rgba(201,168,76,0.06) 100%);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.vineyard-art::before {
+  content: '🍇';
+  font-size: 4rem;
+  opacity: 0.15;
+  position: absolute;
+}
+
+.vineyard-rows {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  height: 120px;
+}
+
+.vineyard-row {
+  width: 3px;
+  background: linear-gradient(to top, var(--gold), rgba(201,168,76,0.2));
+  border-radius: 3px;
+  animation: vineGrow 1.5s ease both;
+}
+
+@keyframes vineGrow {
+  from { height: 0; }
+}
+
+.vineyard-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.vineyard-info-item {
+  text-align: center;
+  padding: 12px;
+  background: rgba(201,168,76,0.06);
+  border-radius: var(--radius-md);
+}
+
+.vineyard-info-value {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.vineyard-info-label {
+  font-size: 0.68rem;
+  color: rgba(250,246,240,0.5);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════════════════
+   AWARDS MARQUEE
+   ═══════════════════════════════════════════════════════ */
+.awards-strip {
+  background: var(--burgundy-dark);
+  padding: 18px 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.awards-strip::before,
+.awards-strip::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100px;
+  z-index: 2;
+}
+
+.awards-strip::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--burgundy-dark), transparent);
+}
+
+.awards-strip::after {
+  right: 0;
+  background: linear-gradient(-90deg, var(--burgundy-dark), transparent);
+}
+
+.awards-track {
+  display: flex;
+  gap: 48px;
+  animation: marquee 30s linear infinite;
+  width: max-content;
+}
+
+.awards-track:hover { animation-play-state: paused; }
+
+.award-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.award-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ═══════════════════════════════════════════════════════
+   SECTIONS
+   ═══════════════════════════════════════════════════════ */
+section {
+  padding: 80px 0;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.section-header .gold-line { margin: 16px auto; }
+
+/* ═══════════════════════════════════════════════════════
+   TIER FILTERS
+   ═══════════════════════════════════════════════════════ */
+.tier-filters {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.tier-btn {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 10px 22px;
+  border-radius: 30px;
+  border: 1.5px solid rgba(107,29,42,0.15);
+  background: var(--white);
+  color: var(--ink-light);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.02em;
+}
+
+.tier-btn:hover {
+  border-color: var(--burgundy);
+  color: var(--burgundy);
+}
+
+.tier-btn.active {
+  background: var(--burgundy);
+  border-color: var(--burgundy);
+  color: var(--cream);
+  box-shadow: var(--shadow-md);
+}
+
+.tier-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  font-size: 0.68rem;
+  background: rgba(107,29,42,0.1);
+  color: var(--burgundy);
+  margin-left: 6px;
+  padding: 0 6px;
+}
+
+.tier-btn.active .tier-count {
+  background: rgba(250,246,240,0.2);
+  color: var(--cream);
+}
+
+/* ═══════════════════════════════════════════════════════
+   WINE CARDS
+   ═══════════════════════════════════════════════════════ */
+.wine-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.wine-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid rgba(107,29,42,0.06);
+  transition: all 0.4s ease;
+  cursor: pointer;
+  position: relative;
+  animation: cardIn 0.5s ease both;
+}
+
+.wine-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(201,168,76,0.3);
+}
+
+.wine-card.hidden {
+  display: none;
+}
+
+.wine-card-header {
+  padding: 20px 20px 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.wine-tier-badge {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.tier-super-premium .wine-tier-badge {
+  background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.08));
+  color: #9A7B2E;
+  border: 1px solid rgba(201,168,76,0.3);
+}
+
+.tier-natural .wine-tier-badge {
+  background: rgba(45,122,79,0.08);
+  color: var(--success);
+  border: 1px solid rgba(45,122,79,0.2);
+}
+
+.tier-premium .wine-tier-badge {
+  background: rgba(107,29,42,0.06);
+  color: var(--burgundy);
+  border: 1px solid rgba(107,29,42,0.15);
+}
+
+.tier-entry .wine-tier-badge {
+  background: rgba(26,18,16,0.04);
+  color: var(--ink-muted);
+  border: 1px solid rgba(26,18,16,0.1);
+}
+
+.wine-add-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(107,29,42,0.15);
+  background: var(--white);
+  color: var(--burgundy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.wine-add-btn:hover {
+  background: var(--burgundy);
+  border-color: var(--burgundy);
+  color: var(--cream);
+}
+
+.wine-add-btn.added {
+  background: var(--success);
+  border-color: var(--success);
+  color: var(--white);
+}
+
+.wine-card-body { padding: 16px 20px; }
+
+.wine-emoji {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 8px;
+  line-height: 1;
+}
+
+.wine-name {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.wine-grape {
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+  margin-bottom: 12px;
+  font-weight: 400;
+}
+
+.wine-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.wine-tag {
+  font-size: 0.65rem;
+  padding: 3px 8px;
+  border-radius: 12px;
+  background: var(--cream);
+  color: var(--ink-muted);
+  font-weight: 500;
+}
+
+.wine-card-footer {
+  padding: 14px 20px;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(107,29,42,0.04);
+}
+
+.wine-price {
+  display: flex;
+  flex-direction: column;
+}
+
+.wine-price-thb {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--burgundy);
+}
+
+.wine-price-usd {
+  font-size: 0.72rem;
+  color: var(--ink-muted);
+  font-weight: 500;
+}
+
+.wine-pairing {
+  font-size: 0.72rem;
+  color: var(--ink-muted);
+  text-align: right;
+  max-width: 140px;
+  line-height: 1.4;
+}
+
+.wine-pairing strong {
+  color: var(--ink-light);
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   AWARDS SECTION
+   ═══════════════════════════════════════════════════════ */
+#awards {
+  background: var(--burgundy-dark);
+  color: var(--cream);
+  position: relative;
+  overflow: hidden;
+}
+
+#awards::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 50% 60% at 50% 0%, rgba(201,168,76,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+#awards .section-label { color: var(--gold); }
+#awards .section-title { color: var(--cream); }
+#awards .section-subtitle { color: rgba(250,246,240,0.6); }
+
+.awards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.award-card {
+  background: rgba(250,246,240,0.04);
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.award-card:hover {
+  background: rgba(250,246,240,0.07);
+  border-color: rgba(201,168,76,0.25);
+  transform: translateY(-3px);
+}
+
+.award-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.award-card:hover::before { opacity: 1; }
+
+.award-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(201,168,76,0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  color: var(--gold);
+}
+
+.award-card h4 {
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+  color: var(--cream);
+}
+
+.award-card p {
+  font-size: 0.85rem;
+  color: rgba(250,246,240,0.55);
+  line-height: 1.6;
+}
+
+.award-highlight {
+  background: linear-gradient(135deg, rgba(201,168,76,0.1), rgba(201,168,76,0.04)) !important;
+  border-color: rgba(201,168,76,0.25) !important;
+}
+
+.award-highlight .award-icon {
+  background: rgba(201,168,76,0.2);
+}
+
+/* ═══════════════════════════════════════════════════════
+   PROFIT CALCULATOR
+   ═══════════════════════════════════════════════════════ */
+#calculator {
+  background: var(--white);
+  border-top: 1px solid rgba(107,29,42,0.06);
+  border-bottom: 1px solid rgba(107,29,42,0.06);
+}
+
+.calc-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.calc-panel {
+  background: var(--cream);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  border: 1px solid rgba(107,29,42,0.06);
+}
+
+.calc-panel h3 {
+  font-size: 1.3rem;
+  color: var(--burgundy);
+  margin-bottom: 24px;
+}
+
+.calc-field { margin-bottom: 20px; }
+
+.calc-field label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 8px;
+}
+
+.calc-field select,
+.calc-field input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid rgba(107,29,42,0.12);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--ink);
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.calc-field select:focus,
+.calc-field input:focus {
+  border-color: var(--burgundy);
+  box-shadow: 0 0 0 3px rgba(107,29,42,0.08);
+}
+
+.calc-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.calc-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: rgba(107,29,42,0.1);
+  border-radius: 3px;
+  outline: none;
+}
+
+.calc-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--burgundy);
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+}
+
+.calc-slider-value {
+  min-width: 60px;
+  text-align: right;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--burgundy);
+}
+
+/* Results panel */
+.calc-results {
+  background: var(--burgundy);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  color: var(--cream);
+}
+
+.calc-results h3 {
+  color: var(--cream);
+  margin-bottom: 24px;
+  font-size: 1.3rem;
+}
+
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(250,246,240,0.08);
+}
+
+.result-row:last-child { border-bottom: none; }
+
+.result-label {
+  font-size: 0.82rem;
+  color: rgba(250,246,240,0.65);
+}
+
+.result-value {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--cream);
+}
+
+.result-highlight {
+  padding: 20px;
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: var(--radius-lg);
+  margin-top: 20px;
+  text-align: center;
+}
+
+.result-highlight-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+
+.result-highlight-value {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.result-highlight-sub {
+  font-size: 0.78rem;
+  color: rgba(250,246,240,0.5);
+  margin-top: 4px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   FOOD PAIRINGS
+   ═══════════════════════════════════════════════════════ */
+.pairings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.pairing-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  border: 1px solid rgba(107,29,42,0.06);
+  transition: all 0.3s ease;
+}
+
+.pairing-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(201,168,76,0.2);
+}
+
+.pairing-emoji {
+  font-size: 2.4rem;
+  margin-bottom: 12px;
+}
+
+.pairing-dish {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.pairing-dish-thai {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  margin-bottom: 12px;
+}
+
+.pairing-wines {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pairing-wine {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--burgundy);
+  font-weight: 500;
+}
+
+.pairing-wine::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════
+   WINEMAKER
+   ═══════════════════════════════════════════════════════ */
+.winemaker-section {
+  background: linear-gradient(135deg, var(--cream-dark) 0%, var(--cream) 100%);
+}
+
+.winemaker-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 40px;
+  align-items: center;
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  padding: 40px;
+  border: 1px solid rgba(107,29,42,0.06);
+  box-shadow: var(--shadow-md);
+}
+
+.winemaker-photo {
+  width: 180px;
+  height: 220px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--burgundy), var(--burgundy-light));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.winemaker-photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(201,168,76,0.2);
+  border-radius: var(--radius-lg);
+}
+
+.winemaker-initial {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--gold);
+  opacity: 0.8;
+}
+
+.winemaker-info h3 {
+  font-size: 1.6rem;
+  color: var(--burgundy);
+  margin-bottom: 4px;
+}
+
+.winemaker-title {
+  font-size: 0.85rem;
+  color: var(--gold);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+}
+
+.winemaker-bio {
+  font-size: 0.95rem;
+  color: var(--ink-light);
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+.winemaker-fact {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--cream);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--ink-light);
+}
+
+/* ═══════════════════════════════════════════════════════
+   CONTACT CTA
+   ═══════════════════════════════════════════════════════ */
+#contact {
+  background: linear-gradient(135deg, var(--burgundy-dark) 0%, var(--burgundy) 50%, #7A2535 100%);
+  color: var(--cream);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+#contact::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(201,168,76,0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+#contact .section-label { color: var(--gold); }
+#contact .section-title { color: var(--cream); }
+#contact .section-subtitle {
+  color: rgba(250,246,240,0.6);
+  margin: 0 auto 32px;
+}
+
+.contact-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  max-width: 800px;
+  margin: 0 auto 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.contact-card {
+  background: rgba(250,246,240,0.06);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: var(--cream);
+  display: block;
+}
+
+.contact-card:hover {
+  background: rgba(250,246,240,0.1);
+  border-color: rgba(201,168,76,0.3);
+  transform: translateY(-3px);
+}
+
+.contact-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(201,168,76,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  color: var(--gold);
+}
+
+.contact-card h4 {
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.contact-card p {
+  font-size: 0.82rem;
+  color: rgba(250,246,240,0.55);
+}
+
+.contact-cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════════════
+   ORDER SUMMARY BAR (STICKY)
+   ═══════════════════════════════════════════════════════ */
+.order-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--white);
+  border-top: 1px solid rgba(107,29,42,0.1);
+  box-shadow: 0 -4px 24px rgba(26,18,16,0.1);
+  z-index: 999;
+  transform: translateY(100%);
+  transition: transform 0.4s ease;
+  padding: 14px 24px;
+}
+
+.order-bar.visible { transform: translateY(0); }
+
+.order-bar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.order-summary-text {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.order-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--burgundy);
+  color: var(--cream);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.order-details {
+  font-size: 0.85rem;
+  color: var(--ink-light);
+}
+
+.order-details strong {
+  color: var(--burgundy);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.order-actions { display: flex; gap: 10px; }
+
+.order-clear-btn {
+  background: none;
+  border: 1.5px solid rgba(107,29,42,0.15);
+  color: var(--ink-muted);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  padding: 8px 18px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.order-clear-btn:hover {
+  border-color: var(--burgundy);
+  color: var(--burgundy);
+}
+
+/* ═══════════════════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════════════════ */
+footer {
+  background: var(--ink);
+  color: rgba(250,246,240,0.4);
+  padding: 32px 24px;
+  text-align: center;
+  font-size: 0.78rem;
+}
+
+footer a {
+  color: var(--gold);
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+footer a:hover { opacity: 0.7; }
+
+.deerflow-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+  font-size: 0.68rem;
+  color: rgba(250,246,240,0.2);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.deerflow-mark:hover { color: rgba(250,246,240,0.4); }
+
+/* ═══════════════════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════════════════ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-visual { order: -1; }
+  .calc-layout { grid-template-columns: 1fr; }
+  .winemaker-card { grid-template-columns: 1fr; text-align: center; }
+  .winemaker-photo { margin: 0 auto; }
+  .nav-links { display: none; }
+  .nav-mobile-toggle { display: block; }
+  .nav-links.mobile-open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--cream);
+    padding: 16px;
+    border-bottom: 1px solid rgba(107,29,42,0.08);
+    box-shadow: var(--shadow-md);
+  }
+  .order-bar-inner { flex-direction: column; text-align: center; }
+}
+
+@media (max-width: 600px) {
+  .hero-stats { flex-direction: column; gap: 16px; }
+  section { padding: 60px 0; }
+  .wine-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ NAVIGATION ══════════════ -->
+<nav id="mainNav">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">
+      <div class="nav-logo">G</div>
+      <span class="nav-brand-text">GranMonte</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#wines">Wines</a></li>
+      <li><a href="#awards">Awards</a></li>
+      <li><a href="#calculator">Calculator</a></li>
+      <li><a href="#pairings">Pairings</a></li>
+      <li><a href="#contact" class="nav-cta">Become a Partner</a></li>
+    </ul>
+    <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Best Wine from Asia · HKIWSC 2024
+      </div>
+      <h1>Thailand's <em>Award-Winning</em> Wine Portfolio</h1>
+      <p class="hero-desc">
+        GranMonte Vineyard & Winery — from Khao Yai's 350m elevation terroir to America's finest Thai restaurant tables. 18 distinctive SKUs across 4 tiers.
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-value">6×</div>
+          <div class="hero-stat-label">Best National Producer</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">40</div>
+          <div class="hero-stat-label">Acres of Vineyard</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">18</div>
+          <div class="hero-stat-label">SKUs Available</div>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <a href="#wines" class="btn btn-gold">
+          Explore Portfolio
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a href="#calculator" class="btn btn-outline">Profit Calculator</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-vineyard-card">
+        <div class="vineyard-art">
+          <div class="vineyard-rows" id="vineyardRows"></div>
+        </div>
+        <div class="vineyard-info">
+          <div class="vineyard-info-item">
+            <div class="vineyard-info-value">350m</div>
+            <div class="vineyard-info-label">Elevation</div>
+          </div>
+          <div class="vineyard-info-item">
+            <div class="vineyard-info-value">Khao Yai</div>
+            <div class="vineyard-info-label">Appellation</div>
+          </div>
+          <div class="vineyard-info-item">
+            <div class="vineyard-info-value">New Lat.</div>
+            <div class="vineyard-info-label">14°N Terroir</div>
+          </div>
+          <div class="vineyard-info-item">
+            <div class="vineyard-info-value">Nikki L.</div>
+            <div class="vineyard-info-label">Winemaker</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ AWARDS MARQUEE ══════════════ -->
+<div class="awards-strip">
+  <div class="awards-track" id="awardsTrack"></div>
+</div>
+
+<!-- ══════════════ WINE PORTFOLIO ══════════════ -->
+<section id="wines">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-label">Complete Portfolio</div>
+      <h2 class="section-title">18 SKUs, 4 Tiers</h2>
+      <div class="gold-line"></div>
+      <p class="section-subtitle" style="margin:0 auto">From accessible everyday wines to award-winning super-premiums. Click + to build your order.</p>
+    </div>
+
+    <div class="tier-filters fade-in" id="tierFilters"></div>
+    <div class="wine-grid" id="wineGrid"></div>
+  </div>
+</section>
+
+<!-- ══════════════ AWARDS ══════════════ -->
+<section id="awards">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-label">International Recognition</div>
+      <h2 class="section-title">Award-Winning Heritage</h2>
+      <div class="gold-line"></div>
+      <p class="section-subtitle" style="margin:0 auto">Consistently recognized as Asia's finest — the credibility your customers trust.</p>
+    </div>
+    <div class="awards-grid fade-in" id="awardsGrid"></div>
+  </div>
+</section>
+
+<!-- ══════════════ PROFIT CALCULATOR ══════════════ -->
+<section id="calculator">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-label">Business Case</div>
+      <h2 class="section-title">Profit Calculator</h2>
+      <div class="gold-line"></div>
+      <p class="section-subtitle" style="margin:0 auto">See the real margins. Input your projected markup and volume.</p>
+    </div>
+    <div class="calc-layout fade-in">
+      <div class="calc-panel">
+        <h3>Configure Your Scenario</h3>
+        <div class="calc-field">
+          <label>Select Wine</label>
+          <select id="calcWine"></select>
+        </div>
+        <div class="calc-field">
+          <label>Monthly Bottles</label>
+          <div class="calc-slider-row">
+            <input type="range" class="calc-slider" id="calcVolume" min="50" max="1200" value="200" step="50">
+            <div class="calc-slider-value" id="calcVolumeDisplay">200</div>
+          </div>
+        </div>
+        <div class="calc-field">
+          <label>Your Retail Price (USD)</label>
+          <div class="calc-slider-row">
+            <input type="range" class="calc-slider" id="calcRetail" min="10" max="80" value="28" step="1">
+            <div class="calc-slider-value" id="calcRetailDisplay">$28</div>
+          </div>
+        </div>
+        <div class="calc-field">
+          <label>Shipping & Duty per Bottle (USD)</label>
+          <div class="calc-slider-row">
+            <input type="range" class="calc-slider" id="calcShipping" min="2" max="12" value="5" step="0.5">
+            <div class="calc-slider-value" id="calcShippingDisplay">$5.00</div>
+          </div>
+        </div>
+      </div>
+      <div class="calc-results" id="calcResults">
+        <h3>Projected Returns</h3>
+        <div id="calcResultsBody"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FOOD PAIRINGS ══════════════ -->
+<section id="pairings" class="winemaker-section">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-label">Thai Wine × Thai Food</div>
+      <h2 class="section-title">The Perfect Pairing Story</h2>
+      <div class="gold-line"></div>
+      <p class="section-subtitle" style="margin:0 auto">GranMonte wines are crafted to complement Thai cuisine — the ultimate upsell narrative.</p>
+    </div>
+    <div class="pairings-grid fade-in" id="pairingsGrid"></div>
+  </div>
+</section>
+
+<!-- ══════════════ WINEMAKER ══════════════ -->
+<section class="winemaker-section" style="padding-top:0">
+  <div class="container fade-in">
+    <div class="winemaker-card">
+      <div class="winemaker-photo">
+        <span class="winemaker-initial">NL</span>
+      </div>
+      <div class="winemaker-info">
+        <div class="section-label">The Winemaker</div>
+        <h3>Nikki Lohitnavy</h3>
+        <div class="winemaker-title">Founder & Head Winemaker, GranMonte</div>
+        <p class="winemaker-bio">
+          Thailand's pioneering winemaker. Studied oenology at the University of Adelaide, then returned to Khao Yai to prove that 14°N latitude can produce world-class wines. She succeeded — earning six "Best National Producer" titles at Austria's AWC Vienna, and the groundbreaking "Best Wine from Asia" at Hong Kong IWSC 2024.
+        </p>
+        <div class="winemaker-fact">
+          🎓 University of Adelaide, Oenology &nbsp;·&nbsp; 🍷 20+ years winemaking
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ CONTACT CTA ══════════════ -->
+<section id="contact">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-label">Partner With Us</div>
+      <h2 class="section-title">Start Selling GranMonte</h2>
+      <div class="gold-line"></div>
+      <p class="section-subtitle">MOQ 600 bottles (mix-and-match across SKUs). We handle export logistics from Bangkok. You own the US distribution.</p>
+    </div>
+    <div class="contact-cards fade-in">
+      <a href="mailto:klimphoka@gmail.com" class="contact-card">
+        <div class="contact-card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 8L2 4"/></svg>
+        </div>
+        <h4>Email Us</h4>
+        <p>klimphoka@gmail.com</p>
+      </a>
+      <a href="tel:+12536537548" class="contact-card">
+        <div class="contact-card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <h4>Call / WhatsApp</h4>
+        <p>+1 (253) 653-7548</p>
+      </a>
+      <div class="contact-card">
+        <div class="contact-card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <h4>US Distribution</h4>
+        <p>Based in Florida, serving nationwide</p>
+      </div>
+    </div>
+    <div class="contact-cta-buttons fade-in">
+      <a href="mailto:klimphoka@gmail.com?subject=GranMonte%20Wine%20Distribution%20Inquiry&body=I%27m%20interested%20in%20carrying%20GranMonte%20Thai%20wines.%20Please%20send%20me%20the%20full%20price%20list%20and%20order%20details." class="btn btn-gold">
+        Request Price List
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="#wines" class="btn btn-outline" style="border-color:rgba(250,246,240,0.2)">View Full Portfolio</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ ORDER BAR ══════════════ -->
+<div class="order-bar" id="orderBar">
+  <div class="order-bar-inner">
+    <div class="order-summary-text">
+      <div class="order-count" id="orderCount">0</div>
+      <div class="order-details">
+        <span id="orderSkuCount">0 SKUs</span> selected · <strong id="orderTotal">$0</strong> <span style="font-size:0.75rem;color:var(--ink-muted)">ex-cellar est.</span>
+      </div>
+    </div>
+    <div class="order-actions">
+      <button class="order-clear-btn" onclick="clearOrder()">Clear</button>
+      <a href="mailto:klimphoka@gmail.com?subject=GranMonte%20Order%20Inquiry" class="btn btn-burgundy" id="orderEmailBtn" style="font-size:0.82rem;padding:10px 22px">
+        Email Order
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  <div class="container">
+    <p>GranMonte Vineyard & Winery · Khao Yai, Thailand · <a href="https://www.granmonte.com" target="_blank">granmonte.com</a></p>
+    <p style="margin-top:4px">Sales tool prepared for US distribution partners · All prices FOB Bangkok</p>
+    <a href="https://deerflow.tech" target="_blank" class="deerflow-mark">✦ Created by Deerflow</a>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   WINE DATA — ALL 18 REAL SKUs
+   ═══════════════════════════════════════════════════════ */
+const RATE = 35;
+
+const wines = [
+  // SUPER-PREMIUM
+  { id: 'cremant-nv', name: 'Crémant NV', grape: 'Traditional Method Sparkling', tier: 'super-premium', tierLabel: 'Super-Premium', thb: 550, emoji: '🥂', tags: ['Sparkling', 'Celebration', 'Aperitif'], pairing: 'Thai appetizers, caviar' },
+  { id: 'cremant-vintage', name: 'Crémant Vintage', grape: 'Vintage Traditional Method', tier: 'super-premium', tierLabel: 'Super-Premium', thb: 650, emoji: '🍾', tags: ['Vintage', 'Sparkling', 'Prestige'], pairing: 'Lobster, fine dining' },
+  { id: 'asoke', name: 'Asoke', grape: 'Flagship Red Blend', tier: 'super-premium', tierLabel: 'Super-Premium', thb: 550, emoji: '🏆', tags: ['Flagship', 'Red Blend', 'Oak-aged'], pairing: 'Wagyu, premium steaks' },
+  { id: 'orient-viognier', name: 'Orient Viognier', grape: 'Viognier Reserve', tier: 'super-premium', tierLabel: 'Super-Premium', thb: 550, emoji: '🌸', tags: ['White', 'Aromatic', 'Reserve'], pairing: 'Tom kha gai, creamy curries' },
+  { id: 'orient-syrah', name: 'Orient Syrah', grape: 'Syrah Reserve', tier: 'super-premium', tierLabel: 'Super-Premium', thb: 490, emoji: '🍷', tags: ['Red', 'Bold', 'Reserve'], pairing: 'Massaman curry, braised meats' },
+
+  // NATURAL
+  { id: 'elements-verdelho', name: 'Elements Verdelho', grape: 'Natural Verdelho', tier: 'natural', tierLabel: 'Natural', thb: 400, emoji: '🌿', tags: ['Natural', 'White', 'Minimal'], pairing: 'Raw seafood, som tum' },
+  { id: 'elements-chenin', name: 'Elements Chenin', grape: 'Natural Chenin Blanc', tier: 'natural', tierLabel: 'Natural', thb: 400, emoji: '🍃', tags: ['Natural', 'White', 'Biodynamic'], pairing: 'Papaya salad, light Thai' },
+  { id: 'elements-syrah', name: 'Elements Syrah', grape: 'Natural Syrah', tier: 'natural', tierLabel: 'Natural', thb: 450, emoji: '🌱', tags: ['Natural', 'Red', 'Unfiltered'], pairing: 'Grilled meats, laab' },
+
+  // PREMIUM
+  { id: 'sparkling-rose', name: 'Sparkling Rosé', grape: 'Rosé Sparkling', tier: 'premium', tierLabel: 'Premium', thb: 450, emoji: '🌹', tags: ['Sparkling', 'Rosé', 'Festive'], pairing: 'Yum nua, Thai salads' },
+  { id: 'heritage-syrah', name: 'Heritage Syrah', grape: 'Syrah', tier: 'premium', tierLabel: 'Premium', thb: 390, emoji: '🏛️', tags: ['Red', 'Medium-body', 'Heritage'], pairing: 'Pad kra pao, stir-fries' },
+  { id: 'gradient-verdelho', name: 'Gradient Verdelho', grape: 'Verdelho', tier: 'premium', tierLabel: 'Premium', thb: 350, emoji: '💧', tags: ['White', 'Crisp', 'Fresh'], pairing: 'Pla kapung, steamed fish' },
+  { id: 'gradient-syrah', name: 'Gradient Syrah', grape: 'Syrah', tier: 'premium', tierLabel: 'Premium', thb: 390, emoji: '🔥', tags: ['Red', 'Spicy', 'Fruity'], pairing: 'Panang curry, grilled pork' },
+  { id: 'viognier', name: 'Viognier', grape: 'Viognier', tier: 'premium', tierLabel: 'Premium', thb: 350, emoji: '🍑', tags: ['White', 'Floral', 'Stone Fruit'], pairing: 'Green curry, coconut dishes' },
+  { id: 'verdelho', name: 'Verdelho', grape: 'Verdelho', tier: 'premium', tierLabel: 'Premium', thb: 350, emoji: '🍈', tags: ['White', 'Tropical', 'Versatile'], pairing: 'Pad thai, noodle dishes' },
+  { id: 'durif', name: 'Durif', grape: 'Durif (Petite Sirah)', tier: 'premium', tierLabel: 'Premium', thb: 390, emoji: '🫐', tags: ['Red', 'Full-body', 'Rich'], pairing: 'Braised pork, khao soi' },
+
+  // ENTRY
+  { id: 'spring-chenin', name: 'Spring Chenin Blanc', grape: 'Chenin Blanc', tier: 'entry', tierLabel: 'Entry', thb: 250, emoji: '🌼', tags: ['White', 'Easy-drinking', 'Value'], pairing: 'Tom yum, spicy soups' },
+  { id: 'sakuna-rose', name: 'Sakuna Rosé', grape: 'Rosé Blend', tier: 'entry', tierLabel: 'Entry', thb: 300, emoji: '🌺', tags: ['Rosé', 'Fresh', 'By-the-glass'], pairing: 'Spring rolls, appetizers' },
+  { id: 'spring-syrah-cab', name: 'Spring Syrah Cabernet', grape: 'Syrah-Cabernet Blend', tier: 'entry', tierLabel: 'Entry', thb: 300, emoji: '🍇', tags: ['Red', 'Smooth', 'Crowd-pleaser'], pairing: 'Satay, fried rice, BBQ' },
+];
+
+/* ═══════════════════════════════════════════════════════
+   AWARDS DATA
+   ═══════════════════════════════════════════════════════ */
+const awards = [
+  { icon: '🏆', title: 'Best Wine from Asia', desc: 'Hong Kong International Wine & Spirit Competition 2024 — first Thai wine to win this title.', highlight: true },
+  { icon: '🥇', title: '6× Best National Producer', desc: 'AWC Vienna International Wine Challenge — six-time winner, Thailand\'s most decorated winery.', highlight: true },
+  { icon: '🍷', title: 'Decanter World Wine Awards', desc: 'Multiple medals at the world\'s largest wine competition judged by Master Sommeliers & MWs.', highlight: false },
+  { icon: '🌏', title: 'Asia Wine Pioneer', desc: 'Recognized as a trailblazer proving that Southeast Asian terroir produces world-class wines at 14°N latitude.', highlight: false },
+  { icon: '📰', title: 'International Press', desc: 'Featured in Wine Spectator, Jancis Robinson, Decanter Magazine, and leading wine publications worldwide.', highlight: false },
+  { icon: '🎓', title: 'Adelaide Trained', desc: 'Winemaker Nikki Lohitnavy trained at the University of Adelaide — the world\'s #1 wine science program.', highlight: false },
+];
+
+/* ═══════════════════════════════════════════════════════
+   FOOD PAIRINGS DATA
+   ═══════════════════════════════════════════════════════ */
+const pairings = [
+  { emoji: '🍜', dish: 'Tom Yum Goong', thai: 'ต้มยำกุ้ง', wines: ['Spring Chenin Blanc', 'Elements Verdelho'] },
+  { emoji: '🥘', dish: 'Green Curry', thai: 'แกงเขียวหวาน', wines: ['Viognier', 'Orient Viognier'] },
+  { emoji: '🥩', dish: 'Crying Tiger', thai: 'เสือร้องไห้', wines: ['Heritage Syrah', 'Asoke'] },
+  { emoji: '🦐', dish: 'Pad Thai', thai: 'ผัดไทย', wines: ['Verdelho', 'Gradient Verdelho'] },
+  { emoji: '🍛', dish: 'Massaman Curry', thai: 'มัสมั่น', wines: ['Orient Syrah', 'Durif'] },
+  { emoji: '🥗', dish: 'Som Tum', thai: 'ส้มตำ', wines: ['Elements Chenin', 'Sakuna Rosé'] },
+  { emoji: '🍢', dish: 'Satay', thai: 'สะเต๊ะ', wines: ['Spring Syrah Cab', 'Sparkling Rosé'] },
+  { emoji: '🐟', dish: 'Pla Kapung Neung Manao', thai: 'ปลากะพงนึ่งมะนาว', wines: ['Gradient Verdelho', 'Crémant NV'] },
+];
+
+/* ═══════════════════════════════════════════════════════
+   ORDER STATE
+   ═══════════════════════════════════════════════════════ */
+let order = {};
+
+function toggleOrder(id) {
+  if (order[id]) {
+    delete order[id];
+  } else {
+    order[id] = true;
+  }
+  updateOrderBar();
+  updateCardButtons();
+}
+
+function clearOrder() {
+  order = {};
+  updateOrderBar();
+  updateCardButtons();
+}
+
+function updateOrderBar() {
+  const bar = document.getElementById('orderBar');
+  const ids = Object.keys(order);
+  const count = ids.length;
+
+  if (count === 0) {
+    bar.classList.remove('visible');
+    return;
+  }
+
+  bar.classList.add('visible');
+  document.getElementById('orderCount').textContent = count;
+  document.getElementById('orderSkuCount').textContent = count + ' SKU' + (count > 1 ? 's' : '');
+
+  const total = ids.reduce((sum, id) => {
+    const w = wines.find(w => w.id === id);
+    return sum + (w ? w.thb / RATE : 0);
+  }, 0);
+  document.getElementById('orderTotal').textContent = '$' + total.toFixed(2) + '/btl avg';
+
+  // Update email link
+  const selectedWines = ids.map(id => wines.find(w => w.id === id)?.name).filter(Boolean);
+  const emailBody = `Hi,\n\nI'm interested in ordering the following GranMonte wines:\n\n${selectedWines.map(n => '• ' + n).join('\n')}\n\nPlease send me the full price list and order details.\n\nThank you.`;
+  document.getElementById('orderEmailBtn').href = `mailto:klimphoka@gmail.com?subject=GranMonte%20Order%20Inquiry%20(${count}%20SKUs)&body=${encodeURIComponent(emailBody)}`;
+}
+
+function updateCardButtons() {
+  document.querySelectorAll('.wine-add-btn').forEach(btn => {
+    const id = btn.dataset.id;
+    if (order[id]) {
+      btn.classList.add('added');
+      btn.innerHTML = '✓';
+    } else {
+      btn.classList.remove('added');
+      btn.innerHTML = '+';
+    }
+  });
+}
+
+/* ═══════════════════════════════════════════════════════
+   RENDER FUNCTIONS
+   ═══════════════════════════════════════════════════════ */
+
+// Vineyard art
+function renderVineyard() {
+  const container = document.getElementById('vineyardRows');
+  for (let i = 0; i < 24; i++) {
+    const row = document.createElement('div');
+    row.className = 'vineyard-row';
+    const h = 30 + Math.random() * 80;
+    row.style.height = h + 'px';
+    row.style.animationDelay = (i * 0.05) + 's';
+    container.appendChild(row);
+  }
+}
+
+// Awards marquee
+function renderMarquee() {
+  const track = document.getElementById('awardsTrack');
+  const items = [
+    '🏆 Best Wine from Asia — HKIWSC 2024',
+    '🥇 6× Best National Producer — AWC Vienna',
+    '🍷 Decanter World Wine Awards Medalist',
+    '🌏 Thailand\'s Most Decorated Winery',
+    '🎓 Adelaide-Trained Winemaker',
+    '📰 Featured in Wine Spectator & Jancis Robinson',
+    '🍇 40-Acre Khao Yai Vineyard, 350m Elevation',
+    '🥂 18 SKUs — Sparkling to Full-Body Reds'
+  ];
+  const doubled = [...items, ...items];
+  track.innerHTML = doubled.map(text => `
+    <div class="award-item">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      ${text}
+    </div>
+  `).join('');
+}
+
+// Tier filters
+function renderFilters() {
+  const container = document.getElementById('tierFilters');
+  const tiers = [
+    { key: 'all', label: 'All Wines', count: wines.length },
+    { key: 'super-premium', label: 'Super-Premium', count: wines.filter(w => w.tier === 'super-premium').length },
+    { key: 'natural', label: 'Natural', count: wines.filter(w => w.tier === 'natural').length },
+    { key: 'premium', label: 'Premium', count: wines.filter(w => w.tier === 'premium').length },
+    { key: 'entry', label: 'Entry', count: wines.filter(w => w.tier === 'entry').length },
+  ];
+
+  container.innerHTML = tiers.map(t => `
+    <button class="tier-btn ${t.key === 'all' ? 'active' : ''}" data-tier="${t.key}">
+      ${t.label}<span class="tier-count">${t.count}</span>
+    </button>
+  `).join('');
+
+  container.addEventListener('click', e => {
+    const btn = e.target.closest('.tier-btn');
+    if (!btn) return;
+    container.querySelectorAll('.tier-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterWines(btn.dataset.tier);
+  });
+}
+
+function filterWines(tier) {
+  document.querySelectorAll('.wine-card').forEach(card => {
+    if (tier === 'all' || card.dataset.tier === tier) {
+      card.classList.remove('hidden');
+      card.style.animation = 'cardIn 0.4s ease both';
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+}
+
+// Wine cards
+function renderWines() {
+  const grid = document.getElementById('wineGrid');
+  grid.innerHTML = wines.map((w, i) => `
+    <div class="wine-card tier-${w.tier}" data-tier="${w.tier}" style="animation-delay:${i * 0.04}s">
+      <div class="wine-card-header">
+        <span class="wine-tier-badge">${w.tierLabel}</span>
+        <button class="wine-add-btn" data-id="${w.id}" onclick="toggleOrder('${w.id}')" title="Add to order">+</button>
+      </div>
+      <div class="wine-card-body">
+        <span class="wine-emoji">${w.emoji}</span>
+        <div class="wine-name">${w.name}</div>
+        <div class="wine-grape">${w.grape}</div>
+        <div class="wine-tags">
+          ${w.tags.map(t => `<span class="wine-tag">${t}</span>`).join('')}
+        </div>
+      </div>
+      <div class="wine-card-footer">
+        <div class="wine-price">
+          <span class="wine-price-thb">฿${w.thb}</span>
+          <span class="wine-price-usd">$${(w.thb / RATE).toFixed(2)} ex-cellar</span>
+        </div>
+        <div class="wine-pairing">
+          <strong>Pairs with</strong>
+          ${w.pairing}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Awards grid
+function renderAwards() {
+  const grid = document.getElementById('awardsGrid');
+  grid.innerHTML = awards.map(a => `
+    <div class="award-card ${a.highlight ? 'award-highlight' : ''}">
+      <div class="award-icon" style="font-size:1.4rem">${a.icon}</div>
+      <h4>${a.title}</h4>
+      <p>${a.desc}</p>
+    </div>
+  `).join('');
+}
+
+// Food pairings
+function renderPairings() {
+  const grid = document.getElementById('pairingsGrid');
+  grid.innerHTML = pairings.map(p => `
+    <div class="pairing-card">
+      <div class="pairing-emoji">${p.emoji}</div>
+      <div class="pairing-dish">${p.dish}</div>
+      <div class="pairing-dish-thai">${p.thai}</div>
+      <div class="pairing-wines">
+        ${p.wines.map(w => `<div class="pairing-wine">${w}</div>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+// Calculator wine dropdown
+function renderCalcDropdown() {
+  const select = document.getElementById('calcWine');
+  const tiers = ['super-premium', 'natural', 'premium', 'entry'];
+  const tierLabels = { 'super-premium': '── Super-Premium ──', 'natural': '── Natural ──', 'premium': '── Premium ──', 'entry': '── Entry ──' };
+
+  tiers.forEach(tier => {
+    const optgroup = document.createElement('optgroup');
+    optgroup.label = tierLabels[tier];
+    wines.filter(w => w.tier === tier).forEach(w => {
+      const opt = document.createElement('option');
+      opt.value = w.id;
+      opt.textContent = `${w.name} — ฿${w.thb} ($${(w.thb / RATE).toFixed(2)})`;
+      optgroup.appendChild(opt);
+    });
+    select.appendChild(optgroup);
+  });
+}
+
+// Calculator logic
+function updateCalc() {
+  const wineId = document.getElementById('calcWine').value;
+  const volume = parseInt(document.getElementById('calcVolume').value);
+  const retail = parseFloat(document.getElementById('calcRetail').value);
+  const shipping = parseFloat(document.getElementById('calcShipping').value);
+
+  const wine = wines.find(w => w.id === wineId);
+  if (!wine) return;
+
+  const costUSD = wine.thb / RATE;
+  const landedCost = costUSD + shipping;
+  const profitPerBottle = retail - landedCost;
+  const margin = (profitPerBottle / retail) * 100;
+  const monthlyRevenue = retail * volume;
+  const monthlyProfit = profitPerBottle * volume;
+  const annualProfit = monthlyProfit * 12;
+
+  document.getElementById('calcVolumeDisplay').textContent = volume;
+  document.getElementById('calcRetailDisplay').textContent = '$' + retail;
+  document.getElementById('calcShippingDisplay').textContent = '$' + shipping.toFixed(2);
+
+  const body = document.getElementById('calcResultsBody');
+  body.innerHTML = `
+    <div class="result-row">
+      <span class="result-label">Wine: ${wine.name}</span>
+      <span class="result-value" style="font-size:0.9rem">฿${wine.thb}</span>
+    </div>
+    <div class="result-row">
+      <span class="result-label">Ex-Cellar Cost</span>
+      <span class="result-value">$${costUSD.toFixed(2)}</span>
+    </div>
+    <div class="result-row">
+      <span class="result-label">+ Shipping & Duty</span>
+      <span class="result-value">$${shipping.toFixed(2)}</span>
+    </div>
+    <div class="result-row">
+      <span class="result-label">Landed Cost / Bottle</span>
+      <span class="result-value" style="color:var(--gold)">$${landedCost.toFixed(2)}</span>
+    </div>
+    <div class="result-row">
+      <span class="result-label">Your Retail Price</span>
+      <span class="result-value">$${retail.toFixed(2)}</span>
+    </div>
+    <div class="result-row">
+      <span class="result-label">Profit / Bottle</span>
+      <span class="result-value" style="color:${profitPerBottle > 0 ? '#5CDB95' : '#FF6B6B'}">$${profitPerBottle.toFixed(2)}</span>
+    </div>
+    <div class="result-row">
+      <span class="result-label">Margin</span>
+      <span class="result-value" style="color:${margin > 40 ? '#5CDB95' : margin > 20 ? 'var(--gold)' : '#FF6B6B'}">${margin.toFixed(1)}%</span>
+    </div>
+    <div class="result-row">
+      <span class="result-label">Monthly Revenue (${volume} btl)</span>
+      <span class="result-value">$${monthlyRevenue.toLocaleString()}</span>
+    </div>
+    <div class="result-highlight">
+      <div class="result-highlight-label">Projected Annual Profit</div>
+      <div class="result-highlight-value">${annualProfit > 0 ? '$' + annualProfit.toLocaleString(undefined, {maximumFractionDigits:0}) : '-$' + Math.abs(annualProfit).toLocaleString(undefined, {maximumFractionDigits:0})}</div>
+      <div class="result-highlight-sub">${volume} bottles/mo × $${profitPerBottle.toFixed(2)} margin × 12 months</div>
+    </div>
+  `;
+}
+
+/* ═══════════════════════════════════════════════════════
+   INIT & EVENT LISTENERS
+   ═══════════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  renderVineyard();
+  renderMarquee();
+  renderFilters();
+  renderWines();
+  renderAwards();
+  renderPairings();
+  renderCalcDropdown();
+  updateCalc();
+
+  // Calculator sliders
+  ['calcWine', 'calcVolume', 'calcRetail', 'calcShipping'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updateCalc);
+  });
+
+  // Scroll nav
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Mobile menu
+  document.getElementById('mobileToggle').addEventListener('click', () => {
+    document.getElementById('navLinks').classList.toggle('mobile-open');
+  });
+
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('section[id]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const top = section.offsetTop - 100;
+      if (window.scrollY >= top) current = section.id;
+    });
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+});
+</script>
+</body>
+</html>
