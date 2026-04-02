@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GranMonte Thai Wine - Florida Restaurant Prospects</title>
+<style>
+  :root {
+    --tier1: #1a7a3a;
+    --tier1-bg: #e8f5e9;
+    --tier1-border: #a5d6a7;
+    --tier2: #e67e22;
+    --tier2-bg: #fff8e1;
+    --tier2-border: #ffcc80;
+    --tier3: #5c6bc0;
+    --tier3-bg: #e8eaf6;
+    --tier3-border: #9fa8da;
+    --dark: #1a1a2e;
+    --mid: #2d2d44;
+    --accent: #6c3483;
+    --gold: #c9a84c;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #f5f6fa;
+    color: #333;
+    line-height: 1.6;
+  }
+
+  .header {
+    background: linear-gradient(135deg, var(--dark) 0%, var(--accent) 100%);
+    color: white;
+    padding: 40px 0;
+    text-align: center;
+  }
+
+  .header h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+
+  .header .subtitle {
+    font-size: 1.1rem;
+    opacity: 0.85;
+    font-weight: 300;
+  }
+
+  .header .date {
+    font-size: 0.85rem;
+    opacity: 0.6;
+    margin-top: 8px;
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+
+  /* Executive Summary */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+
+  .stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border-top: 4px solid var(--accent);
+  }
+
+  .stat-card .number {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--accent);
+  }
+
+  .stat-card .label {
+    font-size: 0.85rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  .exec-summary {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .exec-summary h2 {
+    color: var(--dark);
+    font-size: 1.4rem;
+    margin-bottom: 16px;
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 8px;
+    display: inline-block;
+  }
+
+  .exec-summary p, .exec-summary li {
+    color: #555;
+    margin-bottom: 8px;
+  }
+
+  .exec-summary ul {
+    margin-left: 20px;
+    margin-bottom: 12px;
+  }
+
+  .tier-legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+  }
+
+  .tier-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .tier-1 { background: var(--tier1-bg); color: var(--tier1); border: 1px solid var(--tier1-border); }
+  .tier-2 { background: var(--tier2-bg); color: var(--tier2); border: 1px solid var(--tier2-border); }
+  .tier-3 { background: var(--tier3-bg); color: var(--tier3); border: 1px solid var(--tier3-border); }
+
+  /* Controls */
+  .controls {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    align-items: center;
+  }
+
+  .controls input, .controls select {
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    background: white;
+  }
+
+  .controls input { flex: 1; min-width: 200px; }
+  .controls select { min-width: 160px; }
+
+  .controls label {
+    font-size: 0.85rem;
+    color: #666;
+    font-weight: 600;
+  }
+
+  /* Table */
+  .table-wrap {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+
+  thead {
+    background: var(--dark);
+    color: white;
+  }
+
+  th {
+    padding: 14px 12px;
+    text-align: left;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    position: relative;
+  }
+
+  th:hover { background: rgba(255,255,255,0.1); }
+
+  th .sort-arrow {
+    margin-left: 4px;
+    opacity: 0.4;
+    font-size: 0.7rem;
+  }
+
+  th.sorted-asc .sort-arrow,
+  th.sorted-desc .sort-arrow { opacity: 1; }
+
+  td {
+    padding: 12px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: top;
+  }
+
+  tr:hover td { background: #fafbfe; }
+
+  tr.tier-row-1 td:first-child { border-left: 4px solid var(--tier1); }
+  tr.tier-row-2 td:first-child { border-left: 4px solid var(--tier2); }
+  tr.tier-row-3 td:first-child { border-left: 4px solid var(--tier3); }
+
+  .restaurant-name {
+    font-weight: 700;
+    color: var(--dark);
+    display: block;
+  }
+
+  .restaurant-name a {
+    color: var(--dark);
+    text-decoration: none;
+  }
+
+  .restaurant-name a:hover { color: var(--accent); text-decoration: underline; }
+
+  .city-tag {
+    display: inline-block;
+    background: #f0f0f0;
+    color: #555;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-top: 2px;
+  }
+
+  .wine-yes { color: var(--tier1); font-weight: 600; }
+  .wine-no { color: #999; }
+  .wine-byob { color: var(--tier2); font-weight: 600; }
+
+  .price-tag {
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .tier-cell {
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .tier-cell.t1 { color: var(--tier1); }
+  .tier-cell.t2 { color: var(--tier2); }
+  .tier-cell.t3 { color: var(--tier3); }
+
+  .notes-cell {
+    font-size: 0.82rem;
+    color: #666;
+    max-width: 250px;
+  }
+
+  .phone-link {
+    color: #555;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .phone-link:hover { color: var(--accent); }
+
+  .region-header {
+    background: #f8f9fc;
+  }
+
+  .region-header td {
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--dark);
+    padding: 16px 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid var(--gold);
+  }
+
+  /* Print styles */
+  @media print {
+    .controls { display: none; }
+    .header { padding: 20px 0; }
+    body { font-size: 10pt; }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .table-wrap { overflow-x: auto; }
+    table { min-width: 1000px; }
+    .header h1 { font-size: 1.5rem; }
+  }
+
+  .footer {
+    text-align: center;
+    padding: 30px;
+    color: #999;
+    font-size: 0.8rem;
+  }
+
+  .michelin-badge {
+    display: inline-block;
+    background: #b71c1c;
+    color: white;
+    font-size: 0.7rem;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-weight: 700;
+    margin-left: 4px;
+  }
+
+  .award-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: white;
+    font-size: 0.7rem;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-weight: 700;
+    margin-left: 4px;
+  }
+
+  .chain-badge {
+    display: inline-block;
+    background: #5c6bc0;
+    color: white;
+    font-size: 0.7rem;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-weight: 700;
+    margin-left: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>GranMonte Thai Wine Distribution</h1>
+  <div class="subtitle">Florida Thai Restaurant Prospect List</div>
+  <div class="date">Prepared March 30, 2026 | Khao Yai Winery, Thailand</div>
+</div>
+
+<div class="container">
+
+  <!-- Stats -->
+  <div class="summary-grid">
+    <div class="stat-card">
+      <div class="number">55</div>
+      <div class="label">Total Prospects</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">18</div>
+      <div class="label">Tier 1 (High)</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">22</div>
+      <div class="label">Tier 2 (Medium)</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">15</div>
+      <div class="label">Tier 3 (Worth a Call)</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">6</div>
+      <div class="label">FL Metro Areas</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">42+</div>
+      <div class="label">Serve Wine/Alcohol</div>
+    </div>
+  </div>
+
+  <!-- Executive Summary -->
+  <div class="exec-summary">
+    <h2>Executive Summary</h2>
+    <p>This prospect list identifies <strong>55 qualifying Thai restaurants</strong> across Florida for GranMonte wine distribution outreach. Restaurants are prioritized into three tiers based on wine program sophistication, price point, seating capacity, reputation, and owner accessibility.</p>
+
+    <h3 style="margin: 16px 0 8px; color: var(--dark);">Regional Breakdown</h3>
+    <ul>
+      <li><strong>Miami / Fort Lauderdale / South Florida:</strong> 25 restaurants -- Deepest market with highest concentration of upscale Thai dining. Several have extensive wine lists. Start here for Up's home-base advantage.</li>
+      <li><strong>Orlando / Central Florida:</strong> 8 restaurants -- Growing market with new upscale entries (TALAY downtown). Tourism traffic drives volume.</li>
+      <li><strong>Tampa / St. Petersburg:</strong> 9 restaurants -- Strong market with Thai Prime (200 seats, full bar) as anchor prospect.</li>
+      <li><strong>Jacksonville:</strong> 5 restaurants -- Smaller market but several quality establishments with wine service.</li>
+      <li><strong>Southwest FL (Naples/Sarasota/Fort Myers):</strong> 6 restaurants -- Affluent clientele, wine-friendly market.</li>
+      <li><strong>Other FL Cities:</strong> 2 restaurants -- Gainesville/Tallahassee secondary markets.</li>
+    </ul>
+
+    <h3 style="margin: 16px 0 8px; color: var(--dark);">Key Qualification Notes</h3>
+    <ul>
+      <li><strong>Wine list confirmed:</strong> 18+ restaurants with verified wine programs (Thai Spice, Sky Thai Sushi, Atchana's, Drunken Poet, TALAY Orlando, Lemongrass Thai Bistro Jax, etc.)</li>
+      <li><strong>Michelin/Awards:</strong> Lung Yai (Bib Gourmand), Larb Thai-Isan (Michelin Guide), Lemon Grass Tampa (Best Thai 6x), Thai Spice (Zagat Top 10)</li>
+      <li><strong>Multi-location chains:</strong> Moon Thai (8+ locations), Komoon (3 locations), Lemon Grass Tampa (2 locations) -- single deal = multiple placements</li>
+      <li><strong>GranMonte story angle:</strong> "First Thai winery" narrative resonates uniquely with Thai restaurant owners -- cultural pride + differentiation on wine list</li>
+    </ul>
+
+    <div class="tier-legend">
+      <span class="tier-badge tier-1">Tier 1: High Potential -- Confirmed wine program, upscale, 50+ seats</span>
+      <span class="tier-badge tier-2">Tier 2: Medium -- Serves alcohol, established, good reviews</span>
+      <span class="tier-badge tier-3">Tier 3: Worth a Call -- Full-service, may serve alcohol</span>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <label>Search:</label>
+    <input type="text" id="searchInput" placeholder="Filter by name, city, notes..." onkeyup="filterTable()">
+    <label>Region:</label>
+    <select id="regionFilter" onchange="filterTable()">
+      <option value="">All Regions</option>
+      <option value="South Florida">South Florida</option>
+      <option value="Orlando">Orlando / Central FL</option>
+      <option value="Tampa">Tampa / St. Pete</option>
+      <option value="Jacksonville">Jacksonville</option>
+      <option value="Southwest">Southwest FL</option>
+      <option value="Other">Other FL</option>
+    </select>
+    <label>Tier:</label>
+    <select id="tierFilter" onchange="filterTable()">
+      <option value="">All Tiers</option>
+      <option value="1">Tier 1</option>
+      <option value="2">Tier 2</option>
+      <option value="3">Tier 3</option>
+    </select>
+    <label>Wine:</label>
+    <select id="wineFilter" onchange="filterTable()">
+      <option value="">All</option>
+      <option value="yes">Serves Wine</option>
+      <option value="full">Full Bar</option>
+    </select>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrap">
+    <table id="prospectTable">
+      <thead>
+        <tr>
+          <th onclick="sortTable(0)">Tier <span class="sort-arrow">&#9650;&#9660;</span></th>
+          <th onclick="sortTable(1)">Restaurant <span class="sort-arrow">&#9650;&#9660;</span></th>
+          <th onclick="sortTable(2)">City / Area <span class="sort-arrow">&#9650;&#9660;</span></th>
+          <th>Address</th>
+          <th>Phone</th>
+          <th onclick="sortTable(5)">Wine/Bar <span class="sort-arrow">&#9650;&#9660;</span></th>
+          <th onclick="sortTable(6)">Price <span class="sort-arrow">&#9650;&#9660;</span></th>
+          <th>Website</th>
+          <th>Outreach Notes</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+
+        <!-- ==================== SOUTH FLORIDA ==================== -->
+        <tr class="region-header" data-region="South Florida"><td colspan="9">MIAMI / FORT LAUDERDALE / SOUTH FLORIDA (25 Restaurants)</td></tr>
+
+        <tr class="tier-row-1" data-tier="1" data-region="South Florida" data-wine="full">
+          <td class="tier-cell t1">1</td>
+          <td><span class="restaurant-name"><a href="https://thaispicefla.com/" target="_blank">Thai Spice</a></span> <span class="award-badge">ZAGAT TOP 10</span></td>
+          <td>Fort Lauderdale <span class="city-tag">Broward</span></td>
+          <td>1514 E Commercial Blvd, Fort Lauderdale, FL 33334</td>
+          <td><a class="phone-link" href="tel:9547714535">(954) 771-4535</a></td>
+          <td class="wine-yes">Wine List + Full Bar</td>
+          <td class="price-tag">$$$</td>
+          <td><a href="https://thaispicefla.com/" target="_blank">thaispicefla.com</a></td>
+          <td class="notes-cell"><strong>TOP PROSPECT.</strong> Upscale with dedicated wine page. "Thai cuisine influenced by the French is the most wine friendly of Pacific Rim cuisines." 5-Star Diamond award. Zagat Top 10 South FL. Tropical aquariums, sophisticated ambience. GranMonte story aligns perfectly with their wine philosophy.</td>
+        </tr>
+
+        <tr class="tier-row-1" data-tier="1" data-region="South Florida" data-wine="full">
+          <td class="tier-cell t1">1</td>
+          <td><span class="restaurant-name"><a href="https://www.skythaisushi.com/" target="_blank">Sky Thai Sushi</a></span> <span class="award-badge">BEST ASIAN BROWARD</span></td>
+          <td>Fort Lauderdale <span class="city-tag">Las Olas</span></td>
+          <td>350 E Las Olas Blvd, Ste 130, Fort Lauderdale, FL 33301</td>
+          <td><a class="phone-link" href="tel:9549938889">(954) 993-9889</a></td>
+          <td class="wine-yes">Extensive Wine + Full Bar</td>
+          <td class="price-tag">$$$</td>
+          <td><a href="https://www.skythaisushi.com/" target="_blank">skythaisushi.com</a></td>
+          <td class="notes-cell"><strong>TOP PROSPECT.</strong> Las Olas Blvd prime location. Voted Best Asian Restaurant Broward 2019. Full bar with extensive wine, beer, cocktail & sake selections. Upscale clientele. Perfect fit for Thai wine story.</td>
+        </tr>
+
+        <tr class="tier-row-1" data-tier="1" data-region="South Florida" data-wine="yes">
+          <td class="tier-cell t1">1</td>
+          <td><span class="restaurant-name"><a href="https://www.atchanas.com/" target="_blank">Atchana's Homegrown Thai</a></span></td>
+          <td>Miami <span class="city-tag">Coconut Grove</span></td>
+          <td>3194 Commodore Plz, Miami, FL 33133</td>
+          <td><a class="phone-link" href="tel:3057740404">(305) 774-0404</a></td>
+          <td class="wine-yes">Wines, Beers, Sake</td>
+          <td class="price-tag">$$$</td>
+          <td><a href="https://www.atchanas.com/" target="_blank">atchanas.com</a></td>
+          <td class="notes-cell"><strong>TOP PROSPECT.</strong> Coconut Grove upscale. ~$65/person dinner. Reclaimed wood bar, salt water tank. Wine-based cocktails. "Homegrown" ethos aligns with GranMonte artisan story. Affluent neighborhood.</td>
+        </tr>
+
+        <tr class="tier-row-1" data-tier="1" data-region="South Florida" data-wine="full">
+          <td class="tier-cell t1">1</td>
+          <td><span class="restaurant-name"><a href="https://bangkokbistrofl.com/" target="_blank">Bangkok Bistro Thai & Sushi</a></span></td>
+          <td>Fort Lauderdale <span class="city-tag">Broward</span></td>
+          <td>1527 N Federal Hwy, Fort Lauderdale, FL 33304</td>
+          <td><a class="phone-link" href="tel:9549085865">(954) 908-5865</a></td>
+          <td class="wine-yes">Impressive Wine List</td>
+          <td class="price-tag">$$-$$$</td>
+          <td><a href="https://bangkokbistrofl.com/" target="_blank">bangkokbistrofl.com</a></td>
+          <td class="notes-cell">Described as having an "impressive wine list." Elevated Thai + sushi + poke. Good target for premium Thai wine placement.</td>
+        </tr>
+
+        <tr class="tier-row-1" data-tier="1" data-region="South Florida" data-wine="full">
+          <td class="tier-cell t1">1</td>
+          <td><span class="restaurant-name"><a href="https://bkkthaiandsushi.com/" target="_blank">BKK Thai & Sushi by Cilantro</a></span></td>
+          <td>Fort Lauderdale <span class="city-tag">S Federal</span></td>
+          <td>1843 S Federal Hwy, Fort Lauderdale, FL 33316</td>
+          <td><a class="phone-link" href="tel:9549002428">(954) 900-2428</a></td>
+          <td class="wine-yes">Fine Wines + Full Bar</td>
+          <td class="price-tag">$$-$$$</td>
+          <td><a href="https://bkkthaiandsushi.com/" target="_blank">bkkthaiandsushi.com</a></td>
+          <td class="notes-cell">Signature cocktails, fine wines, premium spirits. Daily happy hour 3-6pm. Modern upscale vibe near FLL airport. Active wine program makes this ideal.</td>
+        </tr>
+
+        <tr class="tier-row-1" data-tier="1" data-region="South Florida" data-wine="yes">
+          <td class="tier-cell t1">1</td>
+          <td><span class="restaurant-name"><a href="https://www.eathaiflorida.com/" target="_blank">Eathai</a></span></td>
+          <td>Boca Raton <span class="city-tag">Palm Beach County</span></td>
+          <td>6299 N Federal Hwy, Boca Raton, FL 33487</td>
+          <td><a class="phone-link" href="tel:5612703156">(561) 270-3156</a></td>
+          <td class="wine-yes">Beer & Wine ($15 corkage)</td>
+          <td class="price-tag">$$-$$$</td>
+          <td><a href="https://www.eathaiflorida.com/" target="_blank">eathaiflorida.com</a></td>
+          <td class="notes-cell">Chef-owner Sopanut Sopochana. "Premier Thai restaurant" in Delray/Boca. Also has Delray Beach location (1832 S Federal Hwy). Modern ambiance. $15 corkage = they want wine on their list. Two locations = double placement.</td>
+        </tr>
+
+        <tr class="tier-row-1" data-tier="1" data-region="South Florida" data-wine="yes">
+          <td class="tier-cell t1">1</td>
+          <td><span class="restaurant-name"><a href="https://thaimoonbythesea.com/" target="_blank">Thai Moon by the Sea</a></span></td>
+          <td>Fort Lauderdale <span class="city-tag">Lauderdale-by-the-Sea</span></td>
+          <td>3026 E Commercial Blvd, Fort Lauderdale, FL 33308</td>
+          <td><a class="phone-link" href="tel:9547727766">(954) 772-7766</a></td>
+          <td class="wine-yes">Wine, Sake, Beer</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://thaimoonbythesea.com/" target="_blank">thaimoonbythesea.com</a></td>
+          <td class="notes-cell">Beach-near casual Thai + sushi. Half-price house wine Fri/Sat. Imported Asian beer, wine, sake cocktails. Thai wine would fit their Asian-focused beverage program. Good volume potential.</td>
+        </tr>
+
+        <tr class="tier-row-2" data-tier="2" data-region="South Florida" data-wine="yes">
+          <td class="tier-cell t2">2</td>
+          <td><span class="restaurant-name"><a href="https://lungyai.com/" target="_blank">Lung Yai Thai Tapas</a></span> <span class="michelin-badge">MICHELIN BIB</span></td>
+          <td>Miami <span class="city-tag">Little Havana</span></td>
+          <td>1731 SW 8th St, Miami, FL 33135</td>
+          <td><a class="phone-link" href="tel:7863346262">(786) 334-6262</a></td>
+          <td class="wine-yes">Beer & Wine</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://lungyai.com/" target="_blank">lungyai.com</a></td>
+          <td class="notes-cell">Michelin Bib Gourmand multiple years. Bangkok-born chef. No reservations, first-come. Very popular. Small but prestigious. Wine selection modest but Michelin recognition = credibility. "First Thai wine from Michelin restaurant" angle.</td>
+        </tr>
+
+        <tr class="tier-row-2" data-tier="2" data-region="South Florida" data-wine="yes">
+          <td class="tier-cell t2">2</td>
+          <td><span class="restaurant-name"><a href="https://www.larbthaiisan.com/" target="_blank">Larb Thai-Isan</a></span> <span class="michelin-badge">MICHELIN GUIDE</span></td>
+          <td>Fort Lauderdale <span class="city-tag">N Federal</span></td>
+          <td>6234 N Federal Hwy, Fort Lauderdale, FL 33308</td>
+          <td><a class="phone-link" href="tel:9543688863">(954) 368-8863</a></td>
+          <td class="wine-no">TBD -- Confirm</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://www.larbthaiisan.com/" target="_blank">larbthaiisan.com</a></td>
+          <td class="notes-cell">Michelin Guide listed. Isan specialties. Very wallet-friendly. Large menu, authentic. 1065+ Yelp reviews = high volume. Need to confirm wine/alcohol service. Michelin listing adds credibility.</td>
+        </tr>
+
+        <tr class="tier-row-2" data-tier="2" data-region="South Florida" data-wine="yes">
+          <td class="tier-cell t2">2</td>
+          <td><span class="restaurant-name"><a href="https://soithaifood.com/" target="_blank">SOI Thai Street Food & Sake Bar</a></span></td>
+          <td>Miami <span class="city-tag">Sweetwater</span></td>
+          <td>10016 W Flagler St, Miami, FL 33174</td>
+          <td><a class="phone-link" href="tel:7862387813">(786) 238-7813</a></td>
+          <td class="wine-yes">Sake Bar + Cocktails</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://soithaifood.com/" target="_blank">soithaifood.com</a></td>
+          <td class="notes-cell">Thai street food + sake bar. Curated sake and craft cocktails. Intimate, popular spot. Could position GranMonte alongside their curated Asian beverage program.</td>
+        </tr>
+
+        <tr class="tier-row-2" data-tier="2" data-region="South Florida" data-wine="yes">
+          <td class="tier-cell t2">2</td>
+          <td><span class="restaurant-name"><a href="https://panyathaimiamifl.com/" target="_blank">Panya Thai Restaurant</a></span></td>
+          <td>North Miami Beach <span class="city-tag">Miami-Dade</span></td>
+          <td>520 NE 167th St, North Miami Beach, FL 33162</td>
+          <td><a class="phone-link" href="tel:3059455866">(305) 945-8566</a></td>
+          <td class="wine-yes">Beer & Wine</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://panyathaimiamifl.com/" target="_blank">panyathaimiamifl.com</a></td>
+          <td class="notes-cell">~50 seats. OpenTable reservations. 473+ Yelp reviews, well-established. Full-service dine-in. Food Network listed.</td>
+        </tr>
+
+        <tr class="tier-row-2" data-tier="2" data-region="South Florida" data-wine="yes">
+          <td class="tier-cell t2">2</td>
+          <td><span class="restaurant-name"><a href="http://www.bangkok-city-miami.com/" target="_blank">Bangkok City Thai & Seafood</a></span></td>
+          <td>Miami <span class="city-tag">Bird Road</span></td>
+          <td>7378 Bird Rd, Miami, FL 33155</td>
+          <td><a class="phone-link" href="tel:3052614171">(305) 261-4171</a></td>
+          <td class="wine-yes">Beer & Wine</td>
+          <td class="price-tag">$$</td>
+          <td><a href="http://www.bangkok-city-miami.com/" target="_blank">bangkok-city-miami.com</a></td>
+          <td class="notes-cell">Staple since 1987. Same owner 20+ years. Best crispy duck in Miami. 403+ reviews. Long-established = stable relationship. Owner likely Thai -- cultural connection angle.</td>
+        </tr>
+
+        <tr class="tier-row-2" data-tier="2" data-region="South Florida" data-wine="yes">
+          <td class="tier-cell t2">2</td>
+          <td><span class="restaurant-name"><a href="https://bangkokbangkok.miami/" target="_blank">Bangkok Bangkok</a></span></td>
+          <td>Miami <span class="city-tag">Kendall</span></td>
+          <td>12584 N Kendall Dr, Miami, FL 33186</td>
+          <td><a class="phone-link" href="tel:3055955839">(305) 595-5839</a></td>
+          <td class="wine-yes">Beer, Wine, Happy Hour</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://bangkokbangkok.miami/" target="_blank">bangkokbangkok.miami</a></td>
+          <td class="notes-cell">Full alcohol service with happy hour drinks. Thai + Japanese + Ramen + Sushi. 277+ reviews. Kendall area = good residential clientele.</td>
+        </tr>
+
+        <tr class="tier-row-2" data-tier="2" data-region="South Florida" data-wine="yes">
+          <td class="tier-cell t2">2</td>
+          <td><span class="restaurant-name">Pla-Tu Sushi Thai Tapas</span> <span class="award-badge">BEST RESTAURANT S. MIAMI-DADE</span></td>
+          <td>South Miami <span class="city-tag">Miami-Dade</span></td>
+          <td>6101 Sunset Dr, South Miami, FL 33143</td>
+          <td><a class="phone-link" href="tel:7863594678">(786) 359-4678</a></td>
+          <td class="wine-yes">Wine + Sake</td>
+          <td class="price-tag">$$-$$$</td>
+          <td>--</td>
+          <td class="notes-cell">Named Best Restaurant (South Miami-Dade) by Miami New Times. Modern & stylish. Wine by the glass ($8 SB). Couple's booths. Good for romantic/upscale positioning of Thai wine.</td>
+        </tr>
+
+        <tr class="tier-row-2" data-tier="2" data-region="South Florida" data-wine="yes">
+          <td class="tier-cell t2">2</td>
+          <td><span class="restaurant-name"><a href="https://www.malakor.com/" target="_blank">Malakor Thai Cafe</a></span></td>
+          <td>West Palm Beach <span class="city-tag">Palm Beach Co.</span></td>
+          <td>425 25th St, West Palm Beach, FL 33407</td>
+          <td><a class="phone-link" href="tel:5617629070">(561) 762-9070</a></td>
+          <td class="wine-yes">Wine Available</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://www.malakor.com/" target="_blank">malakor.com</a></td>
+          <td class="notes-cell">Koi ponds, waterfall, bamboo decor. Tropical garden outdoor seating. Wine markup opportunity (reviewer noted $19 bottle at $38). Thai wine = unique upsell at lower cost.</td>
+        </tr>
+
+        <tr class="tier-row-2" data-tier="2" data-region="South Florida" data-wine="yes">
+          <td class="tier-cell t2">2</td>
+          <td><span class="restaurant-name"><a href="https://moonthai.com/" target="_blank">Moon Thai & Japanese</a></span> <span class="chain-badge">8+ LOCATIONS</span></td>
+          <td>Multiple <span class="city-tag">S. Florida Chain</span></td>
+          <td>HQ: Coral Gables; Boca (22191 Powerline Rd); PBG (5330 Donald Ross Rd); + 6 more</td>
+          <td><a class="phone-link" href="tel:5612493988">(561) 249-3988</a></td>
+          <td class="wine-yes">Wine Available</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://moonthai.com/" target="_blank">moonthai.com</a></td>
+          <td class="notes-cell"><strong>HIGH VOLUME.</strong> 8+ locations: Coral Gables, Weston, Kendall, Coral Springs, Cutler Bay, RPB, Boca, Jupiter. Founded 2000 by Jack Punma. Single distribution deal = massive placement. Contact corporate.</td>
+        </tr>
+
+        <tr class="tier-row-2" data-tier="2" data-region="South Florida" data-wine="yes">
+          <td class="tier-cell t2">2</td>
+          <td><span class="restaurant-name"><a href="https://www.khaothai-delray.com/" target="_blank">Khao Thai & Sushi</a></span></td>
+          <td>Delray Beach <span class="city-tag">Palm Beach Co.</span></td>
+          <td>13900 Jog Rd, Ste 205, Delray Beach, FL 33446</td>
+          <td><a class="phone-link" href="tel:5617742612">(561) 774-2612</a></td>
+          <td class="wine-yes">Specialty Drinks</td>
+          <td class="price-tag">$$-$$$</td>
+          <td><a href="https://www.khaothai-delray.com/" target="_blank">khaothai-delray.com</a></td>
+          <td class="notes-cell">Elegant white tablecloth dining + comfortable atmosphere. Over a decade established. Family recipes. Upscale Delray/Boca clientele.</td>
+        </tr>
+
+        <tr class="tier-row-2" data-tier="2" data-region="South Florida" data-wine="yes">
+          <td class="tier-cell t2">2</td>
+          <td><span class="restaurant-name"><a href="https://veranda954.net/" target="_blank">Veranda Kitchen & Bar</a></span></td>
+          <td>Coral Springs <span class="city-tag">Broward</span></td>
+          <td>2864 N University Dr, Coral Springs, FL 33065</td>
+          <td><a class="phone-link" href="tel:9546886565">(954) 688-6565</a></td>
+          <td class="wine-yes">Wine + Full Bar</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://veranda954.net/" target="_blank">veranda954.net</a></td>
+          <td class="notes-cell">Newly remodeled, upscale bar. Thai + Vietnamese. Happy hour wine $5. Beautiful patio. Outdoor seating at The Walk courtyard. New restaurant = open to new suppliers.</td>
+        </tr>
+
+        <tr class="tier-row-3" data-tier="3" data-region="South Florida" data-wine="byob">
+          <td class="tier-cell t3">3</td>
+          <td><span class="restaurant-name"><a href="https://www.sawaddeethaifood.com/" target="_blank">Sawaddee Thai & Sushi</a></span></td>
+          <td>Miami Beach <span class="city-tag">Miami-Dade</span></td>
+          <td>6968 Bay Dr, Miami Beach, FL 33141</td>
+          <td><a class="phone-link" href="tel:3058661111">(305) 866-8111</a></td>
+          <td class="wine-byob">BYOB Only</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://www.sawaddeethaifood.com/" target="_blank">sawaddeethaifood.com</a></td>
+          <td class="notes-cell">BYOB = no wine list yet. Opportunity: help them get a wine license with GranMonte as launch partner, OR sell directly to their customers at events. 492+ reviews, date night vibe.</td>
+        </tr>
+
+        <tr class="tier-row-3" data-tier="3" data-region="South Florida" data-wine="yes">
+          <td class="tier-cell t3">3</td>
+          <td><span class="restaurant-name"><a href="https://www.doralthai.com/" target="_blank">Doral Thai Restaurant</a></span></td>
+          <td>Miami <span class="city-tag">Doral</span></td>
+          <td>2613 NW 79th Ave, Miami, FL 33122</td>
+          <td>--</td>
+          <td class="wine-no">TBD -- Confirm</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://www.doralthai.com/" target="_blank">doralthai.com</a></td>
+          <td class="notes-cell">Family-owned since 2007. Doral area = growing affluent suburb. 270+ reviews. Need to confirm wine service. Long-established = stable.</td>
+        </tr>
+
+        <tr class="tier-row-3" data-tier="3" data-region="South Florida" data-wine="yes">
+          <td class="tier-cell t3">3</td>
+          <td><span class="restaurant-name"><a href="https://talaythaipompanobeach.com/" target="_blank">Talay Thai Pompano Beach</a></span></td>
+          <td>Pompano Beach <span class="city-tag">Broward</span></td>
+          <td>2515 E Atlantic Blvd, Pompano Beach, FL 33062</td>
+          <td><a class="phone-link" href="tel:9549411123">(954) 941-1123</a></td>
+          <td class="wine-no">TBD -- Confirm</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://talaythaipompanobeach.com/" target="_blank">talaythaipompanobeach.com</a></td>
+          <td class="notes-cell">Note: Yelp shows "Closed" for old address but website active at new address. Verify status before outreach. Atlantic Blvd location good for foot traffic.</td>
+        </tr>
+
+        <tr class="tier-row-3" data-tier="3" data-region="South Florida" data-wine="yes">
+          <td class="tier-cell t3">3</td>
+          <td><span class="restaurant-name"><a href="https://www.kansthaikitchen.com/" target="_blank">Kan's Thai Kitchen</a></span></td>
+          <td>Fort Lauderdale <span class="city-tag">Broward</span></td>
+          <td>Fort Lauderdale, FL</td>
+          <td>--</td>
+          <td class="wine-no">TBD -- Confirm</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://www.kansthaikitchen.com/" target="_blank">kansthaikitchen.com</a></td>
+          <td class="notes-cell">Top-rated on Yelp. Great ambiance, good music, friendly staff. Confirm wine service and exact address.</td>
+        </tr>
+
+        <tr class="tier-row-3" data-tier="3" data-region="South Florida" data-wine="no">
+          <td class="tier-cell t3">3</td>
+          <td><span class="restaurant-name"><a href="https://naiyara.com/" target="_blank">NaiYaRa Thai & Sushi</a></span></td>
+          <td>Miami Beach <span class="city-tag">Sunset Harbour</span></td>
+          <td>1854 Bay Rd, Miami Beach, FL 33139</td>
+          <td><a class="phone-link" href="tel:7862756005">(786) 275-6005</a></td>
+          <td class="wine-yes">Wine ($9/glass, $35/bottle)</td>
+          <td class="price-tag">$$$</td>
+          <td><a href="https://naiyara.com/" target="_blank">naiyara.com</a></td>
+          <td class="notes-cell"><strong>STATUS: May be CLOSED</strong> (Yelp Feb 2026). Verify before outreach. If open: Chef Bee (Piyarat Arreeratn), Northern Thai, wine program, upscale SoBe location. Would be Tier 1 if confirmed open.</td>
+        </tr>
+
+        <!-- ==================== ORLANDO ==================== -->
+        <tr class="region-header" data-region="Orlando"><td colspan="9">ORLANDO / CENTRAL FLORIDA (8 Restaurants)</td></tr>
+
+        <tr class="tier-row-1" data-tier="1" data-region="Orlando" data-wine="full">
+          <td class="tier-cell t1">1</td>
+          <td><span class="restaurant-name"><a href="https://www.talayorlando.com/" target="_blank">TALAY</a></span></td>
+          <td>Orlando <span class="city-tag">Downtown</span></td>
+          <td>861 N Orange Ave, Orlando, FL 32801</td>
+          <td><a class="phone-link" href="tel:4072714206">(407) 271-4206</a></td>
+          <td class="wine-yes">Wine + Full Bar + Speakeasy</td>
+          <td class="price-tag">$$$</td>
+          <td><a href="https://www.talayorlando.com/" target="_blank">talayorlando.com</a></td>
+          <td class="notes-cell"><strong>TOP PROSPECT.</strong> Upscale Thai + seafood on Orange Ave. Full bar, wine, cocktails. Hidden speakeasy (Noir Bar) inside. Beautiful mid-century decor. Newer restaurant = eager for unique wine offerings. Thai wine in speakeasy = buzz-worthy.</td>
+        </tr>
+
+        <tr class="tier-row-1" data-tier="1" data-region="Orlando" data-wine="yes">
+          <td class="tier-cell t1">1</td>
+          <td><span class="restaurant-name"><a href="https://limrosthairestaurant.com/" target="_blank">Lim Ros Thai Restaurant</a></span></td>
+          <td>Maitland <span class="city-tag">Winter Park area</span></td>
+          <td>933 S Orlando Ave, Maitland, FL 32751</td>
+          <td><a class="phone-link" href="tel:3219721825">(321) 972-1825</a></td>
+          <td class="wine-yes">Wine + Cocktails</td>
+          <td class="price-tag">$$-$$$</td>
+          <td><a href="https://limrosthairestaurant.com/" target="_blank">limrosthairestaurant.com</a></td>
+          <td class="notes-cell">Full cocktail menu, wine list. Maitland/Winter Park affluent area. Fresh ingredients, bold flavors. Dedicated cocktails page = active beverage program.</td>
+        </tr>
+
+        <tr class="tier-row-1" data-tier="1" data-region="Orlando" data-wine="yes">
+          <td class="tier-cell t1">1</td>
+          <td><span class="restaurant-name"><a href="https://www.cocoeat.com/" target="_blank">Coco Thai Cuisine</a></span></td>
+          <td>Orlando <span class="city-tag">International Dr</span></td>
+          <td>6304 International Dr, Unit D, Orlando, FL 32819</td>
+          <td><a class="phone-link" href="tel:4076684248">(407) 668-4248</a></td>
+          <td class="wine-yes">Extensive Wine + Cocktails</td>
+          <td class="price-tag">$$-$$$</td>
+          <td><a href="https://www.cocoeat.com/" target="_blank">cocoeat.com</a></td>
+          <td class="notes-cell">International Drive = tourist volume. Extensive wine menu + tropical cocktails. Modern indoor/outdoor space. 629+ reviews. High tourist traffic = volume play for by-the-glass sales.</td>
+        </tr>
+
+        <tr class="tier-row-2" data-tier="2" data-region="Orlando" data-wine="yes">
+          <td class="tier-cell t2">2</td>
+          <td><span class="restaurant-name"><a href="https://www.mythaiblossom.com/" target="_blank">Thai Blossom</a></span> <span class="award-badge">BEST THAI ORLANDO</span></td>
+          <td>Winter Garden <span class="city-tag">Central FL</span></td>
+          <td>99 W Plant St, Winter Garden, FL 34787</td>
+          <td><a class="phone-link" href="tel:4079059917">(407) 905-9917</a></td>
+          <td class="wine-yes">Beer & Wine</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://www.mythaiblossom.com/" target="_blank">mythaiblossom.com</a></td>
+          <td class="notes-cell">Winner "Orlando's Best Thai Restaurant." Downtown Winter Garden charm. Sangria specials = wine-friendly. Growing suburban area.</td>
+        </tr>
+
+        <tr class="tier-row-2" data-tier="2" data-region="Orlando" data-wine="yes">
+          <td class="tier-cell t2">2</td>
+          <td><span class="restaurant-name"><a href="https://seathaiorlando.com/" target="_blank">Sea Thai Restaurant</a></span></td>
+          <td>Orlando <span class="city-tag">E Colonial</span></td>
+          <td>3812 E Colonial Dr, Orlando, FL 32803</td>
+          <td><a class="phone-link" href="tel:4078950985">(407) 895-0985</a></td>
+          <td class="wine-yes">Sake + Likely Wine</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://seathaiorlando.com/" target="_blank">seathaiorlando.com</a></td>
+          <td class="notes-cell">573+ reviews, very popular. Chef Jack hosted Tuun pop-up. Confirm wine list. High volume location.</td>
+        </tr>
+
+        <tr class="tier-row-2" data-tier="2" data-region="Orlando" data-wine="yes">
+          <td class="tier-cell t2">2</td>
+          <td><span class="restaurant-name"><a href="https://thaicuisineorlando.com/" target="_blank">Thai Cuisine Restaurant</a></span></td>
+          <td>Orlando <span class="city-tag">Edgewater</span></td>
+          <td>5325 Edgewater Dr, Orlando, FL 32810</td>
+          <td><a class="phone-link" href="tel:4072929474">(407) 292-9474</a></td>
+          <td class="wine-yes">Wine Available</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://thaicuisineorlando.com/" target="_blank">thaicuisineorlando.com</a></td>
+          <td class="notes-cell">Authentic Thai, serves wine. 138+ reviews. Neighborhood favorite in Edgewater/College Park.</td>
+        </tr>
+
+        <tr class="tier-row-3" data-tier="3" data-region="Orlando" data-wine="no">
+          <td class="tier-cell t3">3</td>
+          <td><span class="restaurant-name"><a href="https://www.thaiislandorlando.com/" target="_blank">Thai Island Orlando</a></span></td>
+          <td>Orlando <span class="city-tag">Semoran</span></td>
+          <td>2522 S Semoran Blvd, Orlando, FL 32822</td>
+          <td><a class="phone-link" href="tel:4074126909">(407) 412-6909</a></td>
+          <td class="wine-no">TBD -- Confirm</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://www.thaiislandorlando.com/" target="_blank">thaiislandorlando.com</a></td>
+          <td class="notes-cell">606+ reviews = very high volume. Cool, casual atmosphere. Diverse Thai menu. Confirm alcohol service.</td>
+        </tr>
+
+        <tr class="tier-row-3" data-tier="3" data-region="Orlando" data-wine="no">
+          <td class="tier-cell t3">3</td>
+          <td><span class="restaurant-name">Thai House of Orlando</span></td>
+          <td>Orlando <span class="city-tag">Colonial</span></td>
+          <td>2117 E Colonial Dr, Orlando, FL 32803</td>
+          <td>--</td>
+          <td class="wine-no">TBD -- Confirm</td>
+          <td class="price-tag">$$</td>
+          <td>--</td>
+          <td class="notes-cell">Classics: red curry, dumplings, tom yum. Relaxed atmosphere. Confirm wine/alcohol status.</td>
+        </tr>
+
+        <!-- ==================== TAMPA ==================== -->
+        <tr class="region-header" data-region="Tampa"><td colspan="9">TAMPA / ST. PETERSBURG (9 Restaurants)</td></tr>
+
+        <tr class="tier-row-1" data-tier="1" data-region="Tampa" data-wine="full">
+          <td class="tier-cell t1">1</td>
+          <td><span class="restaurant-name"><a href="https://www.thaiprime.com/" target="_blank">Thai Prime Kitchen & Bar</a></span></td>
+          <td>Tampa <span class="city-tag">Boy Scout Blvd</span></td>
+          <td>4142 W Boy Scout Blvd, Ste 5-6, Tampa, FL 33607</td>
+          <td><a class="phone-link" href="tel:8133029168">(813) 302-9168</a></td>
+          <td class="wine-yes">Full Bar + Wine</td>
+          <td class="price-tag">$$$</td>
+          <td><a href="https://www.thaiprime.com/" target="_blank">thaiprime.com</a></td>
+          <td class="notes-cell"><strong>TOP PROSPECT.</strong> ~200 seats, 3000 sq ft. Full bar, lounge, wine, cocktails. Elevated upscale Thai. Crystal birdcage fixtures, reclaimed wood. Wide patio. High-end = perfect for premium Thai wine. Volume + prestige.</td>
+        </tr>
+
+        <tr class="tier-row-1" data-tier="1" data-region="Tampa" data-wine="yes">
+          <td class="tier-cell t1">1</td>
+          <td><span class="restaurant-name"><a href="https://www.siamgardenthai.com/" target="_blank">Siam Garden Thai</a></span> <span class="award-badge">SINCE 1988</span></td>
+          <td>St. Petersburg <span class="city-tag">Pinellas</span></td>
+          <td>3125 Dr M.L.K. Jr St N, St. Petersburg, FL 33704</td>
+          <td><a class="phone-link" href="tel:7278220613">(727) 822-0613</a></td>
+          <td class="wine-yes">Beer & Wine</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://www.siamgardenthai.com/" target="_blank">siamgardenthai.com</a></td>
+          <td class="notes-cell">First Thai restaurant in St. Pete (1988). 35+ years. Award-winning. Owner Boone is Thai native. Longest-running = deep community roots. Cultural pride angle for Thai wine.</td>
+        </tr>
+
+        <tr class="tier-row-1" data-tier="1" data-region="Tampa" data-wine="yes">
+          <td class="tier-cell t1">1</td>
+          <td><span class="restaurant-name"><a href="https://lemongrassbestthai.biz/" target="_blank">Lemon Grass Thai Kitchen</a></span> <span class="award-badge">BEST THAI 6x</span> <span class="chain-badge">2 LOCATIONS</span></td>
+          <td>Tampa <span class="city-tag">Kennedy Blvd</span></td>
+          <td>3635 W Kennedy Blvd, Tampa, FL 33609</td>
+          <td><a class="phone-link" href="tel:8135144349">(813) 514-4349</a></td>
+          <td class="wine-yes">Beer & Wine</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://lemongrassbestthai.biz/" target="_blank">lemongrassbestthai.biz</a></td>
+          <td class="notes-cell">Best Thai Restaurant 2015, 2017, 2018, 2021, 2022, 2023. Tampa Magazine winner. 2 locations (also Riverview: 11106 Bloomingdale Ave, (813) 654-0671). Award recognition = credibility platform.</td>
+        </tr>
+
+        <tr class="tier-row-2" data-tier="2" data-region="Tampa" data-wine="yes">
+          <td class="tier-cell t2">2</td>
+          <td><span class="restaurant-name"><a href="https://www.rouenthai.com/" target="_blank">Rouen Thai</a></span></td>
+          <td>Tampa <span class="city-tag">Gandy Blvd</span></td>
+          <td>3324 W Gandy Blvd, Tampa, FL 33611</td>
+          <td><a class="phone-link" href="tel:8138379100">(813) 837-9100</a></td>
+          <td class="wine-yes">Great Wine Selection</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://www.rouenthai.com/" target="_blank">rouenthai.com</a></td>
+          <td class="notes-cell">Outdoor seating + great wine selection noted. Thai + sushi. 156+ reviews. Good wine program = receptive to new wines.</td>
+        </tr>
+
+        <tr class="tier-row-2" data-tier="2" data-region="Tampa" data-wine="no">
+          <td class="tier-cell t2">2</td>
+          <td><span class="restaurant-name"><a href="https://www.si-am-thairestaurant.com/" target="_blank">Si-Am Thai Restaurant</a></span></td>
+          <td>Tampa <span class="city-tag">Downtown</span></td>
+          <td>713 N Franklin St, Tampa, FL 33602</td>
+          <td><a class="phone-link" href="tel:8132299710">(813) 229-9710</a></td>
+          <td class="wine-no">TBD -- Confirm</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://www.si-am-thairestaurant.com/" target="_blank">si-am-thairestaurant.com</a></td>
+          <td class="notes-cell">Downtown Tampa location. "Best of Both Worlds" tagline. 304+ reviews. Prime downtown foot traffic. Confirm wine service.</td>
+        </tr>
+
+        <tr class="tier-row-2" data-tier="2" data-region="Tampa" data-wine="yes">
+          <td class="tier-cell t2">2</td>
+          <td><span class="restaurant-name"><a href="https://www.benjarongthaifl.com/" target="_blank">Benjarong Thai</a></span></td>
+          <td>Tampa <span class="city-tag">N Dale Mabry</span></td>
+          <td>14402 N Dale Mabry Hwy, Tampa, FL 33618</td>
+          <td><a class="phone-link" href="tel:8132652667">(813) 265-2667</a></td>
+          <td class="wine-no">TBD -- Confirm</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://www.benjarongthaifl.com/" target="_blank">benjarongthaifl.com</a></td>
+          <td class="notes-cell">Colorful cafe with Asian accents. Classic Thai curries and noodles. 148+ reviews. Confirm wine service.</td>
+        </tr>
+
+        <tr class="tier-row-2" data-tier="2" data-region="Tampa" data-wine="no">
+          <td class="tier-cell t2">2</td>
+          <td><span class="restaurant-name"><a href="https://www.pinto-thai.com/" target="_blank">Pinto Thai Restaurant</a></span></td>
+          <td>Tampa <span class="city-tag">South Tampa</span></td>
+          <td>4205 S Macdill Ave, Ste F-G, Tampa, FL 33611</td>
+          <td><a class="phone-link" href="tel:8133745378">(813) 374-5378</a></td>
+          <td class="wine-no">TBD -- Confirm</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://www.pinto-thai.com/" target="_blank">pinto-thai.com</a></td>
+          <td class="notes-cell">Clean, nicely decorated. South Tampa = affluent area. 169+ reviews. OpenTable reservations = full-service. Confirm wine.</td>
+        </tr>
+
+        <tr class="tier-row-3" data-tier="3" data-region="Tampa" data-wine="no">
+          <td class="tier-cell t3">3</td>
+          <td><span class="restaurant-name"><a href="https://www.theglassnoodle.com/" target="_blank">The Glass Noodle</a></span></td>
+          <td>St. Petersburg <span class="city-tag">Downtown</span></td>
+          <td>681 Central Ave, St. Petersburg, FL 33701</td>
+          <td><a class="phone-link" href="tel:7272893720">(727) 289-3720</a></td>
+          <td class="wine-no">TBD -- Confirm</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://www.theglassnoodle.com/" target="_blank">theglassnoodle.com</a></td>
+          <td class="notes-cell">Pan-Asian noodle bar, downtown St. Pete. 196+ reviews. Central Ave = high foot traffic. More noodle-focused but confirm full menu + wine.</td>
+        </tr>
+
+        <tr class="tier-row-3" data-tier="3" data-region="Tampa" data-wine="no">
+          <td class="tier-cell t3">3</td>
+          <td><span class="restaurant-name"><a href="https://kaothaikitchenfl.com/" target="_blank">Kao Thai Kitchen</a></span></td>
+          <td>Pinellas Park <span class="city-tag">Pinellas</span></td>
+          <td>7199 66th St N, Pinellas Park, FL 33781</td>
+          <td><a class="phone-link" href="tel:7273503722">(727) 350-3722</a></td>
+          <td class="wine-no">TBD -- Confirm</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://kaothaikitchenfl.com/" target="_blank">kaothaikitchenfl.com</a></td>
+          <td class="notes-cell">228+ reviews, highly rated. Home-style Thai + catering. Confirm alcohol license.</td>
+        </tr>
+
+        <!-- ==================== JACKSONVILLE ==================== -->
+        <tr class="region-header" data-region="Jacksonville"><td colspan="9">JACKSONVILLE (5 Restaurants)</td></tr>
+
+        <tr class="tier-row-1" data-tier="1" data-region="Jacksonville" data-wine="yes">
+          <td class="tier-cell t1">1</td>
+          <td><span class="restaurant-name"><a href="https://www.lemongrassjaxthaibistro.com/" target="_blank">Lemongrass Thai Bistro</a></span></td>
+          <td>Jacksonville <span class="city-tag">Southside</span></td>
+          <td>14866 Old St Augustine Rd, Jacksonville, FL 32258</td>
+          <td><a class="phone-link" href="tel:9046475043">(904) 647-5043</a></td>
+          <td class="wine-yes">Red, White, Sparkling, Rose</td>
+          <td class="price-tag">$$-$$$</td>
+          <td><a href="https://www.lemongrassjaxthaibistro.com/" target="_blank">lemongrassjaxthaibistro.com</a></td>
+          <td class="notes-cell"><strong>TOP PROSPECT.</strong> Full wine program: red, white, sparkling, rose, oriental wines (Kim Crawford, Decoy, etc.). Modern-casual dining. Supports local artists. 265+ reviews. Established wine buyer = warm lead.</td>
+        </tr>
+
+        <tr class="tier-row-2" data-tier="2" data-region="Jacksonville" data-wine="yes">
+          <td class="tier-cell t2">2</td>
+          <td><span class="restaurant-name"><a href="https://senyaijax.com/" target="_blank">Senyai Thai Street Food</a></span></td>
+          <td>Jacksonville <span class="city-tag">5 Points/Riverside</span></td>
+          <td>820 Lomax St, Jacksonville, FL 32204</td>
+          <td><a class="phone-link" href="tel:9042564979">(904) 256-4979</a></td>
+          <td class="wine-yes">Plum Wine, Sake, Prosecco</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://senyaijax.com/" target="_blank">senyaijax.com</a></td>
+          <td class="notes-cell">Historic 5-Points location. Opened 2023 by Nina (Thai native). Premium plum wine, sake, Prosecco cocktails. New + trendy = open to unique wine offerings. Cultural pride angle with Thai owner.</td>
+        </tr>
+
+        <tr class="tier-row-2" data-tier="2" data-region="Jacksonville" data-wine="yes">
+          <td class="tier-cell t2">2</td>
+          <td><span class="restaurant-name"><a href="https://noomthaibistro.com/" target="_blank">Noom Thai Bistro</a></span></td>
+          <td>Jacksonville <span class="city-tag">Baymeadows</span></td>
+          <td>8642 Baymeadows Rd, Jacksonville, FL 32256</td>
+          <td><a class="phone-link" href="tel:9045008424">(904) 500-8424</a></td>
+          <td class="wine-yes">Beer & Wine</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://noomthaibistro.com/" target="_blank">noomthaibistro.com</a></td>
+          <td class="notes-cell">338+ reviews. "Best Thai in Jacksonville" by multiple reviewers. High-quality food in casual setting. Beer & wine service confirmed.</td>
+        </tr>
+
+        <tr class="tier-row-3" data-tier="3" data-region="Jacksonville" data-wine="no">
+          <td class="tier-cell t3">3</td>
+          <td><span class="restaurant-name"><a href="https://www.bangkokthaijax.com/" target="_blank">Bangkok Thai Cuisine</a></span></td>
+          <td>Jacksonville <span class="city-tag">Philips Hwy</span></td>
+          <td>7159 Philips Hwy, Ste 102, Jacksonville, FL 32256</td>
+          <td><a class="phone-link" href="tel:9043794326">(904) 379-4326</a></td>
+          <td class="wine-no">TBD -- Confirm</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://www.bangkokthaijax.com/" target="_blank">bangkokthaijax.com</a></td>
+          <td class="notes-cell">Family-owned, authentic recipes, fresh ingredients. Confirm wine/alcohol service before outreach.</td>
+        </tr>
+
+        <tr class="tier-row-3" data-tier="3" data-region="Jacksonville" data-wine="no">
+          <td class="tier-cell t3">3</td>
+          <td><span class="restaurant-name"><a href="https://www.thebestthaijax.com/" target="_blank">The Best Thai Restaurant</a></span></td>
+          <td>Jacksonville <span class="city-tag">Gate Pkwy</span></td>
+          <td>7860 Gate Pkwy, Jacksonville, FL</td>
+          <td>--</td>
+          <td class="wine-no">TBD -- Confirm</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://www.thebestthaijax.com/" target="_blank">thebestthaijax.com</a></td>
+          <td class="notes-cell">94+ reviews on Yelp. Gate Parkway = business district. Confirm alcohol license and seating capacity.</td>
+        </tr>
+
+        <!-- ==================== SOUTHWEST FL ==================== -->
+        <tr class="region-header" data-region="Southwest"><td colspan="9">SOUTHWEST FLORIDA -- NAPLES / SARASOTA / FORT MYERS (6 Restaurants)</td></tr>
+
+        <tr class="tier-row-1" data-tier="1" data-region="Southwest" data-wine="yes">
+          <td class="tier-cell t1">1</td>
+          <td><span class="restaurant-name"><a href="https://drunkenpoetcafesrq.com/" target="_blank">Drunken Poet Cafe Thai Bistro</a></span></td>
+          <td>Sarasota <span class="city-tag">Downtown Main St</span></td>
+          <td>1572 Main Street, Sarasota, FL 34236</td>
+          <td><a class="phone-link" href="tel:9419558404">(941) 955-8404</a></td>
+          <td class="wine-yes">Boutique Wines Worldwide</td>
+          <td class="price-tag">$$-$$$</td>
+          <td><a href="https://drunkenpoetcafesrq.com/" target="_blank">drunkenpoetcafesrq.com</a></td>
+          <td class="notes-cell"><strong>TOP PROSPECT.</strong> "Boutique wines, hard ciders, and sake from around the world." Downtown Main St Sarasota. Intimate, artistic decor. OpenTable reservations. Their "from around the world" wine ethos = perfect for Thai wine novelty.</td>
+        </tr>
+
+        <tr class="tier-row-1" data-tier="1" data-region="Southwest" data-wine="full">
+          <td class="tier-cell t1">1</td>
+          <td><span class="restaurant-name"><a href="https://starthaisushisiestakey.com/" target="_blank">Star Thai & Sushi Siesta Key</a></span></td>
+          <td>Sarasota <span class="city-tag">Siesta Key</span></td>
+          <td>240 Avenida Madera, Sarasota, FL 34242</td>
+          <td><a class="phone-link" href="tel:9412176758">(941) 217-6758</a></td>
+          <td class="wine-yes">Full Bar</td>
+          <td class="price-tag">$$-$$$</td>
+          <td><a href="https://starthaisushisiestakey.com/" target="_blank">starthaisushisiestakey.com</a></td>
+          <td class="notes-cell">Thai & Japanese Izakaya style. Full bar, Japanese whiskies, craft cocktails. Siesta Key = affluent beachside clientele. 261+ reviews.</td>
+        </tr>
+
+        <tr class="tier-row-2" data-tier="2" data-region="Southwest" data-wine="yes">
+          <td class="tier-cell t2">2</td>
+          <td><span class="restaurant-name"><a href="https://komoonthai.com/" target="_blank">Komoon Thai Sushi & Ceviche</a></span> <span class="chain-badge">3 LOCATIONS</span></td>
+          <td>Naples <span class="city-tag">Collier Co.</span></td>
+          <td>1575 Pine Ridge Rd, Ste 9, Naples, FL 34109</td>
+          <td><a class="phone-link" href="tel:2392342442">(239) 234-2442</a></td>
+          <td class="wine-no">TBD -- Confirm</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://komoonthai.com/" target="_blank">komoonthai.com</a></td>
+          <td class="notes-cell">3 locations: Pine Ridge, Immokalee Rd, Bonita Springs. Est. 2011. Thai + Sushi + Ceviche fusion. 346+ reviews. Multi-location = volume. Confirm wine service. Naples = affluent market.</td>
+        </tr>
+
+        <tr class="tier-row-2" data-tier="2" data-region="Southwest" data-wine="yes">
+          <td class="tier-cell t2">2</td>
+          <td><span class="restaurant-name"><a href="https://www.eatatbangkok.com/" target="_blank">Bangkok Thai Restaurant</a></span> <span class="award-badge">BEST OF FL 2025</span></td>
+          <td>Fort Myers <span class="city-tag">Lee Co.</span></td>
+          <td>11609 S Cleveland Ave, Ste 28, Fort Myers, FL 33907</td>
+          <td><a class="phone-link" href="tel:2399396002">(239) 939-6002</a></td>
+          <td class="wine-yes">Beer, Wine, Sake</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://www.eatatbangkok.com/" target="_blank">eatatbangkok.com</a></td>
+          <td class="notes-cell">2025 Best of Florida Winner. Family restaurant, fresh to order. Beer & wine service. 283+ reviews. Southwest FL anchor prospect.</td>
+        </tr>
+
+        <tr class="tier-row-2" data-tier="2" data-region="Southwest" data-wine="no">
+          <td class="tier-cell t2">2</td>
+          <td><span class="restaurant-name"><a href="https://bintothai.com/" target="_blank">Binto Thai</a></span></td>
+          <td>Naples <span class="city-tag">Naples Blvd</span></td>
+          <td>6355 Naples Blvd, Ste 7, Naples, FL 34109</td>
+          <td><a class="phone-link" href="tel:2396768683">(239) 676-8683</a></td>
+          <td class="wine-no">TBD -- Light drinks</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://bintothai.com/" target="_blank">bintothai.com</a></td>
+          <td class="notes-cell">Best authentic Thai in Naples per multiple reviews. Owner from Thailand, 15+ years experience, family restaurants. "Light drinking" noted. Cultural connection strong.</td>
+        </tr>
+
+        <tr class="tier-row-3" data-tier="3" data-region="Southwest" data-wine="yes">
+          <td class="tier-cell t3">3</td>
+          <td><span class="restaurant-name">Isan Thai Restaurant</span></td>
+          <td>Sarasota <span class="city-tag">Sarasota Co.</span></td>
+          <td>Sarasota, FL</td>
+          <td>--</td>
+          <td class="wine-yes">Beer & Wine Lounge</td>
+          <td class="price-tag">$$</td>
+          <td>--</td>
+          <td class="notes-cell">Separate lounge with beer & wine. Isan/Thai themed dining + outdoor dining. Confirm full details before outreach.</td>
+        </tr>
+
+        <!-- ==================== OTHER FL ==================== -->
+        <tr class="region-header" data-region="Other"><td colspan="9">OTHER FLORIDA CITIES (2 Restaurants)</td></tr>
+
+        <tr class="tier-row-3" data-tier="3" data-region="Other" data-wine="no">
+          <td class="tier-cell t3">3</td>
+          <td><span class="restaurant-name"><a href="https://royalthaisushi.com/" target="_blank">Royal Thai & Sushi</a></span></td>
+          <td>Tallahassee <span class="city-tag">Leon Co.</span></td>
+          <td>2020 W Pensacola St, Tallahassee, FL</td>
+          <td>--</td>
+          <td class="wine-no">TBD -- Confirm</td>
+          <td class="price-tag">$$</td>
+          <td><a href="https://royalthaisushi.com/" target="_blank">royalthaisushi.com</a></td>
+          <td class="notes-cell">Family-owned, Chef Kresna. Local favorite. Tallahassee = state capital, some fine dining demand. Secondary market.</td>
+        </tr>
+
+        <tr class="tier-row-3" data-tier="3" data-region="Other" data-wine="no">
+          <td class="tier-cell t3">3</td>
+          <td><span class="restaurant-name">Bangkok Square</span></td>
+          <td>Gainesville <span class="city-tag">Alachua Co.</span></td>
+          <td>Gainesville, FL</td>
+          <td>--</td>
+          <td class="wine-no">TBD -- Confirm</td>
+          <td class="price-tag">$$</td>
+          <td>--</td>
+          <td class="notes-cell">Cozy warm dining room. "Area's finest Thai food." College town = lower price sensitivity but volume from UF community. Secondary market.</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Outreach Strategy -->
+  <div class="exec-summary" style="margin-top: 30px;">
+    <h2>Recommended Outreach Strategy</h2>
+
+    <h3 style="margin: 16px 0 8px; color: var(--dark);">Phase 1: South Florida Blitz (Week 1-2)</h3>
+    <ul>
+      <li><strong>Visit in person:</strong> Thai Spice, Sky Thai Sushi, Atchana's, BKK Thai, Bangkok Bistro -- these are the Tier 1 prospects with confirmed wine programs closest to Up's base</li>
+      <li><strong>Bring tasting samples:</strong> 2-3 bottles of GranMonte (Syrah Ros&eacute;, Chenin Blanc, and a red) for the owner/sommelier to try</li>
+      <li><strong>Story pitch:</strong> "GranMonte is the only premium winery in Thailand, from Khao Yai. Your Thai restaurant is the natural home for Thai wine. No other restaurant in Florida carries it yet -- you'd be first."</li>
+      <li><strong>Moon Thai corporate:</strong> Contact Jack Punma (founder) -- one deal = 8+ placements</li>
+    </ul>
+
+    <h3 style="margin: 16px 0 8px; color: var(--dark);">Phase 2: Central FL + Tampa (Week 3-4)</h3>
+    <ul>
+      <li><strong>Orlando:</strong> TALAY (downtown, speakeasy), Lim Ros (Winter Park), Coco Thai (I-Drive volume)</li>
+      <li><strong>Tampa:</strong> Thai Prime Kitchen (200 seats!), Lemon Grass (6x award winner), Siam Garden (35-year institution)</li>
+      <li><strong>Bundle approach:</strong> Offer introductory case pricing with consignment option for first order</li>
+    </ul>
+
+    <h3 style="margin: 16px 0 8px; color: var(--dark);">Phase 3: Jacksonville + Southwest FL (Week 5-6)</h3>
+    <ul>
+      <li><strong>Jacksonville:</strong> Lemongrass Thai Bistro (established wine program), Senyai (new + trendy)</li>
+      <li><strong>Southwest FL:</strong> Drunken Poet (boutique wine focus), Star Thai Siesta Key (affluent beach), Komoon (3 locations)</li>
+    </ul>
+
+    <h3 style="margin: 16px 0 8px; color: var(--dark);">Key Selling Points for GranMonte</h3>
+    <ul>
+      <li>"Thailand's premier winery" -- cultural pride for Thai restaurant owners</li>
+      <li>"Only Thai wine available in Florida" -- first-mover advantage, exclusivity</li>
+      <li>Perfect food pairing story: wine literally made to complement Thai flavors</li>
+      <li>Customer talking point: diners love the novelty of "Thai wine with Thai food"</li>
+      <li>Higher margin potential: unique product = less price sensitivity</li>
+      <li>By-the-glass opportunity: $12-15/glass at $40-50/bottle retail, strong margins</li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="footer">
+  GranMonte Florida Distribution Prospects | Prepared for Up | March 30, 2026<br>
+  Data sourced from Yelp, Google, TripAdvisor, Michelin Guide, restaurant websites, and public business listings.<br>
+  Always verify current status, hours, and contact info before outreach.
+</div>
+
+<script>
+function filterTable() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const region = document.getElementById('regionFilter').value;
+  const tier = document.getElementById('tierFilter').value;
+  const wine = document.getElementById('wineFilter').value;
+  const rows = document.querySelectorAll('#tableBody tr');
+
+  rows.forEach(row => {
+    if (row.classList.contains('region-header')) {
+      // Show/hide region headers based on region filter
+      if (region && row.dataset.region !== region) {
+        row.style.display = 'none';
+      } else {
+        row.style.display = '';
+      }
+      return;
+    }
+
+    let show = true;
+    const text = row.textContent.toLowerCase();
+
+    if (search && !text.includes(search)) show = false;
+    if (region && row.dataset.region !== region) show = false;
+    if (tier && row.dataset.tier !== tier) show = false;
+    if (wine === 'yes' && !['yes', 'full', 'byob'].includes(row.dataset.wine)) show = false;
+    if (wine === 'full' && row.dataset.wine !== 'full') show = false;
+
+    row.style.display = show ? '' : 'none';
+  });
+}
+
+function sortTable(colIndex) {
+  const table = document.getElementById('prospectTable');
+  const tbody = document.getElementById('tableBody');
+  const rows = Array.from(tbody.querySelectorAll('tr:not(.region-header)'));
+  const regionRows = Array.from(tbody.querySelectorAll('tr.region-header'));
+  const th = table.querySelectorAll('th')[colIndex];
+
+  // Toggle sort direction
+  const isAsc = th.classList.contains('sorted-asc');
+  table.querySelectorAll('th').forEach(h => h.classList.remove('sorted-asc', 'sorted-desc'));
+  th.classList.add(isAsc ? 'sorted-desc' : 'sorted-asc');
+
+  rows.sort((a, b) => {
+    const aText = a.cells[colIndex]?.textContent.trim() || '';
+    const bText = b.cells[colIndex]?.textContent.trim() || '';
+    const cmp = aText.localeCompare(bText, undefined, { numeric: true });
+    return isAsc ? -cmp : cmp;
+  });
+
+  // Remove region headers when sorting, just show flat list
+  regionRows.forEach(r => r.style.display = 'none');
+  rows.forEach(row => tbody.appendChild(row));
+}
+</script>
+
+</body>
+</html>
