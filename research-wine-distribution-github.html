@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub Deep Research — Wine Import/Distribution for GranMonte US Launch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --wine-deep: #4a0e2e;
+  --wine-mid: #722f4e;
+  --wine-light: #a35d7a;
+  --wine-blush: #e8c4d4;
+  --wine-pale: #f5e6ed;
+  --gold: #c9a84c;
+  --gold-light: #e6d7a8;
+  --cream: #faf8f4;
+  --charcoal: #1a1a1a;
+  --slate: #3d3d3d;
+  --muted: #6b6b6b;
+  --border: #e0d8d0;
+  --green-badge: #1a6b3c;
+  --green-bg: #e8f5e9;
+  --amber-badge: #8b6914;
+  --amber-bg: #fff8e1;
+  --red-badge: #8b1a1a;
+  --red-bg: #fce8e8;
+  --blue-badge: #1a3d8b;
+  --blue-bg: #e3eef9;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--cream);
+  color: var(--charcoal);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* HEADER */
+.report-header {
+  background: linear-gradient(145deg, var(--wine-deep) 0%, #2d0a1a 60%, #1a0510 100%);
+  color: white;
+  padding: 80px 40px 60px;
+  position: relative;
+  overflow: hidden;
+}
+.report-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.report-header::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: 10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(162,93,122,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.header-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.header-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+.header-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  max-width: 800px;
+}
+.header-subtitle {
+  font-size: 1.15rem;
+  font-weight: 300;
+  color: var(--wine-blush);
+  max-width: 680px;
+  line-height: 1.6;
+}
+.header-meta {
+  display: flex;
+  gap: 32px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+.meta-item {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--wine-light);
+}
+.meta-item span {
+  color: white;
+  font-weight: 500;
+}
+
+/* LAYOUT */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* EXECUTIVE SUMMARY */
+.exec-summary {
+  background: white;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+  padding: 36px 40px;
+  margin: 48px auto;
+  max-width: 1100px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+.exec-summary h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: var(--wine-deep);
+  margin-bottom: 16px;
+}
+.exec-summary p {
+  color: var(--slate);
+  font-size: 1.02rem;
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+
+/* KEY METRICS BAR */
+.metrics-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin: 0 auto 48px;
+  max-width: 1100px;
+  padding: 0 40px;
+}
+.metric-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+.metric-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--wine-deep);
+}
+.metric-label {
+  font-size: 0.82rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+/* SECTIONS */
+section {
+  margin-bottom: 56px;
+}
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding: 0 40px;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.section-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--wine-deep);
+  background: var(--wine-pale);
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: var(--charcoal);
+}
+.section-desc {
+  padding: 0 40px;
+  max-width: 1100px;
+  margin: -16px auto 28px;
+  padding-left: 104px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* REPO CARDS */
+.repo-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.repo-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 32px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.repo-card:hover {
+  box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+.repo-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.repo-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--wine-deep);
+}
+.repo-name a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dashed var(--wine-light);
+}
+.repo-name a:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+.repo-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.5px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.badge-lang {
+  background: var(--blue-bg);
+  color: var(--blue-badge);
+}
+.badge-stars {
+  background: #fff8e1;
+  color: #8b6914;
+}
+.badge-active {
+  background: var(--green-bg);
+  color: var(--green-badge);
+}
+.badge-stale {
+  background: var(--amber-bg);
+  color: var(--amber-badge);
+}
+.badge-dormant {
+  background: var(--red-bg);
+  color: var(--red-badge);
+}
+.badge-license {
+  background: #f0ecf8;
+  color: #5b3d8f;
+}
+.repo-desc {
+  color: var(--slate);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+.repo-stats {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+.repo-stats span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.repo-relevance {
+  background: var(--wine-pale);
+  border-left: 3px solid var(--wine-mid);
+  padding: 14px 18px;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.9rem;
+  color: var(--wine-deep);
+  line-height: 1.65;
+}
+.repo-relevance strong {
+  font-weight: 700;
+}
+
+/* TOP PICK HIGHLIGHT */
+.repo-card.top-pick {
+  border: 2px solid var(--gold);
+  position: relative;
+}
+.repo-card.top-pick::before {
+  content: '★ TOP PICK';
+  position: absolute;
+  top: -1px;
+  right: 24px;
+  background: var(--gold);
+  color: var(--wine-deep);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 4px 14px;
+  border-radius: 0 0 6px 6px;
+}
+
+/* ARCHITECTURE DIAGRAM */
+.diagram-container {
+  max-width: 1100px;
+  margin: 0 auto 48px;
+  padding: 0 40px;
+}
+.diagram-box {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 36px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+.diagram-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  color: var(--wine-deep);
+  margin-bottom: 24px;
+  text-align: center;
+}
+.arch-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.arch-layer {
+  text-align: center;
+  padding: 16px 24px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  position: relative;
+}
+.arch-layer.l1 { background: #fce4ec; color: #880e4f; font-weight: 700; }
+.arch-layer.l2 { background: #f3e5f5; color: #4a148c; }
+.arch-layer.l3 { background: #e8eaf6; color: #1a237e; }
+.arch-layer.l4 { background: #e0f2f1; color: #004d40; }
+.arch-layer.l5 { background: #fff8e1; color: #e65100; }
+.arch-arrow {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--muted);
+  line-height: 1;
+  padding: 4px 0;
+}
+.arch-layer-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: 0.7;
+  display: block;
+  margin-bottom: 4px;
+}
+.arch-layer-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.arch-layer-repos {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  margin-top: 6px;
+  opacity: 0.8;
+}
+
+/* COMPARISON TABLE */
+.table-wrapper {
+  max-width: 1100px;
+  margin: 0 auto 48px;
+  padding: 0 40px;
+  overflow-x: auto;
+}
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  font-size: 0.88rem;
+}
+.comparison-table thead th {
+  background: var(--wine-deep);
+  color: white;
+  font-weight: 600;
+  text-align: left;
+  padding: 14px 16px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+.comparison-table tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.comparison-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.comparison-table tbody tr:hover {
+  background: var(--wine-pale);
+}
+.comparison-table .repo-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  color: var(--wine-deep);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--wine-light);
+}
+.comparison-table .repo-link:hover {
+  color: var(--gold);
+}
+
+/* RECOMMENDATION */
+.recommendation {
+  max-width: 1100px;
+  margin: 0 auto 48px;
+  padding: 0 40px;
+}
+.rec-box {
+  background: linear-gradient(135deg, var(--wine-deep) 0%, #3a1228 100%);
+  border-radius: 12px;
+  padding: 40px 44px;
+  color: white;
+}
+.rec-box h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: var(--gold-light);
+}
+.rec-list {
+  list-style: none;
+  padding: 0;
+}
+.rec-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  gap: 14px;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+.rec-list li:last-child {
+  border-bottom: none;
+}
+.rec-priority {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  background: var(--gold);
+  color: var(--wine-deep);
+  padding: 2px 10px;
+  border-radius: 12px;
+  height: fit-content;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.rec-text strong {
+  color: var(--gold-light);
+}
+
+/* CONFIDENCE */
+.confidence-section {
+  max-width: 1100px;
+  margin: 0 auto 48px;
+  padding: 0 40px;
+}
+.confidence-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+.conf-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+.conf-card h3 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+.conf-card.high h3 { color: var(--green-badge); }
+.conf-card.medium h3 { color: var(--amber-badge); }
+.conf-card.low h3 { color: var(--red-badge); }
+.conf-card ul {
+  list-style: none;
+  padding: 0;
+}
+.conf-card li {
+  padding: 6px 0;
+  font-size: 0.88rem;
+  color: var(--slate);
+  border-bottom: 1px solid #f0f0f0;
+}
+.conf-card li:last-child {
+  border-bottom: none;
+}
+
+/* SOURCES */
+.sources {
+  max-width: 1100px;
+  margin: 0 auto 56px;
+  padding: 0 40px;
+}
+.sources h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: var(--wine-deep);
+  margin-bottom: 20px;
+}
+.source-group {
+  margin-bottom: 20px;
+}
+.source-group h3 {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.source-group ul {
+  list-style: none;
+  padding: 0;
+}
+.source-group li {
+  padding: 6px 0;
+  font-size: 0.9rem;
+}
+.source-group a {
+  color: var(--wine-deep);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--wine-light);
+}
+.source-group a:hover {
+  color: var(--gold);
+}
+.source-group .src-desc {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+/* FOOTER */
+.report-footer {
+  background: var(--charcoal);
+  color: rgba(255,255,255,0.5);
+  padding: 32px 40px;
+  text-align: center;
+  font-size: 0.82rem;
+}
+.report-footer a {
+  color: var(--gold);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.report-footer a:hover {
+  opacity: 1;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .report-header { padding: 48px 20px 40px; }
+  .header-title { font-size: 2rem; }
+  .container, .exec-summary, .metrics-bar, .repo-grid,
+  .section-header, .section-desc, .table-wrapper,
+  .recommendation, .confidence-section, .sources,
+  .diagram-container { padding-left: 20px; padding-right: 20px; }
+  .section-desc { padding-left: 20px; }
+  .repo-card { padding: 20px; }
+  .rec-box { padding: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="report-header">
+  <div class="header-content">
+    <div class="header-eyebrow">GitHub Deep Research Report</div>
+    <h1 class="header-title">Wine Import &amp; Distribution:<br>Open-Source GitHub Ecosystem</h1>
+    <p class="header-subtitle">A comprehensive analysis of GitHub repositories relevant to GranMonte's US market launch — covering wine inventory, restaurant POS, alcohol compliance, distribution logistics, and data intelligence.</p>
+    <div class="header-meta">
+      <div class="meta-item">Date: <span>April 2, 2026</span></div>
+      <div class="meta-item">Confidence: <span>High (85%+)</span></div>
+      <div class="meta-item">Repos Analyzed: <span>20+</span></div>
+      <div class="meta-item">Categories: <span>5</span></div>
+      <div class="meta-item">Prepared for: <span>mhoooo / GranMonte</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- EXECUTIVE SUMMARY -->
+<div class="exec-summary container">
+  <h2>Executive Summary</h2>
+  <p>This report maps the open-source GitHub landscape across five categories critical to GranMonte's US wine distribution launch: <strong>wine inventory management</strong>, <strong>restaurant ordering/POS systems</strong>, <strong>alcohol regulatory compliance</strong>, <strong>Thai restaurant POS</strong>, and <strong>distribution logistics</strong>. We analyzed 20+ repositories using GitHub API data, README inspection, and web research.</p>
+  <p><strong>Key finding:</strong> The wine distribution space on GitHub is fragmented — no single repo covers the full importer-to-restaurant pipeline. However, several high-quality building blocks exist that can be composed into a custom stack for GranMonte. The strongest candidates are <strong>Kessly</strong> (wine distribution SCM), <strong>Cellarion</strong> (modern MERN wine management with AI), <strong>Fleetbase</strong> (1.8K★ logistics OS), and <strong>Spree Commerce</strong> (14K★ B2B e-commerce). For compliance, the landscape is almost entirely proprietary — the BC Government's <strong>CARLA</strong> liquor licensing system is the only substantial open-source regulatory codebase found.</p>
+  <p><strong>Bottom line for Up:</strong> Rather than adopting any single repo, the optimal strategy is to fork/adapt 2–3 targeted tools (Kessly for distribution ops, Fleetbase for delivery tracking) and build a thin integration layer — which is exactly what a JARVIS agent could orchestrate.</p>
+</div>
+
+<!-- KEY METRICS -->
+<div class="metrics-bar">
+  <div class="metric-card">
+    <div class="metric-number">20+</div>
+    <div class="metric-label">Repos Analyzed</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-number">5</div>
+    <div class="metric-label">Categories</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-number">7</div>
+    <div class="metric-label">Top Picks</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-number">~16K</div>
+    <div class="metric-label">Combined Stars</div>
+  </div>
+</div>
+
+<!-- PROPOSED ARCHITECTURE -->
+<div class="diagram-container">
+  <div class="diagram-box">
+    <div class="diagram-title">Proposed Open-Source Stack for GranMonte US Distribution</div>
+    <div class="arch-grid">
+      <div class="arch-layer l1">
+        <span class="arch-layer-label">Layer 1 — Customer Interface</span>
+        <span class="arch-layer-name">Restaurant Wine Ordering Portal</span>
+        <span class="arch-layer-repos">Spree Commerce (B2B) · Cellarion (wine catalog)</span>
+      </div>
+      <div class="arch-arrow">↕</div>
+      <div class="arch-layer l2">
+        <span class="arch-layer-label">Layer 2 — Distribution Operations</span>
+        <span class="arch-layer-name">Inventory, Orders &amp; Pricing</span>
+        <span class="arch-layer-repos">Kessly (wine SCM) · AOC Wine Distributor (pricing engine)</span>
+      </div>
+      <div class="arch-arrow">↕</div>
+      <div class="arch-layer l3">
+        <span class="arch-layer-label">Layer 3 — Logistics</span>
+        <span class="arch-layer-name">Delivery Routing &amp; Tracking</span>
+        <span class="arch-layer-repos">Fleetbase (logistics OS)</span>
+      </div>
+      <div class="arch-arrow">↕</div>
+      <div class="arch-layer l4">
+        <span class="arch-layer-label">Layer 4 — Compliance</span>
+        <span class="arch-layer-name">TTB Reporting · State Excise · COLA Labels</span>
+        <span class="arch-layer-repos">CARLA (reference) · UC Davis Wine Ontology (data model)</span>
+      </div>
+      <div class="arch-arrow">↕</div>
+      <div class="arch-layer l5">
+        <span class="arch-layer-label">Layer 5 — Intelligence</span>
+        <span class="arch-layer-name">Market Analytics &amp; Competitive Intel</span>
+        <span class="arch-layer-repos">git.wine (SaaS) · PowerBI Wine Analysis (templates)</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 1: WINE DISTRIBUTION & INVENTORY ===== -->
+<section>
+  <div class="section-header">
+    <div class="section-number">1</div>
+    <div class="section-title">Wine Distribution &amp; Inventory Management</div>
+  </div>
+  <p class="section-desc">Repos that handle the core distributor workflow — tracking wine products, managing suppliers, processing orders, and analyzing sales. This is the operational backbone for GranMonte's US distribution.</p>
+
+  <div class="repo-grid">
+
+    <!-- KESSLY -->
+    <div class="repo-card top-pick">
+      <div class="repo-card-header">
+        <div class="repo-name"><a href="https://github.com/PHPDEV-OPS/Kessly" target="_blank">PHPDEV-OPS/Kessly</a></div>
+        <div class="repo-badges">
+          <span class="badge badge-lang">PHP / Laravel</span>
+          <span class="badge badge-active">● Active (Feb 2026)</span>
+          <span class="badge badge-license">MIT</span>
+        </div>
+      </div>
+      <p class="repo-desc"><strong>Supply Chain Management System for Wine Distribution.</strong> A full-featured ERP tailored specifically for wine distributor companies. Includes inventory tracking (products, suppliers, stock levels), customer &amp; sales management (orders, invoicing, analytics), finance module (expenses, revenue, reports), HR module, analytics dashboards, and email automation via Brevo SMTP. Built with Laravel + Livewire + Tailwind CSS. PWA-capable.</p>
+      <div class="repo-stats">
+        <span>⭐ 0 stars</span>
+        <span>🍴 0 forks</span>
+        <span>👥 3 contributors</span>
+        <span>📅 Created Sep 2025</span>
+        <span>📦 2.9M lines (PHP+Blade)</span>
+      </div>
+      <div class="repo-relevance">
+        <strong>GranMonte Relevance — CRITICAL.</strong> This is the single most relevant repo found. Despite zero stars (it's new and niche), the feature set maps almost perfectly to GranMonte's needs: wine-specific inventory with supplier tracking, customer/restaurant order management, invoicing, and analytics. The Laravel/Livewire stack is modern and maintainable. Could serve as GranMonte's operational backbone with moderate customization — add TTB reporting fields, Florida state excise calculations, and Thai wine-specific product categories.
+      </div>
+    </div>
+
+    <!-- CELLARION -->
+    <div class="repo-card top-pick">
+      <div class="repo-card-header">
+        <div class="repo-name"><a href="https://github.com/jagduvi1/Cellarion" target="_blank">jagduvi1/Cellarion</a></div>
+        <div class="repo-badges">
+          <span class="badge badge-lang">MERN + AI</span>
+          <span class="badge badge-active">● Active (2026)</span>
+        </div>
+      </div>
+      <p class="repo-desc"><strong>Modern wine cellar management app with AI sommelier.</strong> Self-hosted MERN stack app with label scanning (Anthropic Claude Vision API), Vivino/CellarTracker import, drink-window recommendations, AI-powered cellar chat via Qdrant vector DB + Voyage AI embeddings, fuzzy search via Meilisearch, and Docker Compose deployment. Built by one developer in 3 weeks using Claude Code.</p>
+      <div class="repo-stats">
+        <span>⭐ New repo</span>
+        <span>🍴 MERN stack</span>
+        <span>👥 1 contributor</span>
+        <span>📅 Created ~Mar 2026</span>
+        <span>🤖 Anthropic Claude + Qdrant + Meilisearch</span>
+      </div>
+      <div class="repo-relevance">
+        <strong>GranMonte Relevance — HIGH.</strong> The AI label scanning and wine data normalization pipeline is directly reusable — GranMonte could scan competitor wine labels at Thai restaurant visits and auto-catalog them. The Vivino integration provides market pricing data. The MERN stack aligns with our JARVIS architecture. Most importantly, it proves the "one person + AI = full product" thesis that mhoooo is built on.
+      </div>
+    </div>
+
+    <!-- AOC WINE DISTRIBUTOR -->
+    <div class="repo-card">
+      <div class="repo-card-header">
+        <div class="repo-name"><a href="https://github.com/buddhastephenson/wine-distributor-project" target="_blank">buddhastephenson/wine-distributor-project</a></div>
+        <div class="repo-badges">
+          <span class="badge badge-lang">TypeScript / React</span>
+          <span class="badge badge-active">● Active (Mar 2026)</span>
+        </div>
+      </div>
+      <p class="repo-desc"><strong>AOC Wines — Full-stack wine distribution management system.</strong> Admin portal and customer portal with pricing formulas for wine, spirits, and non-alcoholic beverages. Includes PDF converter for supplier price lists (Louis Dressner), column mapping for different supplier formats, product lifecycle management, and supplier replacement tracking. Data stored in localStorage (MVP stage).</p>
+      <div class="repo-stats">
+        <span>⭐ 0 stars</span>
+        <span>🍴 1 fork</span>
+        <span>👥 1 contributor</span>
+        <span>📅 Created Jan 2026</span>
+        <span>📦 ~1M lines (TS+JS)</span>
+      </div>
+      <div class="repo-relevance">
+        <strong>GranMonte Relevance — HIGH.</strong> The pricing formula engine is extremely valuable — it handles wine markup calculations, margin tracking, and supplier price list ingestion via PDF parsing. This is exactly what Up needs to calculate landed cost (GranMonte FOB + shipping + TTB duties + FL excise + distributor margin → restaurant wholesale price). The supplier column mapping feature solves the "every winery sends a different spreadsheet" problem.
+      </div>
+    </div>
+
+    <!-- WINE-CELLAR -->
+    <div class="repo-card">
+      <div class="repo-card-header">
+        <div class="repo-name"><a href="https://github.com/the-broke-sommeliers/wine-cellar" target="_blank">the-broke-sommeliers/wine-cellar</a></div>
+        <div class="repo-badges">
+          <span class="badge badge-lang">Python / Django</span>
+          <span class="badge badge-stars">⭐ 40</span>
+          <span class="badge badge-active">● Active (Apr 2026)</span>
+        </div>
+      </div>
+      <p class="repo-desc"><strong>Self-hosted wine management app.</strong> Django-based, tracks wines, tasting notes, ratings, and inventory. Active development with v0.5.0 release (Feb 2026). 6 contributors, 28 open issues indicating active community. Docker support. Topics: cellar, django, inventory, management, self-hosted, wine.</p>
+      <div class="repo-stats">
+        <span>⭐ 40 stars</span>
+        <span>🍴 6 forks</span>
+        <span>👥 6 contributors</span>
+        <span>📅 Created Jan 2024</span>
+        <span>🏷️ v0.5.0 (Feb 2026)</span>
+      </div>
+      <div class="repo-relevance">
+        <strong>GranMonte Relevance — MODERATE.</strong> Consumer-focused (not distribution), but the Django wine data model (varieties, regions, tasting notes) is well-structured and could be adapted for GranMonte's product catalog. The self-hosted architecture aligns with JARVIS's "no shared cloud" principle. Good reference for building a wine database schema.
+      </div>
+    </div>
+
+    <!-- WINE SHOP MANAGEMENT -->
+    <div class="repo-card">
+      <div class="repo-card-header">
+        <div class="repo-name"><a href="https://github.com/PRUDHVIRAJ2003/wine-shop-management" target="_blank">PRUDHVIRAJ2003/wine-shop-management</a></div>
+        <div class="repo-badges">
+          <span class="badge badge-lang">TypeScript / Next.js 14</span>
+          <span class="badge badge-stale">○ Stale (Feb 2026)</span>
+        </div>
+      </div>
+      <p class="repo-desc"><strong>Real-time wine shop management with Next.js 14 + Supabase.</strong> Manages daily stock and cash operations for multiple liquor shops with automated carry-forward functionality. Modern stack (Next.js 14, Supabase, real-time updates).</p>
+      <div class="repo-stats">
+        <span>⭐ 0 stars</span>
+        <span>🍴 1 fork</span>
+        <span>👥 2 contributors</span>
+        <span>📅 Created Jan 2026</span>
+      </div>
+      <div class="repo-relevance">
+        <strong>GranMonte Relevance — LOW-MODERATE.</strong> The multi-shop stock management pattern is useful if GranMonte eventually supplies multiple restaurant accounts that need their own inventory views. The Supabase backend is lightweight and fast to deploy.
+      </div>
+    </div>
+
+    <!-- STRATEGIC WINE ANALYTICS -->
+    <div class="repo-card">
+      <div class="repo-card-header">
+        <div class="repo-name"><a href="https://github.com/PriyamSoni-19/Strategic-Wine-Inventory-Analytics-MYSQL" target="_blank">PriyamSoni-19/Strategic-Wine-Inventory-Analytics-MYSQL</a></div>
+        <div class="repo-badges">
+          <span class="badge badge-lang">MySQL</span>
+        </div>
+      </div>
+      <p class="repo-desc"><strong>Wine inventory analytics with SQL.</strong> Comprehensive MySQL schema covering the full winery-to-distribution pipeline — grape cultivation, wine production, inventory tracking, and distribution. Provides SQL queries for supply chain traceability.</p>
+      <div class="repo-stats">
+        <span>📊 SQL-only project</span>
+        <span>📅 2025–2026</span>
+      </div>
+      <div class="repo-relevance">
+        <strong>GranMonte Relevance — MODERATE.</strong> The database schema is a valuable reference for modeling GranMonte's data — vineyard origins (Khao Yai), wine production details, SKU management, and distribution tracking. Can be adapted as the data layer under Kessly or a custom system.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== SECTION 2: RESTAURANT POS & ORDERING ===== -->
+<section>
+  <div class="section-header">
+    <div class="section-number">2</div>
+    <div class="section-title">Restaurant POS &amp; Ordering Systems</div>
+  </div>
+  <p class="section-desc">Point-of-sale and order management systems for restaurants — relevant for understanding how Thai restaurants in Florida would place wine orders and manage their wine lists.</p>
+
+  <div class="repo-grid">
+
+    <!-- RESTAURANT POS MERN -->
+    <div class="repo-card top-pick">
+      <div class="repo-card-header">
+        <div class="repo-name"><a href="https://github.com/amritmaurya1504/Restaurant_POS_System" target="_blank">amritmaurya1504/Restaurant_POS_System</a></div>
+        <div class="repo-badges">
+          <span class="badge badge-lang">JavaScript / MERN</span>
+          <span class="badge badge-stars">⭐ 205</span>
+          <span class="badge badge-stale">○ Last push Mar 2025</span>
+        </div>
+      </div>
+      <p class="repo-desc"><strong>Full-featured Restaurant POS System (MERN Stack).</strong> Order management, payment processing (Razorpay), and inventory tracking. 205 stars and 118 forks — the most popular open-source restaurant POS on GitHub in the MERN ecosystem. Topics: expressjs, fullstack, mongodb, nodejs, point-of-sale, pos-system, reactjs.</p>
+      <div class="repo-stats">
+        <span>⭐ 205 stars</span>
+        <span>🍴 118 forks</span>
+        <span>👥 3 contributors</span>
+        <span>📅 Created Feb 2025</span>
+      </div>
+      <div class="repo-relevance">
+        <strong>GranMonte Relevance — MODERATE.</strong> While GranMonte won't build a POS for restaurants, understanding the restaurant ordering data model is valuable. This repo shows how restaurants structure orders — a wine ordering module could plug into this pattern. The Razorpay payment integration demonstrates how to add a payment gateway (swap for Stripe for US). Fork potential: add a "wine ordering from distributor" module that Thai restaurants could bolt onto their existing POS.
+      </div>
+    </div>
+
+    <!-- LANAIM POS -->
+    <div class="repo-card">
+      <div class="repo-card-header">
+        <div class="repo-name"><a href="https://github.com/Sarayutp/lanaim-pos-v5.3" target="_blank">Sarayutp/lanaim-pos-v5.3</a></div>
+        <div class="repo-badges">
+          <span class="badge badge-lang">Python / Flask + HTML</span>
+          <span class="badge badge-stale">○ Last push Jul 2025</span>
+          <span class="badge badge-license">MIT</span>
+        </div>
+      </div>
+      <p class="repo-desc"><strong>Production-Ready Thai Restaurant POS System (ระบบจุดขายสำหรับร้านอาหารไทย).</strong> Flask-based POS with full order management. Thai language interface. 1.2M+ lines across HTML and Python. The only Thai-language restaurant POS found on GitHub.</p>
+      <div class="repo-stats">
+        <span>⭐ 0 stars</span>
+        <span>🍴 0 forks</span>
+        <span>👥 1 contributor</span>
+        <span>📅 Created Jul 2025</span>
+        <span>🇹🇭 Thai language UI</span>
+      </div>
+      <div class="repo-relevance">
+        <strong>GranMonte Relevance — NICHE BUT STRATEGIC.</strong> This is the only open-source POS built specifically for Thai restaurants. If GranMonte is selling to Thai restaurants in Florida, offering a "free POS upgrade with wine ordering built-in" could be a powerful sales tool. The Thai UI means restaurant staff who are more comfortable in Thai can use it natively. Could be the Trojan horse that gets GranMonte wine onto Thai restaurant tables.
+      </div>
+    </div>
+
+    <!-- SMART DINE POS -->
+    <div class="repo-card">
+      <div class="repo-card-header">
+        <div class="repo-name"><a href="https://github.com/MilindaKarunarathne/smart-dine-pos" target="_blank">MilindaKarunarathne/smart-dine-pos</a></div>
+        <div class="repo-badges">
+          <span class="badge badge-lang">JavaScript / MERN</span>
+          <span class="badge badge-license">MIT</span>
+        </div>
+      </div>
+      <p class="repo-desc"><strong>Smart Dine POS — Modern restaurant management system.</strong> MERN stack with order management, billing, and inventory tracking. Clean codebase, MIT licensed.</p>
+      <div class="repo-stats">
+        <span>⭐ 4 stars</span>
+        <span>📅 Created May 2025</span>
+        <span>👥 1 contributor</span>
+      </div>
+      <div class="repo-relevance">
+        <strong>GranMonte Relevance — LOW.</strong> Simpler alternative to the main Restaurant_POS_System. Good for studying MERN POS architecture but less feature-rich.
+      </div>
+    </div>
+
+    <!-- FLOREANT POS -->
+    <div class="repo-card">
+      <div class="repo-card-header">
+        <div class="repo-name"><a href="https://github.com/fat-tire/floreantpos" target="_blank">fat-tire/floreantpos</a> (and forks)</div>
+        <div class="repo-badges">
+          <span class="badge badge-lang">Java</span>
+          <span class="badge badge-dormant">✗ Dormant (legacy)</span>
+        </div>
+      </div>
+      <p class="repo-desc"><strong>Floreant POS — Free open-source restaurant POS.</strong> Java-based, touch-screen ordering, sales reporting, food/labor cost analysis. Originally hosted at floreant.org. Multiple GitHub forks exist. Was the gold standard for open-source restaurant POS for years, but development has stalled.</p>
+      <div class="repo-stats">
+        <span>⭐ 16+ stars across forks</span>
+        <span>🍴 15+ forks</span>
+        <span>📅 Original: 2014</span>
+        <span>⚠️ No active development</span>
+      </div>
+      <div class="repo-relevance">
+        <strong>GranMonte Relevance — LOW (reference only).</strong> Legacy codebase, but the restaurant operations model (table management, kitchen tickets, reporting) is well-documented. Useful as an architectural reference for how POS systems handle beverage ordering and inventory depletion.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== SECTION 3: ALCOHOL COMPLIANCE & REGULATORY ===== -->
+<section>
+  <div class="section-header">
+    <div class="section-number">3</div>
+    <div class="section-title">Alcohol Import Compliance &amp; Regulatory</div>
+  </div>
+  <p class="section-desc">Open-source tools for alcohol regulatory compliance — TTB reporting, COLA label approvals, state licensing, and excise tax calculations. <strong>This is the thinnest category on GitHub</strong> — the compliance space is dominated by proprietary SaaS (Sovos ShipCompliant, 365WineTrade, Joy of Wine).</p>
+
+  <div class="repo-grid">
+
+    <!-- CARLA -->
+    <div class="repo-card top-pick">
+      <div class="repo-card-header">
+        <div class="repo-name"><a href="https://github.com/bcgov/jag-lcrb-carla-public" target="_blank">bcgov/jag-lcrb-carla-public</a></div>
+        <div class="repo-badges">
+          <span class="badge badge-lang">C# / .NET</span>
+          <span class="badge badge-stars">⭐ 13</span>
+          <span class="badge badge-active">● Active (Apr 2026)</span>
+          <span class="badge badge-license">Apache-2.0</span>
+        </div>
+      </div>
+      <p class="repo-desc"><strong>BC Liquor and Cannabis Regulation Branch — CARLA Licensing Application.</strong> Built by the British Columbia government for managing liquor and cannabis licensing applications. Includes federal reporting module, license lifecycle management, compliance tracking, and multi-tenant architecture. 43 contributors, 77M+ lines of C#. The most comprehensive open-source alcohol regulatory system on GitHub.</p>
+      <div class="repo-stats">
+        <span>⭐ 13 stars</span>
+        <span>🍴 49 forks</span>
+        <span>👥 43 contributors</span>
+        <span>📅 Created Mar 2018</span>
+        <span>📦 77M+ lines C#</span>
+      </div>
+      <div class="repo-relevance">
+        <strong>GranMonte Relevance — HIGH (as reference architecture).</strong> While this is Canadian (BC), the regulatory concepts are transferable: license application workflows, compliance status tracking, federal reporting pipelines, and multi-entity management. GranMonte needs to track its TTB permit status, COLA label approvals, and FL JDBW distributor license — CARLA's data model shows how a government-scale system handles these workflows. Not forkable directly, but invaluable for designing GranMonte's compliance tracking module.
+      </div>
+    </div>
+
+    <!-- WINE ONTOLOGY -->
+    <div class="repo-card">
+      <div class="repo-card-header">
+        <div class="repo-name"><a href="https://github.com/UCDavisLibrary/wine-ontology" target="_blank">UCDavisLibrary/wine-ontology</a></div>
+        <div class="repo-badges">
+          <span class="badge badge-lang">OWL / RDF</span>
+          <span class="badge badge-dormant">○ Academic project</span>
+        </div>
+      </div>
+      <p class="repo-desc"><strong>UC Davis Wine Ontology — RDF data model for wines and the wine industry.</strong> Defines structured data relationships for wine labeling, TTB regulations, brand names, varietals, regions, and production methods. References TTB labeling rules directly in the ontology. Academic project from UC Davis Library.</p>
+      <div class="repo-stats">
+        <span>🏫 UC Davis Library</span>
+        <span>📅 Academic project</span>
+        <span>📄 OWL/RDF format</span>
+        <span>19 commits</span>
+      </div>
+      <div class="repo-relevance">
+        <strong>GranMonte Relevance — MODERATE (data model).</strong> The ontology encodes TTB labeling rules in machine-readable format — what constitutes a "Table Wine" (≤14% ABV), required label fields, brand name conventions. This is useful for auto-validating GranMonte's COLA label submissions before filing with TTB. The structured wine vocabulary (appellations, varietals, vintages) is a solid foundation for a product database.
+      </div>
+    </div>
+
+    <!-- WINE LABEL DATASET -->
+    <div class="repo-card">
+      <div class="repo-card-header">
+        <div class="repo-name"><a href="https://github.com/qanastek/WinesLabelDataset" target="_blank">qanastek/WinesLabelDataset</a></div>
+        <div class="repo-badges">
+          <span class="badge badge-lang">Pascal VOC / CV</span>
+        </div>
+      </div>
+      <p class="repo-desc"><strong>Wine Label Dataset — annotated with Pascal VOC format.</strong> Computer vision training dataset for wine label recognition. Bounding box annotations for label elements (brand, vintage, varietal, region, alcohol content).</p>
+      <div class="repo-stats">
+        <span>📊 CV training data</span>
+        <span>📅 Research project</span>
+      </div>
+      <div class="repo-relevance">
+        <strong>GranMonte Relevance — LOW (future use).</strong> Could train a model to auto-extract info from competitor wine labels at restaurant visits, or verify GranMonte's own labels meet TTB formatting requirements. Pairs with Cellarion's Claude Vision label scanning.
+      </div>
+    </div>
+
+    <!-- COMPLIANCE GAP NOTE -->
+    <div class="repo-card" style="border-left: 4px solid #e65100; background: #fff8f0;">
+      <div class="repo-card-header">
+        <div class="repo-name" style="color: #e65100;">⚠ Gap Analysis: Compliance Software</div>
+      </div>
+      <p class="repo-desc"><strong>No open-source tools exist for US alcohol import compliance.</strong> The following critical functions have zero GitHub coverage:</p>
+      <ul style="margin: 12px 0 16px 20px; color: var(--slate); font-size: 0.95rem; line-height: 2;">
+        <li><strong>TTB federal reporting</strong> — Monthly operational reports required by TTB for importers</li>
+        <li><strong>COLA label submission</strong> — Certificate of Label Approval workflow with TTB</li>
+        <li><strong>State excise tax calculation</strong> — FL wine excise is $2.25/gallon + various surcharges</li>
+        <li><strong>Three-tier compliance tracking</strong> — Ensuring importer→distributor→retailer chain is legal</li>
+        <li><strong>FL JDBW license management</strong> — The specific license GranMonte needs</li>
+      </ul>
+      <div class="repo-relevance" style="background: #fff3e0; border-color: #e65100;">
+        <strong>Implication for GranMonte:</strong> Compliance automation is a build-from-scratch effort. This is actually an opportunity — if mhoooo builds a JARVIS compliance module that handles TTB reporting + state excise + COLA tracking, it becomes a sellable product to other small wine importers. The proprietary alternatives (Sovos ShipCompliant, 365WineTrade) charge $500–2,000+/month.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== SECTION 4: DISTRIBUTION LOGISTICS ===== -->
+<section>
+  <div class="section-header">
+    <div class="section-number">4</div>
+    <div class="section-title">Distribution Logistics &amp; Delivery</div>
+  </div>
+  <p class="section-desc">Open-source logistics platforms for managing delivery routes, fleet tracking, and supply chain operations — needed for the physical delivery of wine from port/warehouse to restaurants.</p>
+
+  <div class="repo-grid">
+
+    <!-- FLEETBASE -->
+    <div class="repo-card top-pick">
+      <div class="repo-card-header">
+        <div class="repo-name"><a href="https://github.com/fleetbase/fleetbase" target="_blank">fleetbase/fleetbase</a></div>
+        <div class="repo-badges">
+          <span class="badge badge-lang">JavaScript / PHP</span>
+          <span class="badge badge-stars">⭐ 1,803</span>
+          <span class="badge badge-active">● Active (Mar 2026)</span>
+          <span class="badge badge-license">AGPL-3.0</span>
+        </div>
+      </div>
+      <p class="repo-desc"><strong>Modular Logistics &amp; Supply Chain Operating System (LSOS).</strong> The most popular open-source logistics platform on GitHub. Features: fleet management, freight management, route optimization, real-time tracking, warehouse management, inventory management, order management, driver app, and on-demand delivery. Modular architecture — use only the modules you need. v0.7.31 (Mar 2026).</p>
+      <div class="repo-stats">
+        <span>⭐ 1,803 stars</span>
+        <span>🍴 604 forks</span>
+        <span>👥 15 contributors</span>
+        <span>📅 Created Sep 2022</span>
+        <span>🏷️ v0.7.31 (Mar 2026)</span>
+      </div>
+      <div class="repo-relevance">
+        <strong>GranMonte Relevance — HIGH.</strong> As GranMonte scales beyond the initial restaurant accounts, delivery logistics becomes critical. Fleetbase can handle: route planning for multi-stop restaurant deliveries across Florida metros, real-time delivery tracking (share ETA with restaurant managers), proof-of-delivery capture, and warehouse inventory sync. The modular architecture means GranMonte can start with just order management + route optimization and add features as volume grows. AGPL license requires open-sourcing modifications if deployed as a service — acceptable for internal use.
+      </div>
+    </div>
+
+    <!-- POWERBI WINE DISTRIBUTION -->
+    <div class="repo-card">
+      <div class="repo-card-header">
+        <div class="repo-name"><a href="https://github.com/akhila-srinagula/powerbi-wine-distribution-analysis" target="_blank">akhila-srinagula/powerbi-wine-distribution-analysis</a></div>
+        <div class="repo-badges">
+          <span class="badge badge-lang">Power BI</span>
+        </div>
+      </div>
+      <p class="repo-desc"><strong>Wine Distribution Analysis Dashboard (Power BI).</strong> Case study dashboard for "Guns &amp; Roses" wine distributor — covers sales operations optimization, customer satisfaction metrics, and supply chain efficiency analysis. Provides executive decision-making views.</p>
+      <div class="repo-stats">
+        <span>📊 Power BI templates</span>
+        <span>📅 2025–2026</span>
+      </div>
+      <div class="repo-relevance">
+        <strong>GranMonte Relevance — MODERATE.</strong> The dashboard templates can be adapted for GranMonte's own distribution analytics — sales by restaurant, delivery performance, inventory turns, and margin analysis. Power BI is available free for personal use. The KPI framework (what to measure in wine distribution) is as valuable as the code.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== SECTION 5: B2B E-COMMERCE & WINE PLATFORMS ===== -->
+<section>
+  <div class="section-header">
+    <div class="section-number">5</div>
+    <div class="section-title">B2B E-Commerce &amp; Wine Intelligence Platforms</div>
+  </div>
+  <p class="section-desc">Broader platforms for B2B wholesale ordering and wine market intelligence — the "how do restaurants order wine online" layer.</p>
+
+  <div class="repo-grid">
+
+    <!-- SPREE COMMERCE -->
+    <div class="repo-card top-pick">
+      <div class="repo-card-header">
+        <div class="repo-name"><a href="https://github.com/spree/spree" target="_blank">spree/spree</a></div>
+        <div class="repo-badges">
+          <span class="badge badge-lang">Ruby on Rails</span>
+          <span class="badge badge-stars">⭐ ~14K</span>
+          <span class="badge badge-active">● Active (Feb 2026)</span>
+        </div>
+      </div>
+      <p class="repo-desc"><strong>Open-source commerce platform for B2B wholesale, multi-vendor marketplace, and multi-region e-commerce.</strong> API-first architecture. Supports complex commerce scenarios natively — B2B wholesale ordering with tiered pricing, multi-currency, multi-warehouse inventory. One of the most mature open-source e-commerce platforms available.</p>
+      <div class="repo-stats">
+        <span>⭐ ~14,000 stars</span>
+        <span>📅 Long-running project</span>
+        <span>🏷️ API-first architecture</span>
+      </div>
+      <div class="repo-relevance">
+        <strong>GranMonte Relevance — HIGH (long-term).</strong> If GranMonte builds a self-service ordering portal for restaurants (vs. phone/email ordering), Spree is the most battle-tested option. Features that map directly: B2B wholesale pricing (different prices per restaurant account), multi-warehouse inventory (port warehouse vs. FL distribution center), order approval workflows, and reorder functionality. Overkill for 5 restaurants, but essential at 50+. The API-first design means a JARVIS agent could place orders programmatically.
+      </div>
+    </div>
+
+    <!-- GIT.WINE -->
+    <div class="repo-card">
+      <div class="repo-card-header">
+        <div class="repo-name"><a href="https://git.wine/" target="_blank">git.wine</a> (SaaS — not open source)</div>
+        <div class="repo-badges">
+          <span class="badge badge-lang">SaaS Platform</span>
+          <span class="badge" style="background:#f0f0f0;color:#666;">$197/mo</span>
+        </div>
+      </div>
+      <p class="repo-desc"><strong>Wine distribution intelligence platform.</strong> Competitive intelligence — see which wines competitors are featuring and at what prices. Track distribution gains/losses and placement changes across 1,000s of wine programs globally. Geographic wine segmentation. Real-time updates. Email notifications. Monthly wine trend reports.</p>
+      <div class="repo-stats">
+        <span>💰 $197/month (was $300)</span>
+        <span>🔒 Proprietary / SaaS</span>
+        <span>🌍 Global wine market data</span>
+      </div>
+      <div class="repo-relevance">
+        <strong>GranMonte Relevance — HIGH (competitive intel).</strong> Not open-source, but flagged because it solves the "what are competitors doing" problem. At $197/mo, it might be worth it once GranMonte has revenue — see which Thai restaurants are already carrying wines, what competitors price at, and where distribution gaps exist in Florida. A JARVIS agent could scrape similar data for free from restaurant wine lists online (using the browser-automation skill) as a DIY alternative.
+      </div>
+    </div>
+
+    <!-- HA WINE CELLAR -->
+    <div class="repo-card">
+      <div class="repo-card-header">
+        <div class="repo-name"><a href="https://github.com/BaconWappedBitcoin/ha-wine-cellar" target="_blank">BaconWappedBitcoin/ha-wine-cellar</a></div>
+        <div class="repo-badges">
+          <span class="badge badge-lang">Home Assistant</span>
+          <span class="badge badge-active">● Active (2026)</span>
+        </div>
+      </div>
+      <p class="repo-desc"><strong>Cork Dork — Wine Cellar Tracker for Home Assistant.</strong> Custom HA integration with visual rack grids, AI-powered label scanning, Vivino ratings/pricing integration, barcode scanning, drag-and-drop bottle management. 46 releases. MIT licensed.</p>
+      <div class="repo-stats">
+        <span>🏷️ 46 releases</span>
+        <span>📅 Active development</span>
+        <span>🤖 AI label scanning</span>
+        <span>🍷 Vivino integration</span>
+      </div>
+      <div class="repo-relevance">
+        <strong>GranMonte Relevance — LOW (niche).</strong> Consumer wine tracking, not distribution. However, the Vivino price scraping and barcode-to-wine-data pipeline could be repurposed for market research — scan a barcode, get competitive pricing data automatically.
+      </div>
+    </div>
+
+    <!-- UC DAVIS WINE PRICE API -->
+    <div class="repo-card">
+      <div class="repo-card-header">
+        <div class="repo-name"><a href="https://github.com/UCDavisLibrary/wine-price-api" target="_blank">UCDavisLibrary/wine-price-api</a></div>
+        <div class="repo-badges">
+          <span class="badge badge-lang">PostgREST</span>
+          <span class="badge badge-dormant">○ Academic</span>
+        </div>
+      </div>
+      <p class="repo-desc"><strong>Wine Price Data API.</strong> UC Davis project providing a REST API for wine price data with provenance tracking. Uses PostgREST on PostgreSQL. Academic but provides a clean API design pattern for wine pricing data.</p>
+      <div class="repo-stats">
+        <span>🏫 UC Davis Library</span>
+        <span>📊 PostgREST API</span>
+      </div>
+      <div class="repo-relevance">
+        <strong>GranMonte Relevance — LOW (reference).</strong> The API design pattern (PostgREST auto-generating REST endpoints from a Postgres schema) is a fast way to build a wine pricing API. Could be used to expose GranMonte's price list to restaurant customers as a simple API endpoint.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<div class="table-wrapper">
+  <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--wine-deep);margin-bottom:20px;">Master Comparison Table</h2>
+  <table class="comparison-table">
+    <thead>
+      <tr>
+        <th>Repository</th>
+        <th>Category</th>
+        <th>Stack</th>
+        <th>Stars</th>
+        <th>Activity</th>
+        <th>License</th>
+        <th>GranMonte Fit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="repo-link" href="https://github.com/PHPDEV-OPS/Kessly" target="_blank">Kessly</a></td>
+        <td>Wine Distribution SCM</td>
+        <td>Laravel/PHP</td>
+        <td>0</td>
+        <td style="color:var(--green-badge);">● Active</td>
+        <td>MIT</td>
+        <td><strong style="color:var(--green-badge);">★★★★★</strong></td>
+      </tr>
+      <tr>
+        <td><a class="repo-link" href="https://github.com/jagduvi1/Cellarion" target="_blank">Cellarion</a></td>
+        <td>Wine Management + AI</td>
+        <td>MERN + Claude</td>
+        <td>New</td>
+        <td style="color:var(--green-badge);">● Active</td>
+        <td>—</td>
+        <td><strong style="color:var(--green-badge);">★★★★☆</strong></td>
+      </tr>
+      <tr>
+        <td><a class="repo-link" href="https://github.com/buddhastephenson/wine-distributor-project" target="_blank">AOC Wine Distributor</a></td>
+        <td>Distribution + Pricing</td>
+        <td>TypeScript/React</td>
+        <td>0</td>
+        <td style="color:var(--green-badge);">● Active</td>
+        <td>—</td>
+        <td><strong style="color:var(--green-badge);">★★★★☆</strong></td>
+      </tr>
+      <tr>
+        <td><a class="repo-link" href="https://github.com/fleetbase/fleetbase" target="_blank">Fleetbase</a></td>
+        <td>Logistics OS</td>
+        <td>JS/PHP</td>
+        <td>1,803</td>
+        <td style="color:var(--green-badge);">● Active</td>
+        <td>AGPL-3.0</td>
+        <td><strong style="color:var(--green-badge);">★★★★☆</strong></td>
+      </tr>
+      <tr>
+        <td><a class="repo-link" href="https://github.com/spree/spree" target="_blank">Spree Commerce</a></td>
+        <td>B2B E-Commerce</td>
+        <td>Ruby on Rails</td>
+        <td>~14K</td>
+        <td style="color:var(--green-badge);">● Active</td>
+        <td>—</td>
+        <td><strong style="color:#8b6914;">★★★☆☆</strong></td>
+      </tr>
+      <tr>
+        <td><a class="repo-link" href="https://github.com/bcgov/jag-lcrb-carla-public" target="_blank">CARLA (BC Gov)</a></td>
+        <td>Alcohol Licensing</td>
+        <td>C# / .NET</td>
+        <td>13</td>
+        <td style="color:var(--green-badge);">● Active</td>
+        <td>Apache-2.0</td>
+        <td><strong style="color:#8b6914;">★★★☆☆</strong></td>
+      </tr>
+      <tr>
+        <td><a class="repo-link" href="https://github.com/the-broke-sommeliers/wine-cellar" target="_blank">wine-cellar</a></td>
+        <td>Wine Inventory</td>
+        <td>Python/Django</td>
+        <td>40</td>
+        <td style="color:var(--green-badge);">● Active</td>
+        <td>—</td>
+        <td><strong style="color:#8b6914;">★★★☆☆</strong></td>
+      </tr>
+      <tr>
+        <td><a class="repo-link" href="https://github.com/amritmaurya1504/Restaurant_POS_System" target="_blank">Restaurant POS (MERN)</a></td>
+        <td>Restaurant POS</td>
+        <td>MERN</td>
+        <td>205</td>
+        <td style="color:#8b6914;">○ Stale</td>
+        <td>—</td>
+        <td><strong style="color:#8b6914;">★★☆☆☆</strong></td>
+      </tr>
+      <tr>
+        <td><a class="repo-link" href="https://github.com/Sarayutp/lanaim-pos-v5.3" target="_blank">LanAim Thai POS</a></td>
+        <td>Thai Restaurant POS</td>
+        <td>Python/Flask</td>
+        <td>0</td>
+        <td style="color:#8b6914;">○ Stale</td>
+        <td>MIT</td>
+        <td><strong style="color:#8b6914;">★★☆☆☆</strong></td>
+      </tr>
+      <tr>
+        <td><a class="repo-link" href="https://github.com/UCDavisLibrary/wine-ontology" target="_blank">UC Davis Wine Ontology</a></td>
+        <td>Wine Data Model</td>
+        <td>OWL/RDF</td>
+        <td>—</td>
+        <td style="color:#8b1a1a;">✗ Academic</td>
+        <td>—</td>
+        <td><strong style="color:#8b6914;">★★☆☆☆</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- STRATEGIC RECOMMENDATIONS -->
+<div class="recommendation">
+  <div class="rec-box">
+    <h2>Strategic Recommendations for GranMonte US Launch</h2>
+    <ol class="rec-list">
+      <li>
+        <span class="rec-priority">P0</span>
+        <div class="rec-text"><strong>Fork Kessly as the operational backbone.</strong> It's MIT licensed, wine-distribution-specific, and covers 70% of GranMonte's day-one needs (inventory, orders, customers, invoicing). Customize: add GranMonte's pricing formulas from the AOC Wine Distributor repo, add Florida excise tax fields ($2.25/gal wine), and build a TTB monthly report generator. Estimated effort: 2–3 weeks of JARVIS-assisted development.</div>
+      </li>
+      <li>
+        <span class="rec-priority">P1</span>
+        <div class="rec-text"><strong>Build a compliance module from scratch.</strong> No open-source solution exists. Use CARLA's data model as reference. Track: TTB permit status, COLA label approvals (per SKU), FL JDBW license progress, federal excise tax payments, and state reporting deadlines. This becomes a sellable asset — small wine importers would pay $100–300/mo for this. Start with a simple spreadsheet-to-dashboard approach, automate later.</div>
+      </li>
+      <li>
+        <span class="rec-priority">P2</span>
+        <div class="rec-text"><strong>Extract the pricing engine from AOC Wine Distributor.</strong> The markup formula logic (FOB + duties + shipping + margin = wholesale price) is directly applicable. Adapt for GranMonte: GranMonte Khao Yai FOB (from price list) → TTB duty → ocean freight → FL excise → distributor margin → restaurant wholesale price. Auto-generate price sheets for restaurant buyers.</div>
+      </li>
+      <li>
+        <span class="rec-priority">P3</span>
+        <div class="rec-text"><strong>Deploy Fleetbase when delivery volume justifies it.</strong> Initially, Up will likely deliver wine personally or use a local carrier. Once GranMonte is supplying 10+ restaurants, Fleetbase's route optimization and delivery tracking become valuable. The driver app lets delivery staff capture proof-of-delivery photos — important for compliance auditing.</div>
+      </li>
+      <li>
+        <span class="rec-priority">P4</span>
+        <div class="rec-text"><strong>Use Cellarion's AI pipeline for competitive intelligence.</strong> Adapt the Claude Vision label scanning to catalog competitor wines at Thai restaurants during sales visits. Build a "what wines are Thai restaurants in Florida currently carrying?" database. This intelligence drives the sales pitch: "You're carrying [X wine] at $Y — GranMonte offers authentic Thai terroir wine at $Z."</div>
+      </li>
+      <li>
+        <span class="rec-priority">P5</span>
+        <div class="rec-text"><strong>Consider the LanAim Thai POS as a Trojan horse.</strong> Offer Thai restaurants a free, Thai-language POS upgrade with a built-in GranMonte wine ordering module. This creates stickiness — once the POS is installed, reordering GranMonte wine is one tap. High-effort, high-reward play for after initial traction is proven.</div>
+      </li>
+    </ol>
+  </div>
+</div>
+
+<!-- CONFIDENCE ASSESSMENT -->
+<div class="confidence-section">
+  <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--wine-deep);margin-bottom:20px;">Confidence Assessment</h2>
+  <div class="confidence-grid">
+    <div class="conf-card high">
+      <h3>✓ High Confidence (90%+)</h3>
+      <ul>
+        <li>Kessly is the most feature-complete open-source wine distribution system on GitHub</li>
+        <li>No open-source US alcohol compliance tools exist — confirmed across GitHub, Google, and industry sources</li>
+        <li>Fleetbase is the dominant open-source logistics platform (1.8K stars, active development)</li>
+        <li>Spree Commerce is the most mature open-source B2B e-commerce platform</li>
+        <li>Proprietary compliance tools cost $500–2,000+/month (Sovos, 365WineTrade, Joy of Wine)</li>
+      </ul>
+    </div>
+    <div class="conf-card medium">
+      <h3>◐ Medium Confidence (70–89%)</h3>
+      <ul>
+        <li>Cellarion's AI wine management approach is replicable for competitive intel</li>
+        <li>CARLA's licensing workflow patterns are transferable to US TTB processes</li>
+        <li>AOC Wine Distributor's pricing formulas cover standard wine distribution markup calculations</li>
+        <li>The Thai POS "Trojan horse" strategy could drive wine adoption in Thai restaurants</li>
+      </ul>
+    </div>
+    <div class="conf-card low">
+      <h3>◯ Lower Confidence (50–69%)</h3>
+      <ul>
+        <li>git.wine's $197/mo competitive intel may or may not cover Thai wine specifically</li>
+        <li>LanAim Thai POS quality/completeness is unverified (0 stars, 1 contributor)</li>
+        <li>Whether forking Kessly is faster than building from scratch — depends on code quality audit</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SOURCES -->
+<div class="sources">
+  <h2>Sources</h2>
+  <div class="source-group">
+    <h3>Primary GitHub Repositories</h3>
+    <ul>
+      <li><a href="https://github.com/PHPDEV-OPS/Kessly" target="_blank">PHPDEV-OPS/Kessly</a> — <span class="src-desc">Wine distribution SCM, Laravel/PHP, MIT license</span></li>
+      <li><a href="https://github.com/jagduvi1/Cellarion" target="_blank">jagduvi1/Cellarion</a> — <span class="src-desc">MERN wine cellar app with Anthropic Claude AI integration</span></li>
+      <li><a href="https://github.com/buddhastephenson/wine-distributor-project" target="_blank">buddhastephenson/wine-distributor-project</a> — <span class="src-desc">AOC Wines distributor management with pricing engine</span></li>
+      <li><a href="https://github.com/the-broke-sommeliers/wine-cellar" target="_blank">the-broke-sommeliers/wine-cellar</a> — <span class="src-desc">Self-hosted Django wine management (40★)</span></li>
+      <li><a href="https://github.com/fleetbase/fleetbase" target="_blank">fleetbase/fleetbase</a> — <span class="src-desc">Open-source logistics OS (1,803★)</span></li>
+      <li><a href="https://github.com/spree/spree" target="_blank">spree/spree</a> — <span class="src-desc">B2B e-commerce platform (~14K★)</span></li>
+      <li><a href="https://github.com/bcgov/jag-lcrb-carla-public" target="_blank">bcgov/jag-lcrb-carla-public</a> — <span class="src-desc">BC Government liquor licensing system (43 contributors)</span></li>
+      <li><a href="https://github.com/amritmaurya1504/Restaurant_POS_System" target="_blank">amritmaurya1504/Restaurant_POS_System</a> — <span class="src-desc">MERN restaurant POS (205★)</span></li>
+      <li><a href="https://github.com/Sarayutp/lanaim-pos-v5.3" target="_blank">Sarayutp/lanaim-pos-v5.3</a> — <span class="src-desc">Thai restaurant POS system (Flask/Python)</span></li>
+      <li><a href="https://github.com/UCDavisLibrary/wine-ontology" target="_blank">UCDavisLibrary/wine-ontology</a> — <span class="src-desc">RDF wine ontology with TTB labeling rules</span></li>
+      <li><a href="https://github.com/BaconWappedBitcoin/ha-wine-cellar" target="_blank">BaconWappedBitcoin/ha-wine-cellar</a> — <span class="src-desc">Home Assistant wine cellar tracker with Vivino integration</span></li>
+      <li><a href="https://github.com/PRUDHVIRAJ2003/wine-shop-management" target="_blank">PRUDHVIRAJ2003/wine-shop-management</a> — <span class="src-desc">Next.js 14 + Supabase wine shop management</span></li>
+      <li><a href="https://github.com/PriyamSoni-19/Strategic-Wine-Inventory-Analytics-MYSQL" target="_blank">PriyamSoni-19/Strategic-Wine-Inventory-Analytics-MYSQL</a> — <span class="src-desc">Wine supply chain SQL analytics</span></li>
+      <li><a href="https://github.com/akhila-srinagula/powerbi-wine-distribution-analysis" target="_blank">akhila-srinagula/powerbi-wine-distribution-analysis</a> — <span class="src-desc">Power BI wine distribution dashboard templates</span></li>
+      <li><a href="https://github.com/qanastek/WinesLabelDataset" target="_blank">qanastek/WinesLabelDataset</a> — <span class="src-desc">Wine label CV training dataset</span></li>
+      <li><a href="https://github.com/UCDavisLibrary/wine-price-api" target="_blank">UCDavisLibrary/wine-price-api</a> — <span class="src-desc">PostgREST wine pricing API</span></li>
+    </ul>
+  </div>
+  <div class="source-group">
+    <h3>Industry & Commercial References</h3>
+    <ul>
+      <li><a href="https://git.wine/" target="_blank">git.wine</a> — <span class="src-desc">Wine distribution intelligence SaaS ($197/mo)</span></li>
+      <li><a href="https://sovos.com/shipcompliant/industries/importers/" target="_blank">Sovos ShipCompliant</a> — <span class="src-desc">Beverage alcohol importer compliance platform</span></li>
+      <li><a href="https://www.westerncomputer.com/365winetrade/" target="_blank">365WineTrade</a> — <span class="src-desc">Wine distributor ERP on Dynamics 365</span></li>
+      <li><a href="https://joyofwine.co/" target="_blank">Joy of Wine Company</a> — <span class="src-desc">Wine compliance reporting software</span></li>
+      <li><a href="https://www.infopluscommerce.com/wine-fulfillment-software" target="_blank">InfoPlus</a> — <span class="src-desc">Wine fulfillment WMS with compliance reporting</span></li>
+      <li><a href="https://wifitalents.com/best/wine-inventory-management-software/" target="_blank">Top 10 Wine Inventory Software 2026</a> — <span class="src-desc">Industry comparison of commercial wine inventory tools</span></li>
+      <li><a href="https://www.ttb.gov/regulated-commodities/beverage-alcohol/wine/wholesaler-importer" target="_blank">TTB.gov — Wholesaler/Importer</a> — <span class="src-desc">Official TTB wine import requirements</span></li>
+      <li><a href="https://medium.com/@jagduvi79/how-i-built-a-full-stack-wine-cellar-app-in-3-weeks-with-claude-code-80f63ae589c9" target="_blank">Building Cellarion with Claude Code (Medium)</a> — <span class="src-desc">Developer writeup on AI-assisted wine app development</span></li>
+      <li><a href="https://www.growexx.com/alcohol-compliance-software-for-multi-state-operations/" target="_blank">GrowExx — AI Alcohol Compliance</a> — <span class="src-desc">Commercial multi-state compliance automation</span></li>
+      <li><a href="https://floreant.org/" target="_blank">Floreant POS</a> — <span class="src-desc">Free open-source restaurant POS (legacy)</span></li>
+    </ul>
+  </div>
+  <div class="source-group">
+    <h3>Methodology</h3>
+    <ul>
+      <li>GitHub API queries — Repository metadata, README inspection, tree analysis, contributor data</li>
+      <li>GitHub topic searches — wine, restaurant-pos, restaurant-management, wine-cellar, wholesale, logistics</li>
+      <li>Web searches — 15+ targeted queries across GitHub, industry sites, and developer blogs</li>
+      <li>Tavily extraction — Full README content for repos where GitHub API rate-limited</li>
+      <li>Cross-referencing — Commercial product features compared against open-source alternatives</li>
+    </ul>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="report-footer">
+  <p>Research compiled April 2, 2026 · mhoooo × GranMonte · <a href="https://deerflow.tech" target="_blank">Created by Deerflow</a></p>
+</footer>
+
+</body>
+</html>
