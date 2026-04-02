@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GranMonte — Thailand's Premier Wine for Your Restaurant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --burgundy: #6B1D2A;
+            --burgundy-deep: #4A1320;
+            --burgundy-light: #8B2E3B;
+            --gold: #C9A84C;
+            --gold-light: #E8CC7A;
+            --gold-dim: #A08030;
+            --cream: #FDF8F0;
+            --dark: #1A0A0E;
+            --text: #2C1118;
+            --text-light: #8B6B70;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--burgundy-deep) 0%, var(--burgundy) 40%, var(--burgundy-light) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(201,168,76,0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.1) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 80%, rgba(0,0,0,0.3) 0%, transparent 60%);
+        }
+
+        .hero-content { position: relative; z-index: 2; max-width: 800px; }
+
+        .hero-badge {
+            display: inline-block;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 0.4rem 1.5rem;
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            border-radius: 2px;
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-weight: 300;
+            color: white;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--gold);
+            font-weight: 400;
+        }
+
+        .hero-sub {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.7);
+            font-weight: 300;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .hero-stat-label {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 0.3rem;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--gold-dim);
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            animation: pulse 2s infinite;
+        }
+
+        /* ===== SECTIONS ===== */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold-dim);
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 400;
+            color: var(--burgundy);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .lead {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 700px;
+            line-height: 1.7;
+            margin-bottom: 3rem;
+        }
+
+        /* ===== WINE CARDS ===== */
+        .wine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .wine-card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            border: 1px solid rgba(107,29,42,0.08);
+        }
+
+        .wine-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(107,29,42,0.12);
+        }
+
+        .wine-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--burgundy), var(--gold));
+        }
+
+        .wine-type {
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold-dim);
+            margin-bottom: 0.5rem;
+        }
+
+        .wine-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--burgundy);
+            margin-bottom: 0.8rem;
+        }
+
+        .wine-desc {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .wine-prices {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-top: 1px solid rgba(107,29,42,0.1);
+            padding-top: 1rem;
+        }
+
+        .wine-price-group { text-align: center; }
+
+        .wine-price-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-light);
+        }
+
+        .wine-price {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--burgundy);
+        }
+
+        .wine-margin {
+            background: linear-gradient(135deg, var(--burgundy), var(--burgundy-light));
+            color: var(--gold);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            letter-spacing: 1px;
+        }
+
+        /* ===== PROFIT CALCULATOR ===== */
+        .calculator {
+            background: linear-gradient(135deg, var(--burgundy-deep), var(--burgundy));
+            border-radius: 16px;
+            padding: 3rem;
+            color: white;
+            margin: 3rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .calculator::before {
+            content: '';
+            position: absolute;
+            top: -50%; right: -20%;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .calculator h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .calculator .lead {
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 2rem;
+        }
+
+        .calc-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .calc-group label {
+            display: block;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .calc-group input, .calc-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(201,168,76,0.3);
+            border-radius: 6px;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .calc-group input:focus, .calc-group select:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .calc-group select option { background: var(--burgundy-deep); color: white; }
+
+        .calc-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            position: relative;
+        }
+
+        .calc-result {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(201,168,76,0.2);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .calc-result-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .calc-result-label {
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-top: 0.4rem;
+        }
+
+        /* ===== AWARDS TICKER ===== */
+        .awards-section {
+            background: var(--dark);
+            padding: 4rem 2rem;
+            overflow: hidden;
+        }
+
+        .awards-ticker {
+            display: flex;
+            gap: 4rem;
+            animation: scroll 25s linear infinite;
+            width: max-content;
+        }
+
+        .award-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            white-space: nowrap;
+        }
+
+        .award-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .award-text {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.85rem;
+        }
+
+        .award-text strong {
+            display: block;
+            color: var(--gold);
+            font-size: 0.95rem;
+        }
+
+        /* ===== WHY SECTION ===== */
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .why-card {
+            padding: 2rem;
+            border-left: 3px solid var(--gold);
+            background: white;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .why-card h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            color: var(--burgundy);
+            margin-bottom: 0.5rem;
+        }
+
+        .why-card p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* ===== PAIRING SECTION ===== */
+        .pairing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .pairing-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 1px solid rgba(107,29,42,0.08);
+        }
+
+        .pairing-dish {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--burgundy);
+            margin-bottom: 0.3rem;
+        }
+
+        .pairing-wine {
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold-dim);
+            margin-bottom: 0.5rem;
+        }
+
+        .pairing-note {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* ===== CTA ===== */
+        .cta-section {
+            background: linear-gradient(135deg, var(--burgundy-deep), var(--burgundy));
+            padding: 5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(201,168,76,0.08) 0%, transparent 60%);
+        }
+
+        .cta-section h2 {
+            color: white;
+            position: relative;
+        }
+
+        .cta-section .lead {
+            color: rgba(255,255,255,0.6);
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: var(--burgundy-deep);
+            padding: 1rem 3rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(201,168,76,0.3);
+        }
+
+        .contact-info {
+            margin-top: 2rem;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.85rem;
+            position: relative;
+        }
+
+        .contact-info a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--dark);
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.3);
+        }
+
+        footer a {
+            color: rgba(255,255,255,0.25);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        footer a:hover { color: var(--gold); }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s, transform 0.6s;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .hero-stats { gap: 1.5rem; }
+            .calculator { padding: 2rem 1.5rem; }
+            section { padding: 3rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-content">
+        <div class="hero-badge">🏆 6× Best National Producer — AWC Vienna</div>
+        <h1>Bring <em>Thailand's Wine</em><br>to Your Table</h1>
+        <p class="hero-sub">GranMonte — the only Thai winery in the world winning gold medals alongside France and Italy. Now available for Florida restaurants.</p>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-number">25</div>
+                <div class="hero-stat-label">Years of Winemaking</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-number">6×</div>
+                <div class="hero-stat-label">Best National Producer</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-number">60%</div>
+                <div class="hero-stat-label">Restaurant Margin</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-number">GI</div>
+                <div class="hero-stat-label">First Thai Wine GI</div>
+            </div>
+        </div>
+    </div>
+    <div class="scroll-hint">↓ Discover the wines ↓</div>
+</div>
+
+<!-- WINES -->
+<section class="fade-in">
+    <div class="section-label">The Portfolio</div>
+    <h2>Four wines, one story: Thailand's terroir</h2>
+    <p class="lead">Crafted by Nikki Lohitnavy — Thailand's first and only qualified oenologist — each bottle carries the Khao Yai Geographical Indication, a guarantee of origin and quality.</p>
+
+    <div class="wine-grid">
+        <div class="wine-card" onclick="updateCalc('sakuna')">
+            <div class="wine-type">Rosé · Khao Yai GI</div>
+            <div class="wine-name">Sakuna Rosé</div>
+            <div class="wine-desc">Bright and refreshing with notes of strawberry and citrus. Perfect companion to spicy Thai cuisine — the acidity cuts through chili heat beautifully.</div>
+            <div class="wine-prices">
+                <div class="wine-price-group">
+                    <div class="wine-price-label">Your Cost</div>
+                    <div class="wine-price">$16</div>
+                </div>
+                <div class="wine-price-group">
+                    <div class="wine-price-label">Menu Price</div>
+                    <div class="wine-price">$40</div>
+                </div>
+                <div class="wine-margin">$24 margin</div>
+            </div>
+        </div>
+
+        <div class="wine-card" onclick="updateCalc('chenin')">
+            <div class="wine-type">White · Chenin Blanc</div>
+            <div class="wine-name">Spring</div>
+            <div class="wine-desc">Tropical aromatics with honeydew and pear. Off-dry style that pairs masterfully with green curry, pad thai, and mango salad.</div>
+            <div class="wine-prices">
+                <div class="wine-price-group">
+                    <div class="wine-price-label">Your Cost</div>
+                    <div class="wine-price">$18</div>
+                </div>
+                <div class="wine-price-group">
+                    <div class="wine-price-label">Menu Price</div>
+                    <div class="wine-price">$45</div>
+                </div>
+                <div class="wine-margin">$27 margin</div>
+            </div>
+        </div>
+
+        <div class="wine-card" onclick="updateCalc('heritage')">
+            <div class="wine-type">Red · Syrah</div>
+            <div class="wine-name">Heritage</div>
+            <div class="wine-desc">Medium-bodied with dark fruit and spice. Award-winning Syrah that holds its own against any Old World competitor. Stunning with red and massaman curries.</div>
+            <div class="wine-prices">
+                <div class="wine-price-group">
+                    <div class="wine-price-label">Your Cost</div>
+                    <div class="wine-price">$22</div>
+                </div>
+                <div class="wine-price-group">
+                    <div class="wine-price-label">Menu Price</div>
+                    <div class="wine-price">$55</div>
+                </div>
+                <div class="wine-margin">$33 margin</div>
+            </div>
+        </div>
+
+        <div class="wine-card" onclick="updateCalc('orient')">
+            <div class="wine-type">Red Premium · Syrah Reserve</div>
+            <div class="wine-name">The Orient</div>
+            <div class="wine-desc">GranMonte's flagship. Complex, structured, with layers of black fruit, chocolate, and oak. A statement wine for discerning diners and special occasions.</div>
+            <div class="wine-prices">
+                <div class="wine-price-group">
+                    <div class="wine-price-label">Your Cost</div>
+                    <div class="wine-price">$28</div>
+                </div>
+                <div class="wine-price-group">
+                    <div class="wine-price-label">Menu Price</div>
+                    <div class="wine-price">$70</div>
+                </div>
+                <div class="wine-margin">$42 margin</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROFIT CALCULATOR -->
+<section>
+    <div class="calculator fade-in">
+        <h3>See Your Profit</h3>
+        <p class="lead" style="max-width:500px">Adjust the sliders to see how GranMonte adds to your bottom line every month.</p>
+
+        <div class="calc-inputs">
+            <div class="calc-group">
+                <label>Bottles per week</label>
+                <input type="range" id="bottles" min="4" max="40" value="12" oninput="calculate()">
+                <div style="text-align:center; color: var(--gold); font-size: 1.2rem; margin-top: 0.3rem;"><span id="bottles-display">12</span> bottles</div>
+            </div>
+            <div class="calc-group">
+                <label>Primary wine</label>
+                <select id="wine-select" onchange="calculate()">
+                    <option value="sakuna" data-cost="16" data-price="40">Sakuna Rosé ($40)</option>
+                    <option value="chenin" data-cost="18" data-price="45">Spring Chenin Blanc ($45)</option>
+                    <option value="heritage" selected data-cost="22" data-price="55">Heritage Syrah ($55)</option>
+                    <option value="orient" data-cost="28" data-price="70">The Orient Syrah ($70)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="calc-results">
+            <div class="calc-result">
+                <div class="calc-result-value" id="monthly-revenue">$2,640</div>
+                <div class="calc-result-label">Monthly Revenue</div>
+            </div>
+            <div class="calc-result">
+                <div class="calc-result-value" id="monthly-cost">$1,056</div>
+                <div class="calc-result-label">Your Cost</div>
+            </div>
+            <div class="calc-result">
+                <div class="calc-result-value" id="monthly-profit">$1,584</div>
+                <div class="calc-result-label">Monthly Profit</div>
+            </div>
+            <div class="calc-result">
+                <div class="calc-result-value" id="annual-profit">$19,008</div>
+                <div class="calc-result-label">Annual Profit</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- AWARDS TICKER -->
+<div class="awards-section">
+    <div class="awards-ticker">
+        <div class="award-item"><div class="award-icon">🥇</div><div class="award-text"><strong>AWC Vienna 2025</strong>Two Gold Medals</div></div>
+        <div class="award-item"><div class="award-icon">🏆</div><div class="award-text"><strong>6× Best National Producer</strong>AWC Vienna International</div></div>
+        <div class="award-item"><div class="award-icon">🌍</div><div class="award-text"><strong>First Thai Wine GI</strong>Khao Yai Geographical Indication</div></div>
+        <div class="award-item"><div class="award-icon">🎓</div><div class="award-text"><strong>Nikki Lohitnavy</strong>Thailand's First Oenologist</div></div>
+        <div class="award-item"><div class="award-icon">🍇</div><div class="award-text"><strong>25 Years</strong>Pioneering Thai Viticulture</div></div>
+        <div class="award-item"><div class="award-icon">⭐</div><div class="award-text"><strong>University of Adelaide</strong>Trained Winemaker</div></div>
+        <!-- Duplicate for infinite scroll -->
+        <div class="award-item"><div class="award-icon">🥇</div><div class="award-text"><strong>AWC Vienna 2025</strong>Two Gold Medals</div></div>
+        <div class="award-item"><div class="award-icon">🏆</div><div class="award-text"><strong>6× Best National Producer</strong>AWC Vienna International</div></div>
+        <div class="award-item"><div class="award-icon">🌍</div><div class="award-text"><strong>First Thai Wine GI</strong>Khao Yai Geographical Indication</div></div>
+        <div class="award-item"><div class="award-icon">🎓</div><div class="award-text"><strong>Nikki Lohitnavy</strong>Thailand's First Oenologist</div></div>
+        <div class="award-item"><div class="award-icon">🍇</div><div class="award-text"><strong>25 Years</strong>Pioneering Thai Viticulture</div></div>
+        <div class="award-item"><div class="award-icon">⭐</div><div class="award-text"><strong>University of Adelaide</strong>Trained Winemaker</div></div>
+    </div>
+</div>
+
+<!-- WHY GRANMONTE -->
+<section class="fade-in">
+    <div class="section-label">Why This Wine</div>
+    <h2>Not just wine. A story your guests will love.</h2>
+    <p class="lead">Thai restaurants serving Thai wine isn't gimmicky — it's genius. Here's why owners who've tasted it never go back.</p>
+
+    <div class="why-grid">
+        <div class="why-card">
+            <h4>The Only Thai Wine Worth Serving</h4>
+            <p>GranMonte isn't novelty wine. It's the only Thai winery to consistently beat European competitors at blind tastings. AWC Vienna judges don't know where it's from — they just know it's good.</p>
+        </div>
+        <div class="why-card">
+            <h4>60% Margins, Zero Risk</h4>
+            <p>At $16-28 wholesale with $40-70 menu prices, your margins are better than most imported wines. Start with a case of 12. No minimum commitment. Reorder when it sells.</p>
+        </div>
+        <div class="why-card">
+            <h4>Built for Thai Food</h4>
+            <p>Nikki Lohitnavy grew up eating Thai food and making wine. These wines are literally engineered to pair with lemongrass, galangal, chili, and coconut. No other winemaker in the world can say that.</p>
+        </div>
+        <div class="why-card">
+            <h4>Your Guests Will Talk About It</h4>
+            <p>"Thai wine? Really?" becomes "This is incredible!" — every single time. It's the conversation starter that turns a meal into a memory and a first-timer into a regular.</p>
+        </div>
+        <div class="why-card">
+            <h4>Instagram-Ready</h4>
+            <p>Beautiful labels, compelling origin story, award medals. Your guests will photograph it, post it, and bring their friends back to try it. Free marketing that sells itself.</p>
+        </div>
+        <div class="why-card">
+            <h4>Exclusive Territory</h4>
+            <p>We're launching with limited restaurants per city. Early adopters get geographic exclusivity — meaning you're the only Thai restaurant in your area serving GranMonte.</p>
+        </div>
+    </div>
+</section>
+
+<!-- THAI FOOD PAIRINGS -->
+<section class="fade-in">
+    <div class="section-label">Perfect Pairings</div>
+    <h2>Designed for the dishes you already serve</h2>
+    <p class="lead">Each wine was crafted in Thailand, by a Thai winemaker, for Thai cuisine. These aren't suggestions — they're the pairings Nikki herself recommends.</p>
+
+    <div class="pairing-grid">
+        <div class="pairing-card">
+            <div class="pairing-dish">Green Curry</div>
+            <div class="pairing-wine">→ Spring Chenin Blanc</div>
+            <div class="pairing-note">The honeydew sweetness of the Chenin tames coconut cream richness while its acidity lifts the kaffir lime and Thai basil aromatics.</div>
+        </div>
+        <div class="pairing-card">
+            <div class="pairing-dish">Pad Thai</div>
+            <div class="pairing-wine">→ Sakuna Rosé</div>
+            <div class="pairing-note">Bright acidity meets tamarind sweetness. The strawberry notes complement the peanut garnish beautifully.</div>
+        </div>
+        <div class="pairing-card">
+            <div class="pairing-dish">Massaman Curry</div>
+            <div class="pairing-wine">→ Heritage Syrah</div>
+            <div class="pairing-note">Dark fruit and warm spice in the Syrah mirror the cardamom, cinnamon, and star anise in this rich, slow-cooked curry.</div>
+        </div>
+        <div class="pairing-card">
+            <div class="pairing-dish">Tom Yum Goong</div>
+            <div class="pairing-wine">→ Sakuna Rosé</div>
+            <div class="pairing-note">The rosé's citrus profile echoes lemongrass and galangal while its light body doesn't overpower the delicate shrimp.</div>
+        </div>
+        <div class="pairing-card">
+            <div class="pairing-dish">Grilled Meats & Crying Tiger</div>
+            <div class="pairing-wine">→ The Orient Syrah</div>
+            <div class="pairing-note">A flagship wine for flagship dishes. The smoky oak and dark fruit intensity matches chargrilled beef with nam jim jaew perfectly.</div>
+        </div>
+        <div class="pairing-card">
+            <div class="pairing-dish">Mango Sticky Rice</div>
+            <div class="pairing-wine">→ Spring Chenin Blanc</div>
+            <div class="pairing-note">Off-dry tropical Chenin with ripe mango and sweet coconut cream? It's like they were meant for each other — because they were.</div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+    <h2 style="font-size: clamp(2rem, 5vw, 3.5rem);">Ready to be the first?</h2>
+    <p class="lead">Join our exclusive Florida launch. Limited spots per city. Free tasting for qualified restaurants.</p>
+    <a href="mailto:tanyawit@mhoooo.com?subject=GranMonte%20Wine%20—%20Restaurant%20Interest&body=Restaurant%20Name:%0ACity:%0AContact%20Name:%0APhone:%0A%0AI'd%20like%20to%20learn%20more%20about%20carrying%20GranMonte%20wines." class="cta-button">Request a Tasting</a>
+    <div class="contact-info">
+        Or call directly: <a href="tel:+12536537548">(253) 653-7548</a> · <a href="mailto:tanyawit@mhoooo.com">tanyawit@mhoooo.com</a>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <p>GranMonte Vineyard & Winery · Khao Yai, Thailand · Imported by mhoooo LLC</p>
+    <p style="margin-top: 0.5rem;"><a href="https://deerflow.tech" target="_blank">Created by Deerflow</a></p>
+</footer>
+
+<script>
+    // Calculator
+    function calculate() {
+        const bottles = parseInt(document.getElementById('bottles').value);
+        const select = document.getElementById('wine-select');
+        const option = select.options[select.selectedIndex];
+        const cost = parseInt(option.dataset.cost);
+        const price = parseInt(option.dataset.price);
+
+        const monthlyBottles = bottles * 4.33;
+        const revenue = Math.round(monthlyBottles * price);
+        const totalCost = Math.round(monthlyBottles * cost);
+        const profit = revenue - totalCost;
+        const annual = profit * 12;
+
+        document.getElementById('bottles-display').textContent = bottles;
+        document.getElementById('monthly-revenue').textContent = '$' + revenue.toLocaleString();
+        document.getElementById('monthly-cost').textContent = '$' + totalCost.toLocaleString();
+        document.getElementById('monthly-profit').textContent = '$' + profit.toLocaleString();
+        document.getElementById('annual-profit').textContent = '$' + annual.toLocaleString();
+    }
+
+    function updateCalc(wine) {
+        const select = document.getElementById('wine-select');
+        for (let i = 0; i < select.options.length; i++) {
+            if (select.options[i].value === wine) {
+                select.selectedIndex = i;
+                break;
+            }
+        }
+        calculate();
+        document.querySelector('.calculator').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // Intersection Observer for fade-in
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Initial calculation
+    calculate();
+</script>
+
+</body>
+</html>

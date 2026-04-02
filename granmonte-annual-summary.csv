@@ -1,0 +1,4 @@
+scenario,total_revenue,total_cogs,total_gross_profit,year_end_profit,total_bottles
+Conservative,101325,38600,62725,38725,4825
+Moderate,185115,70520,114595,90595,8815
+Aggressive,319200,121600,197600,173600,15200
