@@ -4,416 +4,385 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GranMonte Thai Wine — US Import Hub</title>
-<meta name="description" content="GranMonte Thai Wine US market launch — deliverables hub for sales tools, financial analysis, research, and AI agent resources.">
+<meta name="description" content="Complete deliverables hub for the GranMonte US wine import operation — sales tools, financial models, market research, and AI-powered business intelligence.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
-/* ═══════════════════════════════════════════
+/* ==============================
    CSS VARIABLES & RESET
-   ═══════════════════════════════════════════ */
+   ============================== */
 :root {
   --burgundy: #6B1D2A;
-  --burgundy-deep: #4A0E1C;
-  --burgundy-light: #8B2E3D;
+  --burgundy-deep: #4A1019;
+  --burgundy-light: #8B2D3A;
   --gold: #C9A84C;
-  --gold-light: #D4BC6A;
-  --gold-dim: rgba(201,168,76,0.15);
+  --gold-light: #D4BC72;
+  --gold-dim: #A08930;
   --cream: #FAF6F0;
-  --cream-dark: #F0EAE0;
+  --cream-dark: #F0E8D8;
   --forest: #2D4A3E;
-  --forest-light: #3D6454;
+  --forest-light: #3D6A54;
   --charcoal: #1A1A1A;
-  --text-primary: #2A1F1F;
-  --text-secondary: #5C4A4A;
-  --text-muted: #8A7A7A;
-  --card-bg: #FFFFFF;
-  --card-border: rgba(107,29,42,0.08);
-  --card-shadow: 0 2px 20px rgba(74,14,28,0.06);
-  --card-hover-shadow: 0 8px 40px rgba(74,14,28,0.12);
-  --section-divider: rgba(201,168,76,0.2);
-  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --warm-gray: #8A8278;
+  --border-subtle: rgba(107,29,42,0.12);
+
+  --ff-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --ff-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-*, *::before, *::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
 html {
   scroll-behavior: smooth;
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  font-family: var(--font-body);
+  font-family: var(--ff-body);
   background: var(--cream);
-  color: var(--text-primary);
+  color: var(--charcoal);
   line-height: 1.6;
   overflow-x: hidden;
 }
 
-/* ═══════════════════════════════════════════
-   NOISE TEXTURE OVERLAY
-   ═══════════════════════════════════════════ */
+/* ==============================
+   GRAIN OVERLAY
+   ============================== */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
-  pointer-events: none;
   z-index: 9999;
+  pointer-events: none;
   opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 256px 256px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px;
 }
 
-/* ═══════════════════════════════════════════
+/* ==============================
    HERO SECTION
-   ═══════════════════════════════════════════ */
+   ============================== */
 .hero {
   position: relative;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   text-align: center;
-  background: var(--burgundy-deep);
+  padding: 4rem 2rem;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(45,74,62,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(107,29,42,0.06) 0%, transparent 50%),
+    linear-gradient(175deg, var(--cream) 0%, #F5EDE0 40%, var(--cream-dark) 100%);
   overflow: hidden;
 }
 
-.hero__video-wrap {
+.hero::before {
+  content: '';
   position: absolute;
-  inset: 0;
-  z-index: 0;
+  top: -20%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.08), transparent 70%);
+  animation: floatOrb 20s ease-in-out infinite;
 }
 
-.hero__video-wrap video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.3;
-  filter: saturate(0.6) brightness(0.7);
-}
-
-.hero__overlay {
+.hero::after {
+  content: '';
   position: absolute;
-  inset: 0;
-  z-index: 1;
-  background:
-    radial-gradient(ellipse at 50% 30%, rgba(74,14,28,0.4) 0%, rgba(74,14,28,0.85) 70%),
-    linear-gradient(180deg, rgba(74,14,28,0.3) 0%, rgba(74,14,28,0.95) 100%);
+  bottom: -10%;
+  left: -5%;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(107,29,42,0.06), transparent 70%);
+  animation: floatOrb 25s ease-in-out infinite reverse;
 }
 
-/* Decorative gold corner ornaments */
-.hero__ornament {
-  position: absolute;
-  z-index: 2;
-  width: 120px;
-  height: 120px;
-  opacity: 0.15;
+@keyframes floatOrb {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -40px) scale(1.05); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
 }
 
-.hero__ornament--tl {
-  top: 30px;
-  left: 30px;
-  border-top: 1px solid var(--gold);
-  border-left: 1px solid var(--gold);
-}
-
-.hero__ornament--tr {
-  top: 30px;
-  right: 30px;
-  border-top: 1px solid var(--gold);
-  border-right: 1px solid var(--gold);
-}
-
-.hero__ornament--bl {
-  bottom: 30px;
-  left: 30px;
-  border-bottom: 1px solid var(--gold);
-  border-left: 1px solid var(--gold);
-}
-
-.hero__ornament--br {
-  bottom: 30px;
-  right: 30px;
-  border-bottom: 1px solid var(--gold);
-  border-right: 1px solid var(--gold);
-}
-
-.hero__content {
-  position: relative;
-  z-index: 3;
-  max-width: 800px;
-  padding: 0 30px;
-}
-
-.hero__badge {
-  display: inline-block;
-  font-family: var(--font-body);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--gold);
-  border: 1px solid rgba(201,168,76,0.3);
-  padding: 8px 24px;
-  margin-bottom: 36px;
+.hero-ornament {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
   opacity: 0;
-  animation: fadeUp 0.8s var(--ease-out-expo) 0.3s forwards;
+  animation: fadeUp 1s var(--ease-out-expo) 0.2s forwards;
 }
 
-.hero__title {
-  font-family: var(--font-display);
-  font-size: clamp(2.8rem, 7vw, 5.5rem);
-  font-weight: 700;
-  color: #FFFFFF;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  margin-bottom: 8px;
-  opacity: 0;
-  animation: fadeUp 1s var(--ease-out-expo) 0.5s forwards;
-}
-
-.hero__title em {
-  font-style: italic;
-  color: var(--gold);
-  font-weight: 500;
-}
-
-.hero__subtitle {
-  font-family: var(--font-display);
-  font-size: clamp(1rem, 2.5vw, 1.4rem);
-  font-weight: 400;
-  font-style: italic;
-  color: rgba(255,255,255,0.6);
-  margin-bottom: 28px;
-  opacity: 0;
-  animation: fadeUp 1s var(--ease-out-expo) 0.7s forwards;
-}
-
-.hero__divider {
-  width: 60px;
+.hero-ornament .line {
+  width: 48px;
   height: 1px;
   background: var(--gold);
-  margin: 0 auto 28px;
-  opacity: 0;
-  animation: scaleX 0.8s var(--ease-out-expo) 0.9s forwards;
 }
 
-.hero__desc {
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  font-weight: 300;
-  color: rgba(255,255,255,0.55);
-  max-width: 520px;
-  margin: 0 auto 40px;
-  line-height: 1.7;
-  opacity: 0;
-  animation: fadeUp 1s var(--ease-out-expo) 1.1s forwards;
+.hero-ornament .diamond {
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  transform: rotate(45deg);
 }
 
-.hero__cta {
+.hero-badge {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  font-family: var(--font-body);
-  font-size: 0.8rem;
+  gap: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid var(--gold);
+  border-radius: 100px;
+  font-family: var(--ff-body);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 1s var(--ease-out-expo) 0.4s forwards;
+}
+
+.hero h1 {
+  font-family: var(--ff-display);
+  font-weight: 700;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  line-height: 1.05;
+  color: var(--burgundy);
+  margin-bottom: 0.3em;
+  opacity: 0;
+  animation: fadeUp 1s var(--ease-out-expo) 0.6s forwards;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--forest);
   font-weight: 500;
+}
+
+.hero-subtitle {
+  font-family: var(--ff-display);
+  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--warm-gray);
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: fadeUp 1s var(--ease-out-expo) 0.8s forwards;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeUp 1s var(--ease-out-expo) 1s forwards;
+}
+
+.hero-stat {
+  text-align: center;
+}
+
+.hero-stat .number {
+  font-family: var(--ff-display);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--burgundy);
+  line-height: 1.2;
+}
+
+.hero-stat .label {
+  font-size: 0.7rem;
+  font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--gold);
-  text-decoration: none;
-  padding: 14px 36px;
-  border: 1px solid rgba(201,168,76,0.4);
-  transition: all 0.4s var(--ease-out-quart);
-  opacity: 0;
-  animation: fadeUp 1s var(--ease-out-expo) 1.3s forwards;
+  color: var(--warm-gray);
+  margin-top: 0.25rem;
 }
 
-.hero__cta:hover {
-  background: var(--gold);
-  color: var(--burgundy-deep);
-  border-color: var(--gold);
-}
-
-.hero__cta svg {
-  width: 14px;
-  height: 14px;
-  transition: transform 0.3s var(--ease-out-quart);
-}
-
-.hero__cta:hover svg {
-  transform: translateY(3px);
-}
-
-.hero__scroll-hint {
+.hero-scroll {
   position: absolute;
-  bottom: 40px;
+  bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
+  color: var(--warm-gray);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
   opacity: 0;
-  animation: fadeUp 1s var(--ease-out-expo) 1.8s forwards;
+  animation: fadeUp 1s var(--ease-out-expo) 1.4s forwards;
 }
 
-.hero__scroll-line {
+.hero-scroll .arrow {
   width: 1px;
-  height: 40px;
+  height: 32px;
   background: linear-gradient(to bottom, var(--gold), transparent);
   animation: scrollPulse 2s ease-in-out infinite;
 }
 
-/* ═══════════════════════════════════════════
-   STATS BAR
-   ═══════════════════════════════════════════ */
-.stats-bar {
-  background: var(--burgundy-deep);
-  border-top: 1px solid rgba(201,168,76,0.12);
-  padding: 0;
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(1.3); }
 }
 
-.stats-bar__inner {
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==============================
+   NAVIGATION BAR (sticky)
+   ============================== */
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(250,246,240,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0 2rem;
+}
+
+.nav-inner {
   max-width: 1200px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-}
-
-.stat {
-  padding: 32px 20px;
-  text-align: center;
-  border-right: 1px solid rgba(201,168,76,0.08);
-  transition: background 0.3s ease;
-}
-
-.stat:last-child {
-  border-right: none;
-}
-
-.stat:hover {
-  background: rgba(201,168,76,0.04);
-}
-
-.stat__number {
-  font-family: var(--font-display);
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--gold);
-  line-height: 1;
-  margin-bottom: 6px;
-}
-
-.stat__label {
-  font-family: var(--font-body);
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
-}
-
-/* ═══════════════════════════════════════════
-   MAIN CONTENT
-   ═══════════════════════════════════════════ */
-.main {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 30px;
-}
-
-/* ═══════════════════════════════════════════
-   SECTION STYLING
-   ═══════════════════════════════════════════ */
-.section {
-  padding: 80px 0 40px;
-}
-
-.section__header {
   display: flex;
-  align-items: baseline;
-  gap: 20px;
-  margin-bottom: 48px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--section-divider);
+  align-items: center;
+  gap: 0.25rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 0.75rem 0;
 }
 
-.section__number {
-  font-family: var(--font-display);
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--gold);
-  opacity: 0.6;
+.nav-inner::-webkit-scrollbar { display: none; }
+
+.nav-link {
+  white-space: nowrap;
+  padding: 0.5rem 1rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.3s ease;
   flex-shrink: 0;
 }
 
-.section__title {
-  font-family: var(--font-display);
-  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
-  font-weight: 600;
+.nav-link:hover {
   color: var(--burgundy);
-  letter-spacing: -0.01em;
-  line-height: 1.2;
+  background: rgba(107,29,42,0.06);
 }
 
-.section__desc {
-  font-family: var(--font-body);
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  margin-left: auto;
-  max-width: 300px;
-  text-align: right;
-  line-height: 1.5;
+.nav-link.active {
+  color: var(--burgundy);
+  background: rgba(107,29,42,0.08);
 }
 
-/* ═══════════════════════════════════════════
+/* ==============================
+   SECTION STYLES
+   ============================== */
+.section {
+  padding: 5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-header {
+  margin-bottom: 3.5rem;
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 1rem;
+}
+
+.section-label::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--gold);
+}
+
+.section-title {
+  font-family: var(--ff-display);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 700;
+  color: var(--burgundy);
+  line-height: 1.15;
+  margin-bottom: 0.75rem;
+}
+
+.section-desc {
+  font-size: 1.05rem;
+  color: var(--warm-gray);
+  max-width: 600px;
+  line-height: 1.7;
+}
+
+/* Section dividers */
+.section-divider {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.section-divider hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--border-subtle), var(--gold), var(--border-subtle), transparent);
+}
+
+/* ==============================
    CARD GRID
-   ═══════════════════════════════════════════ */
+   ============================== */
 .card-grid {
   display: grid;
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.5rem;
 }
 
-.card-grid--2 {
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.card-grid--3 {
-  grid-template-columns: repeat(3, 1fr);
-}
-
-.card-grid--2-1 {
-  grid-template-columns: 2fr 1fr;
-}
-
-.card-grid--1-2 {
-  grid-template-columns: 1fr 2fr;
-}
-
-/* ═══════════════════════════════════════════
-   DELIVERABLE CARD
-   ═══════════════════════════════════════════ */
 .card {
   position: relative;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  padding: 32px;
+  background: #fff;
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: all 0.4s var(--ease-out-expo);
+  cursor: pointer;
   text-decoration: none;
   color: inherit;
   display: flex;
   flex-direction: column;
-  transition: all 0.5s var(--ease-out-expo);
   overflow: hidden;
 }
 
@@ -423,480 +392,625 @@ body::before {
   top: 0;
   left: 0;
   right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--gold), var(--burgundy));
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.5s var(--ease-out-expo);
+  height: 3px;
+  background: linear-gradient(90deg, var(--burgundy), var(--gold));
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
 
 .card:hover {
-  box-shadow: var(--card-hover-shadow);
-  transform: translateY(-3px);
-  border-color: rgba(201,168,76,0.2);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(107,29,42,0.08), 0 4px 16px rgba(0,0,0,0.04);
+  border-color: rgba(201,168,76,0.3);
 }
 
 .card:hover::before {
-  transform: scaleX(1);
+  opacity: 1;
 }
 
-.card__icon-row {
+.card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  margin-bottom: 1.25rem;
+  flex-shrink: 0;
+}
+
+.card-icon.sales { background: rgba(107,29,42,0.08); color: var(--burgundy); }
+.card-icon.finance { background: rgba(45,74,62,0.08); color: var(--forest); }
+.card-icon.research { background: rgba(201,168,76,0.1); color: var(--gold-dim); }
+.card-icon.agent { background: rgba(107,29,42,0.06); color: var(--burgundy-light); }
+
+.card-title {
+  font-family: var(--ff-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.card-desc {
+  font-size: 0.88rem;
+  color: var(--warm-gray);
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+.card-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 1.25rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 100px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.card-tag.interactive {
+  background: rgba(107,29,42,0.06);
+  color: var(--burgundy);
+}
+
+.card-tag.data {
+  background: rgba(45,74,62,0.06);
+  color: var(--forest);
+}
+
+.card-tag.doc {
+  background: rgba(201,168,76,0.1);
+  color: var(--gold-dim);
+}
+
+.card-tag.video {
+  background: rgba(107,29,42,0.08);
+  color: var(--burgundy-light);
+}
+
+.card-tag.pdf {
+  background: rgba(201,168,76,0.12);
+  color: var(--gold-dim);
+}
+
+/* ==============================
+   FULL-WIDTH CARD (for video)
+   ============================== */
+.card-full {
+  grid-column: 1 / -1;
+}
+
+/* ==============================
+   DATA TABLE CARDS
+   ============================== */
+.data-table-card {
+  grid-column: 1 / -1;
+  background: #fff;
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.data-table-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--border-subtle);
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
-.card__icon {
-  width: 44px;
-  height: 44px;
+.data-table-header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.data-table-header h3 {
+  font-family: var(--ff-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--charcoal);
+}
+
+.data-table-header .badge {
+  padding: 0.3rem 0.7rem;
+  border-radius: 100px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: rgba(45,74,62,0.08);
+  color: var(--forest);
+}
+
+.data-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.data-table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.data-table-wrap thead th {
+  position: sticky;
+  top: 0;
+  background: var(--cream);
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+  border-bottom: 2px solid var(--border-subtle);
+  white-space: nowrap;
+}
+
+.data-table-wrap tbody td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid rgba(107,29,42,0.05);
+  white-space: nowrap;
+  color: var(--charcoal);
+}
+
+.data-table-wrap tbody tr:hover td {
+  background: rgba(201,168,76,0.04);
+}
+
+.data-table-wrap tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Tier badges in tables */
+.tier-badge {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+.tier-badge.entry { background: rgba(45,74,62,0.1); color: var(--forest); }
+.tier-badge.premium { background: rgba(107,29,42,0.08); color: var(--burgundy); }
+.tier-badge.super-premium { background: rgba(201,168,76,0.15); color: var(--gold-dim); }
+
+/* Highlight margins */
+.margin-good { color: var(--forest); font-weight: 600; }
+.margin-great { color: var(--gold-dim); font-weight: 700; }
+
+/* ==============================
+   CHART GALLERY
+   ============================== */
+.chart-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 1.5rem;
+}
+
+.chart-item {
+  background: #fff;
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.4s var(--ease-out-expo);
+  cursor: pointer;
+}
+
+.chart-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 48px rgba(107,29,42,0.08);
+}
+
+.chart-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.6s var(--ease-out-expo);
+}
+
+.chart-item:hover img {
+  transform: scale(1.02);
+}
+
+.chart-item .chart-label {
+  padding: 1rem 1.25rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.chart-item .chart-label .num {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: rgba(107,29,42,0.06);
+  color: var(--burgundy);
+  font-size: 0.65rem;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--gold-dim);
-  border-radius: 10px;
   flex-shrink: 0;
 }
 
-.card__icon svg {
-  width: 22px;
-  height: 22px;
-  color: var(--gold);
-  stroke: var(--gold);
+/* Full-span for the 5th chart */
+.chart-gallery .chart-item:nth-child(5) {
+  grid-column: 1 / -1;
 }
 
-.card__format {
-  font-family: var(--font-body);
-  font-size: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  background: var(--cream-dark);
-  padding: 4px 10px;
-  border-radius: 3px;
-}
-
-.card__title {
-  font-family: var(--font-display);
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--burgundy);
-  margin-bottom: 10px;
-  line-height: 1.3;
-  transition: color 0.3s ease;
-}
-
-.card:hover .card__title {
-  color: var(--burgundy-deep);
-}
-
-.card__desc {
-  font-family: var(--font-body);
-  font-size: 0.82rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
-  flex-grow: 1;
-  margin-bottom: 20px;
-}
-
-.card__tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 16px;
-}
-
-.card__tag {
-  font-family: var(--font-body);
-  font-size: 0.65rem;
-  font-weight: 500;
-  color: var(--forest);
-  background: rgba(45,74,62,0.08);
-  padding: 3px 10px;
-  border-radius: 2px;
-}
-
-.card__footer {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-body);
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--gold);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  margin-top: auto;
-  padding-top: 16px;
-  border-top: 1px solid rgba(201,168,76,0.1);
-}
-
-.card__footer svg {
-  width: 14px;
-  height: 14px;
-  transition: transform 0.3s var(--ease-out-quart);
-}
-
-.card:hover .card__footer svg {
-  transform: translateX(4px);
-}
-
-/* ═══════════════════════════════════════════
-   FEATURED CARD (SALES PITCH)
-   ═══════════════════════════════════════════ */
-.card--featured {
-  background: linear-gradient(135deg, var(--burgundy-deep) 0%, var(--burgundy) 100%);
-  border: 1px solid rgba(201,168,76,0.15);
-  color: #fff;
-}
-
-.card--featured::before {
-  background: var(--gold);
-}
-
-.card--featured .card__icon {
-  background: rgba(201,168,76,0.15);
-}
-
-.card--featured .card__title {
-  color: #fff;
-}
-
-.card--featured:hover .card__title {
-  color: var(--gold-light);
-}
-
-.card--featured .card__desc {
-  color: rgba(255,255,255,0.65);
-}
-
-.card--featured .card__format {
-  background: rgba(201,168,76,0.15);
-  color: var(--gold-light);
-}
-
-.card--featured .card__tag {
-  background: rgba(201,168,76,0.12);
-  color: var(--gold-light);
-}
-
-.card--featured .card__footer {
-  border-top-color: rgba(201,168,76,0.15);
-  color: var(--gold-light);
-}
-
-/* ═══════════════════════════════════════════
-   VIDEO CARD
-   ═══════════════════════════════════════════ */
-.card--video {
-  padding: 0;
-  overflow: hidden;
-}
-
-.card--video .card__video-wrap {
-  position: relative;
-  aspect-ratio: 16/9;
-  background: #000;
-  overflow: hidden;
-}
-
-.card--video video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.card--video .card__video-badge {
-  position: absolute;
-  bottom: 12px;
-  right: 12px;
-  font-family: var(--font-body);
-  font-size: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: #fff;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(8px);
-  padding: 4px 10px;
-  border-radius: 3px;
-}
-
-.card--video .card__body {
-  padding: 24px 32px 32px;
-}
-
-/* ═══════════════════════════════════════════
-   CHART GALLERY
-   ═══════════════════════════════════════════ */
-.chart-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
-}
-
-.chart-card {
-  position: relative;
-  display: block;
-  text-decoration: none;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  overflow: hidden;
-  transition: all 0.5s var(--ease-out-expo);
-}
-
-.chart-card:hover {
-  box-shadow: var(--card-hover-shadow);
-  transform: translateY(-3px);
-  border-color: rgba(201,168,76,0.2);
-}
-
-.chart-card__img-wrap {
-  aspect-ratio: 4/3;
-  overflow: hidden;
+.chart-gallery .chart-item:nth-child(5) img {
+  max-height: 400px;
+  object-fit: contain;
   background: #fff;
 }
 
-.chart-card__img-wrap img {
+/* ==============================
+   VIDEO EMBED
+   ============================== */
+.video-container {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--charcoal);
+  max-width: 800px;
+}
+
+.video-container video {
   width: 100%;
-  height: 100%;
-  object-fit: contain;
-  padding: 8px;
-  transition: transform 0.5s var(--ease-out-expo);
+  display: block;
+  border-radius: 16px;
 }
 
-.chart-card:hover .chart-card__img-wrap img {
-  transform: scale(1.05);
-}
-
-.chart-card__label {
-  padding: 14px 16px;
-  font-family: var(--font-body);
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--text-primary);
-  line-height: 1.4;
-  border-top: 1px solid var(--card-border);
-}
-
-/* ═══════════════════════════════════════════
-   DATA TABLE CARDS
-   ═══════════════════════════════════════════ */
-.data-cards {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-}
-
-.data-card {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  text-decoration: none;
-  color: inherit;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  padding: 20px 22px;
-  transition: all 0.4s var(--ease-out-expo);
-}
-
-.data-card:hover {
-  box-shadow: var(--card-hover-shadow);
-  transform: translateY(-2px);
-  border-color: rgba(201,168,76,0.2);
-}
-
-.data-card__icon {
-  width: 36px;
-  height: 36px;
+/* ==============================
+   MODAL for .md files
+   ============================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(26,26,26,0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--gold-dim);
-  border-radius: 8px;
+  padding: 2rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 860px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(20px) scale(0.97);
+  transition: transform 0.4s var(--ease-out-expo);
+  box-shadow: 0 40px 100px rgba(0,0,0,0.15);
+  overflow: hidden;
+}
+
+.modal-overlay.active .modal {
+  transform: translateY(0) scale(1);
+}
+
+.modal-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--border-subtle);
   flex-shrink: 0;
 }
 
-.data-card__icon svg {
-  width: 18px;
-  height: 18px;
-  color: var(--gold);
-  stroke: var(--gold);
-}
-
-.data-card__text {
-  min-width: 0;
-}
-
-.data-card__name {
-  font-family: var(--font-body);
-  font-size: 0.78rem;
+.modal-top h2 {
+  font-family: var(--ff-display);
+  font-size: 1.3rem;
   font-weight: 600;
   color: var(--burgundy);
-  margin-bottom: 2px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-.data-card__meta {
-  font-family: var(--font-body);
-  font-size: 0.65rem;
-  color: var(--text-muted);
+.modal-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--border-subtle);
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: var(--warm-gray);
+  transition: all 0.2s ease;
 }
 
-/* ═══════════════════════════════════════════
-   AI AGENT SECTION
-   ═══════════════════════════════════════════ */
-.agent-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+.modal-close:hover {
+  background: rgba(107,29,42,0.06);
+  color: var(--burgundy);
 }
 
-.card--agent {
-  background: linear-gradient(145deg, var(--forest) 0%, #1F352C 100%);
-  border: 1px solid rgba(201,168,76,0.12);
-  color: #fff;
+.modal-body {
+  padding: 2rem;
+  overflow-y: auto;
+  flex-grow: 1;
+  -webkit-overflow-scrolling: touch;
 }
 
-.card--agent::before {
-  background: linear-gradient(90deg, var(--gold), var(--forest-light));
+/* Rendered markdown styling */
+.md-content {
+  font-family: var(--ff-body);
+  font-size: 0.92rem;
+  line-height: 1.75;
+  color: var(--charcoal);
 }
 
-.card--agent .card__icon {
-  background: rgba(201,168,76,0.12);
+.md-content h1 {
+  font-family: var(--ff-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--burgundy);
+  margin: 2rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border-subtle);
 }
 
-.card--agent .card__title {
-  color: #fff;
-}
-
-.card--agent:hover .card__title {
-  color: var(--gold-light);
-}
-
-.card--agent .card__desc {
-  color: rgba(255,255,255,0.6);
-}
-
-.card--agent .card__format {
-  background: rgba(201,168,76,0.12);
-  color: var(--gold-light);
-}
-
-.card--agent .card__tag {
-  background: rgba(201,168,76,0.1);
-  color: var(--gold-light);
-}
-
-.card--agent .card__footer {
-  border-top-color: rgba(201,168,76,0.12);
-  color: var(--gold-light);
-}
-
-/* ═══════════════════════════════════════════
-   FOOTER
-   ═══════════════════════════════════════════ */
-.footer {
-  margin-top: 60px;
-  padding: 50px 0 40px;
-  background: var(--burgundy-deep);
-  text-align: center;
-}
-
-.footer__brand {
-  font-family: var(--font-display);
+.md-content h2 {
+  font-family: var(--ff-display);
   font-size: 1.4rem;
   font-weight: 600;
-  color: #fff;
-  margin-bottom: 4px;
+  color: var(--burgundy-deep);
+  margin: 1.75rem 0 0.75rem;
 }
 
-.footer__brand em {
+.md-content h3 {
+  font-family: var(--ff-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--forest);
+  margin: 1.5rem 0 0.5rem;
+}
+
+.md-content h4 {
+  font-family: var(--ff-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--charcoal);
+  margin: 1.25rem 0 0.5rem;
+}
+
+.md-content p { margin-bottom: 1rem; }
+
+.md-content ul, .md-content ol {
+  margin: 0.75rem 0 1rem 1.5rem;
+}
+
+.md-content li { margin-bottom: 0.35rem; }
+
+.md-content strong { color: var(--burgundy-deep); }
+
+.md-content em { color: var(--forest); }
+
+.md-content blockquote {
+  border-left: 3px solid var(--gold);
+  padding: 0.75rem 1.25rem;
+  margin: 1rem 0;
+  background: rgba(201,168,76,0.05);
+  border-radius: 0 8px 8px 0;
+  color: var(--warm-gray);
   font-style: italic;
-  color: var(--gold);
-  font-weight: 400;
 }
 
-.footer__tagline {
-  font-family: var(--font-body);
-  font-size: 0.75rem;
-  color: rgba(255,255,255,0.35);
-  letter-spacing: 0.08em;
-  margin-bottom: 28px;
+.md-content code {
+  background: rgba(107,29,42,0.06);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  color: var(--burgundy);
 }
 
-.footer__divider {
-  width: 40px;
-  height: 1px;
-  background: rgba(201,168,76,0.3);
-  margin: 0 auto 28px;
-}
-
-.footer__legal {
-  font-family: var(--font-body);
-  font-size: 0.7rem;
-  color: rgba(255,255,255,0.25);
+.md-content pre {
+  background: var(--charcoal);
+  color: #e0e0e0;
+  padding: 1.25rem;
+  border-radius: 10px;
+  overflow-x: auto;
+  margin: 1rem 0;
+  font-size: 0.8rem;
   line-height: 1.6;
 }
 
-.footer__legal a {
-  color: rgba(201,168,76,0.5);
-  text-decoration: none;
-  transition: color 0.3s ease;
+.md-content pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
 }
 
-.footer__legal a:hover {
-  color: var(--gold);
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.82rem;
 }
 
-/* ═══════════════════════════════════════════
-   DEERFLOW BRANDING
-   ═══════════════════════════════════════════ */
-.deerflow-mark {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 100;
-  font-family: var(--font-body);
-  font-size: 0.6rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
+.md-content table th {
+  background: var(--cream);
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: rgba(107,29,42,0.2);
+  color: var(--warm-gray);
+  border-bottom: 2px solid var(--border-subtle);
+}
+
+.md-content table td {
+  padding: 0.55rem 0.8rem;
+  border-bottom: 1px solid rgba(107,29,42,0.05);
+}
+
+.md-content table tr:hover td {
+  background: rgba(201,168,76,0.03);
+}
+
+.md-content hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--border-subtle), var(--gold), var(--border-subtle), transparent);
+  margin: 2rem 0;
+}
+
+.md-content a {
+  color: var(--burgundy);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s;
+}
+
+.md-content a:hover { color: var(--gold-dim); }
+
+/* ==============================
+   LIGHTBOX for charts
+   ============================== */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1001;
+  background: rgba(26,26,26,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.35s ease;
+  cursor: zoom-out;
+}
+
+.lightbox-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lightbox-overlay img {
+  max-width: 90%;
+  max-height: 90vh;
+  border-radius: 12px;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.3);
+  transform: scale(0.92);
+  transition: transform 0.4s var(--ease-out-expo);
+}
+
+.lightbox-overlay.active img {
+  transform: scale(1);
+}
+
+/* ==============================
+   FOOTER
+   ============================== */
+.footer {
+  text-align: center;
+  padding: 4rem 2rem 3rem;
+  border-top: 1px solid var(--border-subtle);
+  background: linear-gradient(to bottom, var(--cream), #F0E8D8);
+}
+
+.footer-brand {
+  font-family: var(--ff-display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--burgundy);
+  margin-bottom: 0.25rem;
+}
+
+.footer-sub {
+  font-size: 0.78rem;
+  color: var(--warm-gray);
+  margin-bottom: 1.5rem;
+}
+
+.footer-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.footer-ornament .line {
+  width: 48px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.footer-meta {
+  font-size: 0.72rem;
+  color: var(--warm-gray);
+  line-height: 1.8;
+}
+
+.footer-meta a {
+  color: var(--warm-gray);
   text-decoration: none;
-  padding: 6px 12px;
-  border: 1px solid rgba(107,29,42,0.06);
-  background: rgba(250,246,240,0.8);
-  backdrop-filter: blur(8px);
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.footer-meta a:hover { opacity: 1; }
+
+/* Deerflow badge */
+.deerflow-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 100px;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--warm-gray);
+  text-decoration: none;
+  border: 1px solid rgba(138,130,120,0.15);
+  opacity: 0.5;
   transition: all 0.3s ease;
+  margin-top: 1rem;
 }
 
-.deerflow-mark:hover {
-  color: var(--gold);
-  border-color: rgba(201,168,76,0.2);
+.deerflow-badge:hover {
+  opacity: 1;
+  border-color: var(--gold);
+  color: var(--gold-dim);
 }
 
-/* ═══════════════════════════════════════════
-   ANIMATIONS
-   ═══════════════════════════════════════════ */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes scaleX {
-  from { opacity: 0; transform: scaleX(0); }
-  to { opacity: 1; transform: scaleX(1); }
-}
-
-@keyframes scrollPulse {
-  0%, 100% { opacity: 0.3; transform: scaleY(1); }
-  50% { opacity: 0.8; transform: scaleY(1.2); }
-}
-
-/* Scroll-triggered animations */
+/* ==============================
+   SCROLL REVEAL ANIMATIONS
+   ============================== */
 .reveal {
   opacity: 0;
   transform: translateY(30px);
@@ -908,627 +1022,845 @@ body::before {
   transform: translateY(0);
 }
 
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
-.reveal-delay-4 { transition-delay: 0.4s; }
+/* Stagger children */
+.stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s var(--ease-out-expo), transform 0.6s var(--ease-out-expo);
+}
 
-/* ═══════════════════════════════════════════
+.stagger.visible > *:nth-child(1) { transition-delay: 0s; }
+.stagger.visible > *:nth-child(2) { transition-delay: 0.08s; }
+.stagger.visible > *:nth-child(3) { transition-delay: 0.16s; }
+.stagger.visible > *:nth-child(4) { transition-delay: 0.24s; }
+.stagger.visible > *:nth-child(5) { transition-delay: 0.32s; }
+.stagger.visible > *:nth-child(6) { transition-delay: 0.4s; }
+
+.stagger.visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==============================
+   LOADING SKELETON
+   ============================== */
+.skeleton {
+  background: linear-gradient(90deg, #f0ebe2 25%, #e8e0d4 50%, #f0ebe2 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 8px;
+  min-height: 200px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ==============================
    RESPONSIVE
-   ═══════════════════════════════════════════ */
-@media (max-width: 1024px) {
-  .chart-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .data-cards {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
+   ============================== */
 @media (max-width: 768px) {
-  .hero__ornament { display: none; }
-  
-  .stats-bar__inner {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .stat {
-    border-bottom: 1px solid rgba(201,168,76,0.08);
-  }
-  
-  .section__header {
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .section__desc {
-    margin-left: 0;
-    text-align: left;
-    max-width: 100%;
-  }
-  
-  .card-grid--2,
-  .card-grid--3,
-  .card-grid--2-1,
-  .card-grid--1-2 {
-    grid-template-columns: 1fr;
-  }
-  
-  .chart-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .data-cards {
-    grid-template-columns: 1fr;
-  }
-  
-  .agent-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .main { padding: 0 16px; }
-  .card { padding: 24px; }
-  .chart-grid { grid-template-columns: 1fr; }
-  .stats-bar__inner { grid-template-columns: 1fr; }
+  .section { padding: 3rem 1.25rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  .chart-gallery { grid-template-columns: 1fr; }
+  .hero-stats { gap: 1.5rem; }
+  .data-table-header { padding: 1rem 1.25rem; }
+  .data-table-wrap thead th,
+  .data-table-wrap tbody td { padding: 0.55rem 0.75rem; font-size: 0.78rem; }
+  .modal { border-radius: 16px; max-height: 90vh; }
+  .modal-body { padding: 1.25rem; }
+  .nav-link { padding: 0.4rem 0.75rem; font-size: 0.65rem; }
 }
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════
-     HERO
-     ═══════════════════════════════════════════ -->
-<section class="hero">
-  <div class="hero__video-wrap">
-    <video autoplay muted loop playsinline>
-      <source src="granmonte-wine-promo.mp4" type="video/mp4">
-    </video>
+<!-- ================================
+     HERO SECTION
+     ================================ -->
+<section class="hero" id="top">
+  <div class="hero-ornament">
+    <span class="line"></span>
+    <span class="diamond"></span>
+    <span class="line"></span>
   </div>
-  <div class="hero__overlay"></div>
-  
-  <div class="hero__ornament hero__ornament--tl"></div>
-  <div class="hero__ornament hero__ornament--tr"></div>
-  <div class="hero__ornament hero__ornament--bl"></div>
-  <div class="hero__ornament hero__ornament--br"></div>
-
-  <div class="hero__content">
-    <div class="hero__badge">US Market Launch — 2026</div>
-    <h1 class="hero__title">Gran<em>Monte</em></h1>
-    <p class="hero__subtitle">Thailand's Finest Wine, Now in America</p>
-    <div class="hero__divider"></div>
-    <p class="hero__desc">
-      Complete deliverables hub for the GranMonte US import operation — sales tools, 
-      financial models, market research, and AI-powered business intelligence.
-    </p>
-    <a href="#deliverables" class="hero__cta">
-      View Deliverables
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
-    </a>
+  <div class="hero-badge">🍷 Khao Yai, Thailand → Florida, USA</div>
+  <h1>GranMonte</h1>
+  <p class="hero-subtitle">Thailand's Finest Wine, <em>Now in America</em></p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="number">18</div>
+      <div class="label">SKUs</div>
+    </div>
+    <div class="hero-stat">
+      <div class="number">55</div>
+      <div class="label">Restaurant Prospects</div>
+    </div>
+    <div class="hero-stat">
+      <div class="number">$345K</div>
+      <div class="label">Year 1 Potential</div>
+    </div>
+    <div class="hero-stat">
+      <div class="number">6×</div>
+      <div class="label">AWC Vienna Awards</div>
+    </div>
   </div>
-
-  <div class="hero__scroll-hint">
-    <div class="hero__scroll-line"></div>
+  <div class="hero-scroll">
+    <span>Explore</span>
+    <span class="arrow"></span>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════
-     STATS BAR
-     ═══════════════════════════════════════════ -->
-<div class="stats-bar">
-  <div class="stats-bar__inner">
-    <div class="stat">
-      <div class="stat__number">19</div>
-      <div class="stat__label">Deliverables</div>
+<!-- ================================
+     STICKY NAV
+     ================================ -->
+<nav class="nav-bar" id="nav">
+  <div class="nav-inner">
+    <a href="#sales" class="nav-link">Sales Tools</a>
+    <a href="#financial" class="nav-link">Financial Analysis</a>
+    <a href="#charts" class="nav-link">Charts</a>
+    <a href="#research" class="nav-link">Research & Strategy</a>
+    <a href="#agent" class="nav-link">AI Agent</a>
+    <a href="#media" class="nav-link">Media</a>
+  </div>
+</nav>
+
+<!-- ================================
+     SALES TOOLS
+     ================================ -->
+<section class="section" id="sales">
+  <div class="section-header reveal">
+    <div class="section-label">Sales Tools</div>
+    <h2 class="section-title">Close the Deal</h2>
+    <p class="section-desc">Everything needed to pitch, prospect, and close Thai restaurant partnerships across Florida.</p>
+  </div>
+  <div class="card-grid stagger">
+    <a class="card" href="granmonte-sales-tool-v2/index.html">
+      <div class="card-icon sales">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg>
+      </div>
+      <div class="card-title">Interactive Sales Pitch Tool v2</div>
+      <div class="card-desc">Live profit calculator for restaurant pitches — 18 SKUs across 4 tiers with click-to-add order builder, profit calculator, awards, and Thai food pairings.</div>
+      <span class="card-tag interactive">⚡ Interactive App</span>
+    </a>
+    <a class="card" href="granmonte-pitch-onepager.html">
+      <div class="card-icon sales">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/></svg>
+      </div>
+      <div class="card-title">Restaurant Partnership Pitch</div>
+      <div class="card-desc">Polished one-pager for Thai restaurant owners — GranMonte's story, wine portfolio, margin structure, and ordering process. Print-ready.</div>
+      <span class="card-tag doc">📄 One-Pager</span>
+    </a>
+    <a class="card" href="granmonte-fl-thai-restaurant-prospects.html">
+      <div class="card-icon sales">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <div class="card-title">Florida Restaurant Prospects</div>
+      <div class="card-desc">55 Thai restaurants across 6 Florida metros — contacts, ratings, wine program status, and priority scoring. Your outreach starting point.</div>
+      <span class="card-tag data">📊 55 Prospects</span>
+    </a>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ================================
+     FINANCIAL ANALYSIS
+     ================================ -->
+<section class="section" id="financial">
+  <div class="section-header reveal">
+    <div class="section-label">Financial Analysis</div>
+    <h2 class="section-title">The Numbers</h2>
+    <p class="section-desc">Year 1 projections, per-SKU margins, and cash flow models — all built on real GranMonte pricing.</p>
+  </div>
+
+  <div class="card-grid stagger" style="margin-bottom: 2.5rem;">
+    <a class="card" href="granmonte-financial-analysis-v2.html">
+      <div class="card-icon finance">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+      </div>
+      <div class="card-title">Financial Dashboard v2</div>
+      <div class="card-desc">Comprehensive Year 1 projections — 3 scenarios ($112K–$345K), per-SKU margins, break-even analysis, and interactive Chart.js visualizations.</div>
+      <span class="card-tag interactive">⚡ Interactive Dashboard</span>
+    </a>
+  </div>
+
+  <!-- Product P&L Table -->
+  <div class="data-table-card reveal" style="margin-bottom: 1.5rem;">
+    <div class="data-table-header">
+      <div class="data-table-header-left">
+        <h3>Product P&L by SKU</h3>
+        <span class="badge">12 SKUs · v2 Real Pricing</span>
+      </div>
     </div>
-    <div class="stat">
-      <div class="stat__number">55</div>
-      <div class="stat__label">FL Restaurant Prospects</div>
+    <div class="data-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Wine</th>
+            <th>Tier</th>
+            <th>Type</th>
+            <th>Ex-Cellar ฿</th>
+            <th>Ex-Cellar $</th>
+            <th>Shipping</th>
+            <th>TTB Duty</th>
+            <th>FL Excise</th>
+            <th>Landed Cost</th>
+            <th>Wholesale</th>
+            <th>Gross Profit</th>
+            <th>Margin %</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Spring Chenin Blanc</strong></td>
+            <td><span class="tier-badge entry">Entry</span></td>
+            <td>White</td>
+            <td>฿250</td>
+            <td>$7.14</td>
+            <td>$2.50</td>
+            <td>$0.21</td>
+            <td>$0.89</td>
+            <td>$10.74</td>
+            <td>$16.00</td>
+            <td class="margin-good">$5.26</td>
+            <td class="margin-good">32.9%</td>
+          </tr>
+          <tr>
+            <td><strong>Sakuna Rosé</strong></td>
+            <td><span class="tier-badge entry">Entry</span></td>
+            <td>Rosé</td>
+            <td>฿300</td>
+            <td>$8.57</td>
+            <td>$2.50</td>
+            <td>$0.21</td>
+            <td>$0.89</td>
+            <td>$12.17</td>
+            <td>$18.00</td>
+            <td class="margin-good">$5.83</td>
+            <td class="margin-good">32.4%</td>
+          </tr>
+          <tr>
+            <td><strong>Spring Syrah Cab</strong></td>
+            <td><span class="tier-badge entry">Entry</span></td>
+            <td>Red</td>
+            <td>฿300</td>
+            <td>$8.57</td>
+            <td>$2.50</td>
+            <td>$0.21</td>
+            <td>$0.89</td>
+            <td>$12.17</td>
+            <td>$18.00</td>
+            <td class="margin-good">$5.83</td>
+            <td class="margin-good">32.4%</td>
+          </tr>
+          <tr>
+            <td><strong>Verdelho</strong></td>
+            <td><span class="tier-badge premium">Premium</span></td>
+            <td>White</td>
+            <td>฿350</td>
+            <td>$10.00</td>
+            <td>$2.50</td>
+            <td>$0.21</td>
+            <td>$0.89</td>
+            <td>$13.60</td>
+            <td>$20.00</td>
+            <td class="margin-good">$6.40</td>
+            <td class="margin-good">32.0%</td>
+          </tr>
+          <tr>
+            <td><strong>Viognier</strong></td>
+            <td><span class="tier-badge premium">Premium</span></td>
+            <td>White</td>
+            <td>฿350</td>
+            <td>$10.00</td>
+            <td>$2.50</td>
+            <td>$0.21</td>
+            <td>$0.89</td>
+            <td>$13.60</td>
+            <td>$20.00</td>
+            <td class="margin-good">$6.40</td>
+            <td class="margin-good">32.0%</td>
+          </tr>
+          <tr>
+            <td><strong>Heritage Syrah</strong></td>
+            <td><span class="tier-badge premium">Premium</span></td>
+            <td>Red</td>
+            <td>฿390</td>
+            <td>$11.14</td>
+            <td>$2.50</td>
+            <td>$0.21</td>
+            <td>$0.89</td>
+            <td>$14.74</td>
+            <td>$22.00</td>
+            <td class="margin-good">$7.26</td>
+            <td class="margin-good">33.0%</td>
+          </tr>
+          <tr>
+            <td><strong>Gradient Syrah</strong></td>
+            <td><span class="tier-badge premium">Premium</span></td>
+            <td>Red</td>
+            <td>฿390</td>
+            <td>$11.14</td>
+            <td>$2.50</td>
+            <td>$0.21</td>
+            <td>$0.89</td>
+            <td>$14.74</td>
+            <td>$22.00</td>
+            <td class="margin-good">$7.26</td>
+            <td class="margin-good">33.0%</td>
+          </tr>
+          <tr>
+            <td><strong>Durif</strong></td>
+            <td><span class="tier-badge premium">Premium</span></td>
+            <td>Red</td>
+            <td>฿390</td>
+            <td>$11.14</td>
+            <td>$2.50</td>
+            <td>$0.21</td>
+            <td>$0.89</td>
+            <td>$14.74</td>
+            <td>$22.00</td>
+            <td class="margin-good">$7.26</td>
+            <td class="margin-good">33.0%</td>
+          </tr>
+          <tr>
+            <td><strong>Orient Syrah</strong></td>
+            <td><span class="tier-badge super-premium">Super-Premium</span></td>
+            <td>Red</td>
+            <td>฿490</td>
+            <td>$14.00</td>
+            <td>$2.50</td>
+            <td>$0.21</td>
+            <td>$0.89</td>
+            <td>$17.60</td>
+            <td>$27.00</td>
+            <td class="margin-great">$9.40</td>
+            <td class="margin-great">34.8%</td>
+          </tr>
+          <tr>
+            <td><strong>Orient Viognier</strong></td>
+            <td><span class="tier-badge super-premium">Super-Premium</span></td>
+            <td>White</td>
+            <td>฿520</td>
+            <td>$14.86</td>
+            <td>$2.50</td>
+            <td>$0.21</td>
+            <td>$0.89</td>
+            <td>$18.46</td>
+            <td>$28.00</td>
+            <td class="margin-great">$9.54</td>
+            <td class="margin-great">34.1%</td>
+          </tr>
+          <tr>
+            <td><strong>Asoke</strong></td>
+            <td><span class="tier-badge super-premium">Super-Premium</span></td>
+            <td>Red</td>
+            <td>฿550</td>
+            <td>$15.71</td>
+            <td>$2.50</td>
+            <td>$0.21</td>
+            <td>$0.89</td>
+            <td>$19.31</td>
+            <td>$30.00</td>
+            <td class="margin-great">$10.69</td>
+            <td class="margin-great">35.6%</td>
+          </tr>
+          <tr>
+            <td><strong>Crémant</strong></td>
+            <td><span class="tier-badge super-premium">Super-Premium</span></td>
+            <td>Sparkling</td>
+            <td>฿600</td>
+            <td>$17.14</td>
+            <td>$2.50</td>
+            <td>$0.21</td>
+            <td>$0.89</td>
+            <td>$20.74</td>
+            <td>$32.00</td>
+            <td class="margin-great">$11.26</td>
+            <td class="margin-great">35.2%</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div class="stat">
-      <div class="stat__number">$185K</div>
-      <div class="stat__label">Year 1 Revenue (Moderate)</div>
+  </div>
+
+  <!-- Monthly Cash Flow Table -->
+  <div class="data-table-card reveal" style="margin-bottom: 1.5rem;">
+    <div class="data-table-header">
+      <div class="data-table-header-left">
+        <h3>Monthly Cash Flow Projection</h3>
+        <span class="badge">3 Scenarios · 12 Months</span>
+      </div>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;" id="cashflow-filters">
+        <button class="cf-filter active" data-scenario="all">All</button>
+        <button class="cf-filter" data-scenario="Aggressive">Aggressive</button>
+        <button class="cf-filter" data-scenario="Base">Base</button>
+        <button class="cf-filter" data-scenario="Conservative">Conservative</button>
+      </div>
     </div>
-    <div class="stat">
-      <div class="stat__number">60%</div>
-      <div class="stat__label">Restaurant Margin</div>
+    <div class="data-table-wrap">
+      <table id="cashflow-table">
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Scenario</th>
+            <th>Restaurants</th>
+            <th>Cases</th>
+            <th>Revenue</th>
+            <th>COGS</th>
+            <th>Shipping</th>
+            <th>Duties</th>
+            <th>Marketing</th>
+            <th>Travel</th>
+            <th>Insurance</th>
+            <th>Net Cash</th>
+            <th>Cumulative</th>
+          </tr>
+        </thead>
+        <tbody id="cashflow-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Starter SKUs Table -->
+  <div class="data-table-card reveal">
+    <div class="data-table-header">
+      <div class="data-table-header-left">
+        <h3>Recommended Starter SKUs</h3>
+        <span class="badge">6-SKU Portfolio · $11,457 Investment</span>
+      </div>
+    </div>
+    <div class="data-table-wrap">
+      <table id="starter-table">
+        <thead>
+          <tr>
+            <th>Wine</th>
+            <th>Tier</th>
+            <th>Type</th>
+            <th>Cases</th>
+            <th>Bottles</th>
+            <th>Landed / Bottle</th>
+            <th>Wholesale / Bottle</th>
+            <th>Gross Profit</th>
+            <th>Investment</th>
+          </tr>
+        </thead>
+        <tbody id="starter-body"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ================================
+     CHARTS
+     ================================ -->
+<section class="section" id="charts">
+  <div class="section-header reveal">
+    <div class="section-label">Data Visualization</div>
+    <h2 class="section-title">Charts & Projections</h2>
+    <p class="section-desc">Visual models built on real GranMonte ex-cellar pricing, actual cost stack, and Florida market data.</p>
+  </div>
+  <div class="chart-gallery stagger">
+    <div class="chart-item" onclick="openLightbox(this)">
+      <img src="charts-v2/01-sku-portfolio-by-tier.png" alt="SKU Portfolio by Tier" loading="lazy">
+      <div class="chart-label"><span class="num">01</span> SKU Portfolio by Tier</div>
+    </div>
+    <div class="chart-item" onclick="openLightbox(this)">
+      <img src="charts-v2/02-revenue-projection-3-scenarios.png" alt="Revenue Projection — 3 Scenarios" loading="lazy">
+      <div class="chart-label"><span class="num">02</span> Revenue Projection — 3 Scenarios</div>
+    </div>
+    <div class="chart-item" onclick="openLightbox(this)">
+      <img src="charts-v2/03-margin-by-tier.png" alt="Margin by Tier" loading="lazy">
+      <div class="chart-label"><span class="num">03</span> Margin by Tier</div>
+    </div>
+    <div class="chart-item" onclick="openLightbox(this)">
+      <img src="charts-v2/04-market-funnel.png" alt="Market Funnel" loading="lazy">
+      <div class="chart-label"><span class="num">04</span> Market Funnel</div>
+    </div>
+    <div class="chart-item" onclick="openLightbox(this)">
+      <img src="charts-v2/05-break-even-timeline.png" alt="Break-Even Timeline" loading="lazy">
+      <div class="chart-label"><span class="num">05</span> Break-Even Timeline</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ================================
+     RESEARCH & STRATEGY
+     ================================ -->
+<section class="section" id="research">
+  <div class="section-header reveal">
+    <div class="section-label">Research & Strategy</div>
+    <h2 class="section-title">Market Intelligence</h2>
+    <p class="section-desc">Deep research, competitive analysis, and the complete US market launch playbook.</p>
+  </div>
+  <div class="card-grid stagger">
+    <div class="card" onclick="openMarkdown('granmonte-us-launch-playbook.md', 'US Market Launch Playbook')">
+      <div class="card-icon research">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      </div>
+      <div class="card-title">US Market Launch Playbook</div>
+      <div class="card-desc">Complete go-to-market strategy — Pre-Sell First approach, licensing roadmap, restaurant outreach cadence, pricing, and immediate next actions.</div>
+      <span class="card-tag doc">📖 Playbook</span>
+    </div>
+    <div class="card" onclick="openMarkdown('granmonte-wine-skills-discovery.md', 'Skills Ecosystem Discovery')">
+      <div class="card-icon research">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      </div>
+      <div class="card-title">Skills Ecosystem Discovery</div>
+      <div class="card-desc">38 relevant agent skills across 9 categories — CRM, compliance, accounting, email marketing, and Google Workspace automation for wine ops.</div>
+      <span class="card-tag doc">🔍 Research</span>
+    </div>
+    <a class="card" href="research-wine-distribution-github.html">
+      <div class="card-icon research">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+      </div>
+      <div class="card-title">GitHub Tech Research</div>
+      <div class="card-desc">20+ open-source repos across 5 categories — wine distribution, inventory, CRM, and compliance tools analyzed for GranMonte operations.</div>
+      <span class="card-tag interactive">⚡ Interactive Report</span>
+    </a>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ================================
+     AI AGENT
+     ================================ -->
+<section class="section" id="agent">
+  <div class="section-header reveal">
+    <div class="section-label">AI Agent</div>
+    <h2 class="section-title">Sommelier JARVIS</h2>
+    <p class="section-desc">A dedicated AI agent for the wine import business — custom skill and identity file for Up's operations.</p>
+  </div>
+  <div class="card-grid stagger">
+    <div class="card" onclick="openMarkdown('wine-import-assistant/SKILL.md', 'Wine Import Assistant — Skill Definition')">
+      <div class="card-icon agent">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg>
+      </div>
+      <div class="card-title">Wine Import Assistant Skill</div>
+      <div class="card-desc">1,041-line Python CLI with 15 commands — prospect tracking, cost calculations, wholesale quotes, inventory management, and sales reporting.</div>
+      <span class="card-tag doc">🤖 Skill File</span>
+    </div>
+    <div class="card" onclick="openMarkdown('SOUL-granmonte-jarvis.md', 'Sommelier — JARVIS Identity')">
+      <div class="card-icon agent">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div class="card-title">Sommelier JARVIS Identity</div>
+      <div class="card-desc">Complete SOUL.md — personality, knowledge base, decision frameworks, and operational parameters for a dedicated GranMonte wine import agent.</div>
+      <span class="card-tag doc">🧬 Identity</span>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ================================
+     MEDIA
+     ================================ -->
+<section class="section" id="media">
+  <div class="section-header reveal">
+    <div class="section-label">Media</div>
+    <h2 class="section-title">Brand Assets</h2>
+    <p class="section-desc">Video content and official documentation for sales presentations and marketing.</p>
+  </div>
+  <div class="card-grid stagger">
+    <div class="card card-full" style="cursor:default;">
+      <div class="card-icon sales">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      </div>
+      <div class="card-title" style="margin-bottom:1rem;">Wine Promo Video</div>
+      <div class="video-container">
+        <video controls preload="metadata" poster="">
+          <source src="granmonte-wine-promo.mp4" type="video/mp4">
+          Your browser does not support video playback.
+        </video>
+      </div>
+      <div class="card-desc" style="margin-top:1rem;">AI-generated vineyard & wine pouring footage — for social media and pitch presentations.</div>
+      <span class="card-tag video">🎬 Video</span>
+    </div>
+    <a class="card" href="granmonte-price-list-2025.pdf" target="_blank">
+      <div class="card-icon research">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg>
+      </div>
+      <div class="card-title">Official Price List 2025</div>
+      <div class="card-desc">GranMonte's complete product catalog with ex-cellar pricing in Thai Baht.</div>
+      <span class="card-tag pdf">📋 PDF Download</span>
+    </a>
+  </div>
+</section>
+
+<!-- ================================
+     FOOTER
+     ================================ -->
+<footer class="footer">
+  <div class="footer-brand">GranMonte Thai Wine</div>
+  <div class="footer-sub">New Latitude Wine · Khao Yai, Thailand</div>
+  <div class="footer-ornament">
+    <span class="line"></span>
+    <span style="color:var(--gold);font-size:0.8rem;">◆</span>
+    <span class="line"></span>
+  </div>
+  <div class="footer-meta">
+    Prepared by <strong>mhoooo</strong> · Confidential — For internal use only<br>
+    <a href="https://deerflow.tech" target="_blank" class="deerflow-badge">✦ Built with Deerflow</a>
+  </div>
+</footer>
+
+<!-- ================================
+     MARKDOWN MODAL
+     ================================ -->
+<div class="modal-overlay" id="mdModal">
+  <div class="modal">
+    <div class="modal-top">
+      <h2 id="mdModalTitle">Document</h2>
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="md-content" id="mdModalContent">
+        <div class="skeleton" style="height:400px;"></div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     DELIVERABLES
-     ═══════════════════════════════════════════ -->
-<main class="main" id="deliverables">
+<!-- ================================
+     LIGHTBOX for charts
+     ================================ -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="">
+</div>
 
-  <!-- ═══ SECTION 1: SALES TOOLS ═══ -->
-  <section class="section reveal">
-    <div class="section__header">
-      <span class="section__number">01</span>
-      <h2 class="section__title">Sales Tools</h2>
-      <p class="section__desc">Everything needed to pitch, prospect, and close Thai restaurant partnerships across Florida.</p>
-    </div>
 
-    <div class="card-grid card-grid--2-1">
-      <!-- Interactive Sales Pitch Tool -->
-      <a href="granmonte-surprise/index.html" class="card card--featured reveal reveal-delay-1">
-        <div class="card__icon-row">
-          <div class="card__icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/><path d="m7 10 3 2 4-4 3 3"/></svg>
-          </div>
-          <span class="card__format">Interactive App</span>
-        </div>
-        <h3 class="card__title">Interactive Sales Pitch Tool</h3>
-        <p class="card__desc">
-          Live profit calculator built for restaurant pitches. Show owners exactly how much they'll earn per bottle — 
-          customizable by SKU, markup, and volume. The closer in your pocket.
-        </p>
-        <div class="card__tags">
-          <span class="card__tag">Profit Calculator</span>
-          <span class="card__tag">Restaurant Pitch</span>
-          <span class="card__tag">Live Demo</span>
-        </div>
-        <div class="card__footer">
-          Launch Tool
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </div>
-      </a>
-
-      <!-- Wine Promo Video -->
-      <a href="granmonte-wine-promo.mp4" class="card card--video reveal reveal-delay-2">
-        <div class="card__video-wrap">
-          <video autoplay muted loop playsinline>
-            <source src="granmonte-wine-promo.mp4" type="video/mp4">
-          </video>
-          <span class="card__video-badge">5s · Kling O3</span>
-        </div>
-        <div class="card__body">
-          <h3 class="card__title">Wine Promo Video</h3>
-          <p class="card__desc">Vineyard & wine pouring footage. AI-generated brand content for social media and pitch presentations.</p>
-          <div class="card__footer">
-            Play Video
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          </div>
-        </div>
-      </a>
-    </div>
-
-    <div class="card-grid card-grid--2" style="margin-top: 20px;">
-      <!-- Restaurant Partnership Pitch -->
-      <a href="granmonte-pitch-onepager.html" class="card reveal reveal-delay-1">
-        <div class="card__icon-row">
-          <div class="card__icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
-          </div>
-          <span class="card__format">HTML One-Pager</span>
-        </div>
-        <h3 class="card__title">Restaurant Partnership Pitch</h3>
-        <p class="card__desc">
-          Polished one-pager designed for Thai restaurant owners. Covers GranMonte's story, 
-          wine portfolio, margin structure, and ordering process. Print-ready or send digitally.
-        </p>
-        <div class="card__tags">
-          <span class="card__tag">Partner Pitch</span>
-          <span class="card__tag">Print-Ready</span>
-        </div>
-        <div class="card__footer">
-          View Pitch
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </div>
-      </a>
-
-      <!-- Florida Restaurant Prospects -->
-      <a href="granmonte-fl-thai-restaurant-prospects.html" class="card reveal reveal-delay-2">
-        <div class="card__icon-row">
-          <div class="card__icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          </div>
-          <span class="card__format">HTML Dashboard</span>
-        </div>
-        <h3 class="card__title">Florida Restaurant Prospects</h3>
-        <p class="card__desc">
-          Tiered prospect list — 55 Thai restaurants across 6 Florida metros with contacts, 
-          ratings, wine program status, and priority scoring. Your outreach starting point.
-        </p>
-        <div class="card__tags">
-          <span class="card__tag">55 Restaurants</span>
-          <span class="card__tag">6 Metros</span>
-          <span class="card__tag">Tiered</span>
-        </div>
-        <div class="card__footer">
-          View Prospects
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <!-- ═══ SECTION 2: FINANCIAL ANALYSIS ═══ -->
-  <section class="section reveal">
-    <div class="section__header">
-      <span class="section__number">02</span>
-      <h2 class="section__title">Financial Analysis</h2>
-      <p class="section__desc">Year 1 projections, margin models, and cash flow data across three scenarios.</p>
-    </div>
-
-    <div class="card-grid card-grid--2" style="margin-bottom: 20px;">
-      <!-- Financial Analysis Report -->
-      <a href="granmonte-financial-analysis.md" class="card reveal reveal-delay-1">
-        <div class="card__icon-row">
-          <div class="card__icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
-          </div>
-          <span class="card__format">Markdown Report</span>
-        </div>
-        <h3 class="card__title">Financial Analysis Report</h3>
-        <p class="card__desc">
-          Comprehensive Year 1 financial projections across 3 scenarios (Conservative $101K, 
-          Moderate $185K, Aggressive $319K). Includes per-SKU margins, break-even analysis, 
-          and monthly cash flow tables.
-        </p>
-        <div class="card__tags">
-          <span class="card__tag">3 Scenarios</span>
-          <span class="card__tag">Break-Even</span>
-          <span class="card__tag">Cash Flow</span>
-        </div>
-        <div class="card__footer">
-          Read Report
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </div>
-      </a>
-
-      <!-- Annual Summary CSV -->
-      <a href="granmonte-annual-summary.csv" class="card reveal reveal-delay-2">
-        <div class="card__icon-row">
-          <div class="card__icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4"/><path d="M14 2v6h6"/><path d="M2 15h6"/><path d="M5 12v6"/></svg>
-          </div>
-          <span class="card__format">CSV Data</span>
-        </div>
-        <h3 class="card__title">Annual Summary Data</h3>
-        <p class="card__desc">
-          Three-scenario revenue comparison in tabular format. Revenue, COGS, gross margin, 
-          operating expenses, and net profit side by side for quick analysis.
-        </p>
-        <div class="card__tags">
-          <span class="card__tag">Revenue</span>
-          <span class="card__tag">3-Scenario</span>
-        </div>
-        <div class="card__footer">
-          Download CSV
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        </div>
-      </a>
-    </div>
-
-    <!-- Data CSVs Row -->
-    <div class="data-cards reveal">
-      <a href="granmonte-margin-analysis.csv" class="data-card">
-        <div class="data-card__icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2v10l7 4"/></svg>
-        </div>
-        <div class="data-card__text">
-          <div class="data-card__name">SKU Margin Analysis</div>
-          <div class="data-card__meta">Per-bottle breakdown · CSV</div>
-        </div>
-      </a>
-      <a href="granmonte-monthly-cashflow.csv" class="data-card">
-        <div class="data-card__icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-        </div>
-        <div class="data-card__text">
-          <div class="data-card__name">Monthly Cash Flow</div>
-          <div class="data-card__meta">36-row month-by-month · CSV</div>
-        </div>
-      </a>
-      <a href="granmonte-breakeven.csv" class="data-card">
-        <div class="data-card__icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V8"/><path d="m5 12 7-4 7 4"/><path d="M5 16l7-4 7 4"/><path d="M5 20l7-4 7 4"/></svg>
-        </div>
-        <div class="data-card__text">
-          <div class="data-card__name">Break-Even Analysis</div>
-          <div class="data-card__meta">By scenario · CSV</div>
-        </div>
-      </a>
-      <a href="granmonte-financial-analysis.md" class="data-card">
-        <div class="data-card__icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
-        </div>
-        <div class="data-card__text">
-          <div class="data-card__name">Full Report</div>
-          <div class="data-card__meta">All projections · Markdown</div>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <!-- ═══ SECTION 3: CHARTS & VISUALIZATIONS ═══ -->
-  <section class="section reveal">
-    <div class="section__header">
-      <span class="section__number">03</span>
-      <h2 class="section__title">Charts & Visualizations</h2>
-      <p class="section__desc">Visual data for investor presentations and strategic planning.</p>
-    </div>
-
-    <div class="chart-grid">
-      <a href="charts/01-florida-city-distribution.png" class="chart-card reveal reveal-delay-1" target="_blank">
-        <div class="chart-card__img-wrap">
-          <img src="charts/01-florida-city-distribution.png" alt="Florida City Distribution" loading="lazy">
-        </div>
-        <div class="chart-card__label">Florida City Distribution</div>
-      </a>
-      <a href="charts/02-revenue-projections.png" class="chart-card reveal reveal-delay-2" target="_blank">
-        <div class="chart-card__img-wrap">
-          <img src="charts/02-revenue-projections.png" alt="Revenue Projections" loading="lazy">
-        </div>
-        <div class="chart-card__label">Revenue Projections (3 Scenarios)</div>
-      </a>
-      <a href="charts/03-sku-margin-comparison.png" class="chart-card reveal reveal-delay-3" target="_blank">
-        <div class="chart-card__img-wrap">
-          <img src="charts/03-sku-margin-comparison.png" alt="SKU Margin Comparison" loading="lazy">
-        </div>
-        <div class="chart-card__label">SKU Margin Comparison</div>
-      </a>
-      <a href="charts/04-market-size-funnel.png" class="chart-card reveal reveal-delay-4" target="_blank">
-        <div class="chart-card__img-wrap">
-          <img src="charts/04-market-size-funnel.png" alt="Market Size Funnel" loading="lazy">
-        </div>
-        <div class="chart-card__label">Market Size Funnel</div>
-      </a>
-      <a href="charts/05-break-even-timeline.png" class="chart-card reveal" target="_blank">
-        <div class="chart-card__img-wrap">
-          <img src="charts/05-break-even-timeline.png" alt="Break-Even Timeline" loading="lazy">
-        </div>
-        <div class="chart-card__label">Break-Even Timeline</div>
-      </a>
-    </div>
-  </section>
-
-  <!-- ═══ SECTION 4: RESEARCH & STRATEGY ═══ -->
-  <section class="section reveal">
-    <div class="section__header">
-      <span class="section__number">04</span>
-      <h2 class="section__title">Research & Strategy</h2>
-      <p class="section__desc">Market intelligence, licensing guidance, distribution research, and technology landscape.</p>
-    </div>
-
-    <div class="card-grid card-grid--3">
-      <!-- US Launch Playbook -->
-      <a href="granmonte-us-launch-playbook.md" class="card reveal reveal-delay-1">
-        <div class="card__icon-row">
-          <div class="card__icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-          </div>
-          <span class="card__format">Strategic Playbook</span>
-        </div>
-        <h3 class="card__title">US Launch Playbook</h3>
-        <p class="card__desc">
-          End-to-end strategic playbook covering TTB permits, FL distributor licensing, LibDib bypass strategy, 
-          budget allocation, and phased rollout plan for the US market entry.
-        </p>
-        <div class="card__tags">
-          <span class="card__tag">Licensing</span>
-          <span class="card__tag">Budget</span>
-          <span class="card__tag">Phased Plan</span>
-        </div>
-        <div class="card__footer">
-          Read Playbook
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </div>
-      </a>
-
-      <!-- Skills Ecosystem -->
-      <a href="granmonte-wine-skills-discovery.md" class="card reveal reveal-delay-2">
-        <div class="card__icon-row">
-          <div class="card__icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4"/><path d="M12 19v4"/><path d="m4.22 4.22 2.83 2.83"/><path d="m16.95 16.95 2.83 2.83"/><path d="M1 12h4"/><path d="M19 12h4"/><path d="m4.22 19.78 2.83-2.83"/><path d="m16.95 7.05 2.83-2.83"/></svg>
-          </div>
-          <span class="card__format">Discovery Report</span>
-        </div>
-        <h3 class="card__title">Skills Ecosystem Discovery</h3>
-        <p class="card__desc">
-          Audit of 38 relevant AI skills across 9 categories — from customs compliance to cold outreach. 
-          Maps the automation landscape for wine import operations.
-        </p>
-        <div class="card__tags">
-          <span class="card__tag">38 Skills</span>
-          <span class="card__tag">9 Categories</span>
-        </div>
-        <div class="card__footer">
-          View Discovery
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </div>
-      </a>
-
-      <!-- GitHub Tech Research -->
-      <a href="research-wine-distribution-github.html" class="card reveal reveal-delay-3">
-        <div class="card__icon-row">
-          <div class="card__icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
-          </div>
-          <span class="card__format">Tech Research</span>
-        </div>
-        <h3 class="card__title">GitHub Tech Research</h3>
-        <p class="card__desc">
-          Analysis of 20+ GitHub repositories in the wine distribution technology space — 
-          inventory systems, compliance tools, and distribution platforms.
-        </p>
-        <div class="card__tags">
-          <span class="card__tag">20+ Repos</span>
-          <span class="card__tag">Tech Stack</span>
-        </div>
-        <div class="card__footer">
-          View Research
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <!-- ═══ SECTION 5: AI AGENT ═══ -->
-  <section class="section reveal">
-    <div class="section__header">
-      <span class="section__number">05</span>
-      <h2 class="section__title">AI Agent</h2>
-      <p class="section__desc">Dedicated wine import AI assistant — the Sommelier JARVIS built for this operation.</p>
-    </div>
-
-    <div class="agent-grid">
-      <!-- Wine Import Assistant Skill -->
-      <a href="wine-import-assistant/SKILL.md" class="card card--agent reveal reveal-delay-1">
-        <div class="card__icon-row">
-          <div class="card__icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 0-4 4c0 2 1 3 2 4l-5 8h14l-5-8c1-1 2-2 2-4a4 4 0 0 0-4-4z"/><path d="M12 18v4"/></svg>
-          </div>
-          <span class="card__format">Custom AI Skill</span>
-        </div>
-        <h3 class="card__title">Wine Import Assistant</h3>
-        <p class="card__desc">
-          1,041-line Python CLI with 15 commands — prospect tracking, import cost calculation ($129.87/case landed), 
-          wholesale quote generation, inventory management with COLA status, and monthly sales reporting.
-        </p>
-        <div class="card__tags">
-          <span class="card__tag">15 Commands</span>
-          <span class="card__tag">Python CLI</span>
-          <span class="card__tag">1,041 Lines</span>
-        </div>
-        <div class="card__footer">
-          View Skill
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </div>
-      </a>
-
-      <!-- Sommelier JARVIS Identity -->
-      <a href="SOUL-granmonte-jarvis.md" class="card card--agent reveal reveal-delay-2">
-        <div class="card__icon-row">
-          <div class="card__icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
-          </div>
-          <span class="card__format">Agent Identity</span>
-        </div>
-        <h3 class="card__title">Sommelier JARVIS Identity</h3>
-        <p class="card__desc">
-          Complete SOUL.md for a dedicated GranMonte wine import JARVIS agent — personality, 
-          knowledge base, decision frameworks, and operational parameters for Up's business.
-        </p>
-        <div class="card__tags">
-          <span class="card__tag">SOUL.md</span>
-          <span class="card__tag">Sommelier</span>
-          <span class="card__tag">Dedicated Agent</span>
-        </div>
-        <div class="card__footer">
-          View Identity
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </div>
-      </a>
-    </div>
-  </section>
-
-</main>
-
-<!-- ═══════════════════════════════════════════
-     FOOTER
-     ═══════════════════════════════════════════ -->
-<footer class="footer">
-  <div class="footer__brand">Gran<em>Monte</em></div>
-  <p class="footer__tagline">New Latitude Wine · Khao Yai, Thailand</p>
-  <div class="footer__divider"></div>
-  <p class="footer__legal">
-    Prepared by <a href="https://mhoooo.com" target="_blank">mhoooo</a> · Built with <a href="https://deerflow.tech" target="_blank">Deerflow</a><br>
-    Confidential — For internal use only
-  </p>
-</footer>
-
-<!-- Deerflow branding -->
-<a href="https://deerflow.tech" target="_blank" class="deerflow-mark" title="Created by Deerflow">✦ Deerflow</a>
-
-<!-- ═══════════════════════════════════════════
-     SCROLL ANIMATIONS
-     ═══════════════════════════════════════════ -->
+<!-- ================================
+     JAVASCRIPT
+     ================================ -->
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  // Intersection Observer for scroll reveals
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, {
-    threshold: 0.08,
-    rootMargin: '0px 0px -40px 0px'
+// ========= Cashflow filter styles =========
+(function(){
+  const style = document.createElement('style');
+  style.textContent = `
+    .cf-filter {
+      padding: 0.35rem 0.85rem;
+      border-radius: 100px;
+      border: 1px solid var(--border-subtle);
+      background: transparent;
+      font-family: var(--ff-body);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--warm-gray);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .cf-filter:hover { border-color: var(--gold); color: var(--burgundy); }
+    .cf-filter.active {
+      background: var(--burgundy);
+      border-color: var(--burgundy);
+      color: #fff;
+    }
+  `;
+  document.head.appendChild(style);
+})();
+
+// ========= Cash Flow Data =========
+const cashflowData = [
+  {m:1,name:"Jan",sc:"Aggressive",rest:0,cases:0,rev:0,cogs:0,ship:0,duty:0,mkt:800,travel:0,ins:1200,net:-2000,cum:-2000},
+  {m:2,name:"Feb",sc:"Aggressive",rest:0,cases:0,rev:0,cogs:0,ship:0,duty:0,mkt:800,travel:1200,ins:0,net:-2000,cum:-4000},
+  {m:3,name:"Mar",sc:"Aggressive",rest:8,cases:48,rev:12672,cogs:7738,ship:1200,duty:792,mkt:800,travel:0,ins:0,net:2142,cum:-1858},
+  {m:4,name:"Apr",sc:"Aggressive",rest:12,cases:72,rev:19008,cogs:11606,ship:1800,duty:1188,mkt:800,travel:0,ins:0,net:3614,cum:1756},
+  {m:5,name:"May",sc:"Aggressive",rest:15,cases:90,rev:23760,cogs:14508,ship:2250,duty:1485,mkt:800,travel:0,ins:0,net:4717,cum:6473},
+  {m:6,name:"Jun",sc:"Aggressive",rest:18,cases:108,rev:28512,cogs:17406,ship:2700,duty:1782,mkt:800,travel:0,ins:0,net:5824,cum:12297},
+  {m:7,name:"Jul",sc:"Aggressive",rest:20,cases:120,rev:31680,cogs:19340,ship:3000,duty:1980,mkt:800,travel:0,ins:0,net:6560,cum:18857},
+  {m:8,name:"Aug",sc:"Aggressive",rest:22,cases:132,rev:34848,cogs:21274,ship:3300,duty:2178,mkt:800,travel:0,ins:0,net:7296,cum:26153},
+  {m:9,name:"Sep",sc:"Aggressive",rest:25,cases:150,rev:39600,cogs:24180,ship:3750,duty:2475,mkt:800,travel:0,ins:0,net:8395,cum:34548},
+  {m:10,name:"Oct",sc:"Aggressive",rest:28,cases:168,rev:44352,cogs:27082,ship:4200,duty:2772,mkt:800,travel:1200,ins:0,net:8298,cum:42846},
+  {m:11,name:"Nov",sc:"Aggressive",rest:30,cases:195,rev:51480,cogs:31434,ship:4875,duty:3218,mkt:800,travel:0,ins:0,net:11153,cum:53999},
+  {m:12,name:"Dec",sc:"Aggressive",rest:30,cases:225,rev:59400,cogs:36270,ship:5625,duty:3713,mkt:800,travel:0,ins:0,net:12992,cum:66991},
+  {m:1,name:"Jan",sc:"Base",rest:0,cases:0,rev:0,cogs:0,ship:0,duty:0,mkt:500,travel:0,ins:1200,net:-1700,cum:-1700},
+  {m:2,name:"Feb",sc:"Base",rest:0,cases:0,rev:0,cogs:0,ship:0,duty:0,mkt:500,travel:800,ins:0,net:-1300,cum:-3000},
+  {m:3,name:"Mar",sc:"Base",rest:5,cases:30,rev:7920,cogs:4836,ship:750,duty:495,mkt:500,travel:0,ins:0,net:1339,cum:-1661},
+  {m:4,name:"Apr",sc:"Base",rest:8,cases:48,rev:12672,cogs:7738,ship:1200,duty:792,mkt:500,travel:0,ins:0,net:2442,cum:781},
+  {m:5,name:"May",sc:"Base",rest:10,cases:60,rev:15840,cogs:9672,ship:1500,duty:990,mkt:500,travel:0,ins:0,net:3178,cum:3959},
+  {m:6,name:"Jun",sc:"Base",rest:12,cases:72,rev:19008,cogs:11606,ship:1800,duty:1188,mkt:500,travel:0,ins:0,net:3914,cum:7873},
+  {m:7,name:"Jul",sc:"Base",rest:14,cases:84,rev:22176,cogs:13541,ship:2100,duty:1386,mkt:500,travel:0,ins:0,net:4649,cum:12522},
+  {m:8,name:"Aug",sc:"Base",rest:15,cases:90,rev:23760,cogs:14508,ship:2250,duty:1485,mkt:500,travel:0,ins:0,net:5017,cum:17539},
+  {m:9,name:"Sep",sc:"Base",rest:17,cases:102,rev:26928,cogs:16439,ship:2550,duty:1683,mkt:500,travel:0,ins:0,net:5756,cum:23295},
+  {m:10,name:"Oct",sc:"Base",rest:18,cases:108,rev:28512,cogs:17406,ship:2700,duty:1782,mkt:500,travel:800,ins:0,net:5324,cum:28619},
+  {m:11,name:"Nov",sc:"Base",rest:20,cases:130,rev:34320,cogs:20956,ship:3250,duty:2145,mkt:500,travel:0,ins:0,net:7469,cum:36088},
+  {m:12,name:"Dec",sc:"Base",rest:20,cases:150,rev:39600,cogs:24180,ship:3750,duty:2475,mkt:500,travel:0,ins:0,net:8695,cum:44783},
+  {m:1,name:"Jan",sc:"Conservative",rest:0,cases:0,rev:0,cogs:0,ship:0,duty:0,mkt:500,travel:0,ins:1200,net:-1700,cum:-1700},
+  {m:2,name:"Feb",sc:"Conservative",rest:0,cases:0,rev:0,cogs:0,ship:0,duty:0,mkt:500,travel:800,ins:0,net:-1300,cum:-3000},
+  {m:3,name:"Mar",sc:"Conservative",rest:3,cases:15,rev:3960,cogs:2418,ship:375,duty:248,mkt:500,travel:0,ins:0,net:419,cum:-2581},
+  {m:4,name:"Apr",sc:"Conservative",rest:5,cases:25,rev:6600,cogs:4030,ship:625,duty:413,mkt:500,travel:0,ins:0,net:1032,cum:-1549},
+  {m:5,name:"May",sc:"Conservative",rest:5,cases:25,rev:6600,cogs:4030,ship:625,duty:413,mkt:500,travel:0,ins:0,net:1032,cum:-517},
+  {m:6,name:"Jun",sc:"Conservative",rest:7,cases:35,rev:9240,cogs:5642,ship:875,duty:578,mkt:500,travel:0,ins:0,net:1645,cum:1128},
+  {m:7,name:"Jul",sc:"Conservative",rest:8,cases:40,rev:10560,cogs:6448,ship:1000,duty:660,mkt:500,travel:0,ins:0,net:1952,cum:3080},
+  {m:8,name:"Aug",sc:"Conservative",rest:8,cases:40,rev:10560,cogs:6448,ship:1000,duty:660,mkt:500,travel:0,ins:0,net:1952,cum:5032},
+  {m:9,name:"Sep",sc:"Conservative",rest:10,cases:50,rev:13200,cogs:8060,ship:1250,duty:825,mkt:500,travel:0,ins:0,net:2565,cum:7597},
+  {m:10,name:"Oct",sc:"Conservative",rest:10,cases:55,rev:14520,cogs:8866,ship:1375,duty:908,mkt:500,travel:800,ins:0,net:2071,cum:9668},
+  {m:11,name:"Nov",sc:"Conservative",rest:12,cases:65,rev:17160,cogs:10478,ship:1625,duty:1073,mkt:500,travel:0,ins:0,net:3484,cum:13152},
+  {m:12,name:"Dec",sc:"Conservative",rest:12,cases:75,rev:19800,cogs:12090,ship:1875,duty:1238,mkt:500,travel:0,ins:0,net:4097,cum:17249}
+];
+
+// Starter SKU data
+const starterData = [
+  {wine:"Spring Chenin Blanc",tier:"Entry",type:"White",cases:5,bottles:60,landed:"$10.74",wholesale:"$16.00",profit:"$315.60",invest:"$644.40"},
+  {wine:"Sakuna Rosé",tier:"Entry",type:"Rosé",cases:5,bottles:60,landed:"$12.17",wholesale:"$18.00",profit:"$349.80",invest:"$730.20"},
+  {wine:"Heritage Syrah",tier:"Premium",type:"Red",cases:8,bottles:96,landed:"$14.74",wholesale:"$22.00",profit:"$696.96",invest:"$1,415.04"},
+  {wine:"Viognier",tier:"Premium",type:"White",cases:5,bottles:60,landed:"$13.60",wholesale:"$20.00",profit:"$384.00",invest:"$816.00"},
+  {wine:"Orient Syrah",tier:"Super-Premium",type:"Red",cases:5,bottles:60,landed:"$17.60",wholesale:"$27.00",profit:"$564.00",invest:"$1,056.00"},
+  {wine:"Crémant",tier:"Super-Premium",type:"Sparkling",cases:3,bottles:36,landed:"$20.74",wholesale:"$32.00",profit:"$405.36",invest:"$746.64"}
+];
+
+// ========= Render Cash Flow Table =========
+function renderCashflow(scenario) {
+  const tbody = document.getElementById('cashflow-body');
+  const filtered = scenario === 'all' ? cashflowData : cashflowData.filter(r => r.sc === scenario);
+  const fmt = n => n === 0 ? '—' : (n < 0 ? '-$' + Math.abs(n).toLocaleString() : '$' + n.toLocaleString());
+
+  tbody.innerHTML = filtered.map(r => {
+    const scClass = r.sc === 'Aggressive' ? 'burgundy' : r.sc === 'Base' ? 'forest' : 'gold-dim';
+    const cumColor = r.cum >= 0 ? 'var(--forest)' : 'var(--burgundy)';
+    const netColor = r.net >= 0 ? 'var(--forest)' : 'var(--burgundy)';
+    return `<tr>
+      <td><strong>${r.name}</strong></td>
+      <td><span style="font-weight:600;color:var(--${scClass})">${r.sc}</span></td>
+      <td>${r.rest}</td>
+      <td>${r.cases}</td>
+      <td>${fmt(r.rev)}</td>
+      <td>${fmt(r.cogs)}</td>
+      <td>${fmt(r.ship)}</td>
+      <td>${fmt(r.duty)}</td>
+      <td>${fmt(r.mkt)}</td>
+      <td>${fmt(r.travel)}</td>
+      <td>${fmt(r.ins)}</td>
+      <td style="font-weight:600;color:${netColor}">${fmt(r.net)}</td>
+      <td style="font-weight:700;color:${cumColor}">${fmt(r.cum)}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ========= Render Starter SKUs Table =========
+function renderStarter() {
+  const tbody = document.getElementById('starter-body');
+  tbody.innerHTML = starterData.map(r => {
+    const tierClass = r.tier === 'Entry' ? 'entry' : r.tier === 'Premium' ? 'premium' : 'super-premium';
+    return `<tr>
+      <td><strong>${r.wine}</strong></td>
+      <td><span class="tier-badge ${tierClass}">${r.tier}</span></td>
+      <td>${r.type}</td>
+      <td>${r.cases}</td>
+      <td>${r.bottles}</td>
+      <td>${r.landed}</td>
+      <td>${r.wholesale}</td>
+      <td class="margin-good">${r.profit}</td>
+      <td><strong>${r.invest}</strong></td>
+    </tr>`;
+  }).join('');
+}
+
+// ========= Cashflow Filters =========
+document.querySelectorAll('.cf-filter').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.cf-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderCashflow(btn.dataset.scenario);
   });
+});
 
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+// ========= Init tables =========
+renderCashflow('all');
+renderStarter();
 
-  // Smooth scroll for CTA
-  document.querySelector('.hero__cta')?.addEventListener('click', (e) => {
-    e.preventDefault();
-    const target = document.querySelector(e.currentTarget.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+// ========= Markdown Modal =========
+function openMarkdown(file, title) {
+  const overlay = document.getElementById('mdModal');
+  const titleEl = document.getElementById('mdModalTitle');
+  const contentEl = document.getElementById('mdModalContent');
+
+  titleEl.textContent = title;
+  contentEl.innerHTML = '<div class="skeleton" style="height:400px;"></div>';
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  fetch(file)
+    .then(r => {
+      if (!r.ok) throw new Error('Failed to load');
+      return r.text();
+    })
+    .then(md => {
+      // Clean up escaped backslashes that appear in some .md files
+      md = md.replace(/\\\\/g, '');
+      contentEl.innerHTML = marked.parse(md);
+    })
+    .catch(() => {
+      contentEl.innerHTML = '<p style="color:var(--warm-gray);text-align:center;padding:3rem;">Unable to load document. <a href="' + file + '" target="_blank">Open directly →</a></p>';
+    });
+}
+
+function closeModal() {
+  document.getElementById('mdModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('mdModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ========= Chart Lightbox =========
+function openLightbox(el) {
+  const img = el.querySelector('img');
+  if (!img) return;
+  const lb = document.getElementById('lightbox');
+  document.getElementById('lightbox-img').src = img.src;
+  lb.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// ========= Escape key handler =========
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeModal();
+    closeLightbox();
+  }
+});
+
+// ========= Scroll Reveal =========
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
     }
   });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-  // Parallax on hero video (subtle)
-  let ticking = false;
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        const scrollY = window.scrollY;
-        const hero = document.querySelector('.hero');
-        if (hero && scrollY < window.innerHeight) {
-          const video = hero.querySelector('video');
-          if (video) {
-            video.style.transform = `translateY(${scrollY * 0.3}px) scale(1.1)`;
-          }
-        }
-        ticking = false;
-      });
-      ticking = true;
+document.querySelectorAll('.reveal, .stagger').forEach(el => observer.observe(el));
+
+// ========= Active nav link =========
+const sections = document.querySelectorAll('.section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(sec => {
+    if (window.scrollY >= sec.offsetTop - 200) {
+      current = sec.getAttribute('id');
     }
   });
-
-  // Counter animation for stats
-  const animateCounters = () => {
-    document.querySelectorAll('.stat__number').forEach(el => {
-      const text = el.textContent;
-      const isAnimated = el.dataset.animated;
-      if (isAnimated) return;
-
-      const match = text.match(/(\$?)([\d,]+)(K?%?)/);
-      if (!match) return;
-
-      const prefix = match[1];
-      const num = parseInt(match[2].replace(',', ''));
-      const suffix = match[3];
-
-      el.dataset.animated = 'true';
-      let current = 0;
-      const step = num / 40;
-      const timer = setInterval(() => {
-        current += step;
-        if (current >= num) {
-          current = num;
-          clearInterval(timer);
-        }
-        el.textContent = prefix + Math.round(current) + suffix;
-      }, 30);
-    });
-  };
-
-  const statsObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        animateCounters();
-        statsObserver.disconnect();
-      }
-    });
-  }, { threshold: 0.5 });
-
-  const statsBar = document.querySelector('.stats-bar');
-  if (statsBar) statsObserver.observe(statsBar);
+  navLinks.forEach(link => {
+    link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+  });
 });
 </script>
 
